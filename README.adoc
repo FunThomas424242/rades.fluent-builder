@@ -1,0 +1,15 @@
+[#status]
+image:https://api.bintray.com/packages/funthomas424242/funthomas424242-libs/rades.fluent-builder/images/download.svg[link="https://bintray.com/funthomas424242/funthomas424242-libs/rades.fluent-builder/_latestVersion"]
+image:https://travis-ci.org/FunThomas424242/rades.fluent-builder.svg?branch=master["Build Status", link="https://travis-ci.org/FunThomas424242/rades.fluent-builder"]
+image:https://api.codacy.com/project/badge/Grade/64f23754fdc1426a9216521cf5362d71["Codacy code quality", link="https://www.codacy.com/app/FunThomas424242/rades.fluent-builder?utm_source=github.com&utm_medium=referral&utm_content=FunThomas424242/rades.fluent-builder&utm_campaign=Badge_Grade"]
+image:https://codecov.io/gh/FunThomas424242/rades.fluent-builder/branch/master/graph/badge.svg[link="https://codecov.io/gh/FunThomas424242/rades.fluent-builder"]
+image:https://badge.waffle.io/FunThomas424242/rades.fluent-builder.svg?columns=all["Waffle.io - Columns and their card count", link="https://waffle.io/FunThomas424242/rades.fluent-builder"]
+
+[#main]
+= rades.fluent-builder
+
+Annotationen zur Generierung fvon Fluentinterfaces auf Basis einer Statechart (JSON) Definition
+
+
+
+

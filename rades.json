@@ -1,0 +1,11 @@
+
+{
+    "groupID":"com.github.funthomas424242",
+    "artifactID":"rades.fluent-builder",
+    "version":"1.0.0-SNAPSHOT",
+    "githubUsername":"FunThomas424242",
+    "githubRepositoryname":"rades.fluent-builder",
+    "bintrayUsername":"funthomas424242",
+    "bintrayRepositoryname":"funthomas424242-libs",
+    "bintrayPackagename":"rades.fluent-builder"
+}

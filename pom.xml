@@ -5,9 +5,22 @@
   <groupId>com.github.funthomas424242</groupId>
   <artifactId>rades.fluent-builder</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+
+  <packaging>jar</packaging>
+
+  <name>rades.fluent-builder</name>
+  <description>Annotationen zur Generierung fvon Fluentinterfaces auf Basis einer Statechart (JSON) Definition</description>
+  <inceptionYear>2018</inceptionYear>
+  <url>https://github.com/FunThomas424242/rades.fluent-builder</url>
+
+
   <licenses>
     <license>
-      <url>./LICENSE</url>
+      <url>https://www.gnu.org/licenses/lgpl-3.0.de.html</url>
+      <name>GNU LESSER GENERAL PUBLIC LICENSE
+        Version 3, 29 June 2007
+      </name>
+      <distribution>repo</distribution>
     </license>
   </licenses>
   <scm>
@@ -31,9 +44,11 @@
     </repository>
   </distributionManagement>
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
   </properties>
 
 
@@ -69,7 +84,7 @@
         <version>1.16</version>
         <configuration>
           <licenseFile>LICENSE</licenseFile>
-          <licenseName>lpl_v3</licenseName>
+          <licenseName>lgpl_v3</licenseName>
           <useMissingFile>true</useMissingFile>
           <failIfWarning>true</failIfWarning>
           <includes>

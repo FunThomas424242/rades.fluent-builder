@@ -11,5 +11,7 @@ image:https://badge.waffle.io/FunThomas424242/rades.fluent-builder.svg?columns=a
 Annotationen zur Generierung fvon Fluentinterfaces auf Basis einer Statechart (JSON) Definition
 
 
+= Quellen im Neuland
 
+* https://jaxenter.de/java-8-stream-api-codegenerierung-mit-fluent-interfaces-915
 

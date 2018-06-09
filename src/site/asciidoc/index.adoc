@@ -1,0 +1,12 @@
+# Rades Fluent Builder Projekt
+:author: FunThomas424242 (Thomas Schubert)
+//:toc:
+:icons: font
+:lang: de
+:encoding: iso-8859-1
+
+Dieses Projekt stellt Annotationen zur Generierung von Fluent Builder Klassen bereit.
+Sobald das ausgelieferte Projektarchiv (JAR) im Klassenpfad Ihrer Anwendung eingebunden ist,
+können Sie die Annotationen benutzen.
+
+link:benutzer.html[Benutzerhandbuch] link:entwickler.html[Entwicklerhandbuch]

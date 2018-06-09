@@ -14,4 +14,7 @@ Annotationen zur Generierung fvon Fluentinterfaces auf Basis einer Statechart (J
 = Quellen im Neuland
 
 * https://jaxenter.de/java-8-stream-api-codegenerierung-mit-fluent-interfaces-915
+* https://spacetelescope.github.io/understanding-json-schema/
+* https://github.com/everit-org/json-schema
+
 

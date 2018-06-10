@@ -27,6 +27,8 @@ import org.junit.jupiter.api.Test;
 import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.newState;
 import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.state;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 class StatechartTest {
@@ -37,9 +39,9 @@ class StatechartTest {
         final StatechartAccessor statechart = new StatechartBuilder()
             .withId(id)
             .addState(
-                newState(id, "Empty"))
+                newState( "Empty"))
             .addState(
-                newState(id, "Not Empty")
+                newState( "Not Empty")
             )
             .withStartState(state(id,"Empty"))
             .addTransition("Empty", "Not Empty", "enqueue")
@@ -53,6 +55,11 @@ class StatechartTest {
 
         assertEquals(2, statechart.states().count());
         assertSame(state(id,"Empty"), statechart.getStartState());
+        assertEquals(state(id,"Not Empty"), newState("Not Empty"));
+        assertNotSame(state(id,"Not Empty"), newState("Not Empty"));
+        assertNotEquals(state(id,"Not Empty"), state(id,"Empty"));
+
+        // TODO Transitions - equals same, nocht nicht bedacht
     }
 
 }

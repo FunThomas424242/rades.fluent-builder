@@ -48,7 +48,6 @@ public abstract class GeneratedAbstractStatechart {
 
     public static State newState(final String chartId, final String stateName) {
         return State.of(stateName);
-
     }
 
     private static Statechart getStatechart(final String chartId) {

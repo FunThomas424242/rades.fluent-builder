@@ -31,6 +31,7 @@ import javax.validation.Validator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.register;
 import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.state;
 
 public class StatechartBuilder {
@@ -81,11 +82,8 @@ public class StatechartBuilder {
 
     public StatechartBuilder withId(final String id) {
         this.statechart.id = id;
+        register(this.statechart.id,this.statechart);
         return this;
-    }
-
-    public StatechartBuilder register(){
-
     }
 
     public StatechartBuilder withStartState(final State startState) {
@@ -95,6 +93,11 @@ public class StatechartBuilder {
 
     public StatechartBuilder addState(final State state) {
         this.statechart.states.add(state);
+        return this;
+    }
+
+    public StatechartBuilder addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
+        state(this.statechart.id, srcStateName).addTransitionTo(state(this.statechart.id,targetStateName),parameterSignatur);
         return this;
     }
 

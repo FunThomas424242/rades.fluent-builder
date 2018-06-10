@@ -36,25 +36,23 @@ class StatechartTest {
         final String id = "Statechart ID";
         final StatechartAccessor statechart = new StatechartBuilder()
             .withId(id)
-            .register()
-            .withStartState(
+            .addState(
                 newState(id, "Empty"))
             .addState(
                 newState(id, "Not Empty")
-                    .addTransitionTo(state(id, "Not Empty"), "enqueue")
-                    .addTransitionTo(state(id, "Not Empty"), "isEmpty")
-                    .addTransitionTo(state(id, "Not Empty"), "dequeue")
-                    .addTransitionTo(state(id, "Empty"), "dequeue")
             )
-            .atState("Empty")
-            .addTransitionTo(newState(id, "Not Empty"), "enqueue")
-            .addTransitionTo(state(id, "Empty"), "isEmpty")
+            .withStartState(state(id,"Empty"))
+            .addTransition("Empty", "Not Empty", "enqueue")
+            .addTransition("Empty", "Empty", "isEmpty")
 
-
+            .addTransition("Not Empty", "Not Empty", "enqueue")
+            .addTransition("Not Empty", "Not Empty", "isEmpty")
+            .addTransition("Not Empty", "Not Empty", "dequeue")
+            .addTransition("Not Empty", "Empty", "dequeue")
             .build(StatechartAccessor.class);
 
         assertEquals(2, statechart.states().count());
-        assertSame(startState, statechart.getStartState());
+        assertSame(state(id,"Empty"), statechart.getStartState());
     }
 
 }

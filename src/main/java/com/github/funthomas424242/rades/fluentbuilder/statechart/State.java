@@ -49,20 +49,15 @@ public class State {
         return new StateBuilder().withStateName(stateName).build();
     }
 
-    public Stream<Transition> transitions(){
+    public Stream<Transition> transitions() {
         return this.transitions.stream();
     }
 
 
-    public State addTransitionTo( final State targetState, final String transitionSignatur){
-        final Transition transition = Transition.of(this,targetState,ParameterSignatur.of(transitionSignatur))
+    public State addTransitionTo(final State targetState, final String transitionSignatur) {
+        final Transition transition = Transition.of(this, targetState, ParameterSignatur.of(transitionSignatur));
         this.transitions.add(transition);
         return this;
-    }
-
-    public <A> A build(Class<A> accessorClass) {
-
-
     }
 
 //    public StatechartBuilder addTransition( final State startState, final State targetState, final ParameterSignatur parameters){
@@ -74,7 +69,6 @@ public class State {
 //        this.addTransition(State.of(startStateName),State.of(targetStateName),ParameterSignatur.of(parameterSignatur));
 //        return this;
 //    }
-
 
 
     @Override

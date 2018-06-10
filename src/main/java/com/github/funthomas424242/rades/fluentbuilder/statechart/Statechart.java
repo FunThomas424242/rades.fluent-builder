@@ -50,18 +50,4 @@ public class Statechart extends GeneratedAbstractStatechart {
     }
 
 
-
-
-    public  State addState(final State state){
-        if(this.states.contains(state)) {
-            state.
-        }else{
-            this.states.add(state);
-        }
-
-        return new StatechartBuilder(this);
-    }
-
-
-
 }

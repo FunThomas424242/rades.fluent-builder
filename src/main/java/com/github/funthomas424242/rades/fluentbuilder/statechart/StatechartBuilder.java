@@ -10,12 +10,12 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-3.0.html>.
@@ -24,7 +24,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import com.github.funthomas424242.rades.annotations.accessors.InvalidAccessorException;
 
-import javax.annotation.Generated;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
@@ -32,15 +31,17 @@ import javax.validation.Validator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.state;
+
 public class StatechartBuilder {
 
     private Statechart statechart;
 
-    public StatechartBuilder(){
+    public StatechartBuilder() {
         this(new Statechart());
     }
 
-    public StatechartBuilder(final Statechart statechart ){
+    public StatechartBuilder(final Statechart statechart) {
         this.statechart = statechart;
     }
 
@@ -67,39 +68,38 @@ public class StatechartBuilder {
 
     public <A> A build(Class<A> accessorClass) {
         final Statechart statechart = this.build();
-        this.statechart=statechart;
-        try{
-            final Constructor<A> constructor=accessorClass.getDeclaredConstructor(Statechart.class);
+        this.statechart = statechart;
+        try {
+            final Constructor<A> constructor = accessorClass.getDeclaredConstructor(Statechart.class);
             final A accessor = constructor.newInstance(statechart);
-            this.statechart=null;
+            this.statechart = null;
             return accessor;
-        }catch(NoSuchMethodException | IllegalAccessException|  InstantiationException|  InvocationTargetException ex){
-            throw new InvalidAccessorException("ungültige Accessorklasse übergeben",ex);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            throw new InvalidAccessorException("ungültige Accessorklasse übergeben", ex);
         }
     }
 
-    public StatechartBuilder withStartState( final State startState ) {
+    public StatechartBuilder withId(final String id) {
+        this.statechart.id = id;
+        return this;
+    }
+
+    public StatechartBuilder register(){
+
+    }
+
+    public StatechartBuilder withStartState(final State startState) {
         this.statechart.startState = startState;
         return this;
     }
 
-    public  StatechartBuilder addState(final State state){
+    public StatechartBuilder addState(final State state) {
         this.statechart.states.add(state);
         return this;
     }
 
-    public StatechartBuilder addTransition( final Transition transition){
-        this.statechart.transitions.add(transition);
-        return this;
+    public State atState(final String stateName) {
+        return state(this.statechart.id, stateName);
     }
 
-//    public StatechartBuilder addTransition( final State startState, final State targetState, final ParameterSignatur parameters){
-//        this.statechart.transitions.add(Transition.of(startState,targetState,parameters));
-//        return this;
-//    }
-//
-//    public StatechartBuilder addTransition( final String startStateName, final String targetStateName, final String parameterSignatur){
-//        this.addTransition(State.of(startStateName),State.of(targetStateName),ParameterSignatur.of(parameterSignatur));
-//        return this;
-//    }
 }

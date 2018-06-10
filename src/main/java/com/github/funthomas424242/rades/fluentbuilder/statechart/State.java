@@ -23,9 +23,15 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
+import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @RadesAddBuilder
 @RadesAddAccessor
@@ -33,9 +39,55 @@ public class State {
 
     protected String stateName;
 
+    @RadesNoBuilder
+    @RadesNoAccessor
+    @NotNull
+    protected final Set<Transition> transitions = new HashSet<Transition>();
+
+
     public static State of(final String stateName) {
         return new StateBuilder().withStateName(stateName).build();
     }
 
+    public Stream<Transition> transitions(){
+        return this.transitions.stream();
+    }
 
+
+    public State addTransitionTo( final State targetState, final String transitionSignatur){
+        final Transition transition = Transition.of(this,targetState,ParameterSignatur.of(transitionSignatur))
+        this.transitions.add(transition);
+        return this;
+    }
+
+    public <A> A build(Class<A> accessorClass) {
+
+
+    }
+
+//    public StatechartBuilder addTransition( final State startState, final State targetState, final ParameterSignatur parameters){
+//        this.statechart.transitions.add(Transition.of(startState,targetState,parameters));
+//        return this;
+//    }
+//
+//    public StatechartBuilder addTransition( final String startStateName, final String targetStateName, final String parameterSignatur){
+//        this.addTransition(State.of(startStateName),State.of(targetStateName),ParameterSignatur.of(parameterSignatur));
+//        return this;
+//    }
+
+
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final State state = (State) o;
+        return Objects.equals(stateName, state.stateName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(stateName);
+    }
 }

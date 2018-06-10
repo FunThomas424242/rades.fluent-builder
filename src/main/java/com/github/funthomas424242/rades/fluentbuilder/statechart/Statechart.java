@@ -34,17 +34,14 @@ import java.util.stream.Stream;
 // TODO nutzen wenn issue #94 @Singular umgesetzt wurde
 //@RadesAddBuilder
 @RadesAddAccessor
-public class Statechart {
+public class Statechart extends GeneratedAbstractStatechart {
 
     @RadesNoBuilder
     @RadesNoAccessor
     @NotNull
     protected final Set<State> states = new HashSet<State>();
 
-    @RadesNoBuilder
-    @RadesNoAccessor
-    @NotNull
-    protected final Set<Transition> transitions = new HashSet<Transition>();
+    protected String id;
 
     protected State startState;
 
@@ -52,9 +49,19 @@ public class Statechart {
         return this.states.stream();
     }
 
-    public Stream<Transition> transitions(){
-        return this.transitions.stream();
+
+
+
+    public  State addState(final State state){
+        if(this.states.contains(state)) {
+            state.
+        }else{
+            this.states.add(state);
+        }
+
+        return new StatechartBuilder(this);
     }
+
 
 
 }

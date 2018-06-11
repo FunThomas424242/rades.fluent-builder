@@ -27,6 +27,8 @@ import java.util.Map;
 
 public abstract class GeneratedAbstractStatechart {
 
+    protected static final Map<String, Statechart> statecharts = new HashMap<>();
+
     public static interface Zustand1 {
         Zustand2 withId(final String chartId);
     }
@@ -45,11 +47,7 @@ public abstract class GeneratedAbstractStatechart {
         Statechart build();
     }
 
-    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {
-    }
-
-
-    protected static final Map<String, Statechart> statecharts = new HashMap<>();
+    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {}
 
     public static Statechart register(final String chartId, final Statechart statechart) {
         final long anzahl = statecharts.values().stream().filter(statechart1 -> {

@@ -22,10 +22,11 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import org.junit.jupiter.api.Test;
 
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartFluentBuilder.newState;
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartFluentBuilder.state;
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder.newState;
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder.state;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;

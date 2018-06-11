@@ -24,13 +24,14 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generate;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractStatechartFluentBuilder {
 
-    protected static final Map<String, Statechart> statecharts = new HashMap<>();
+    protected static final Map<String, StatechartAccessor> statecharts = new HashMap<>();
 
     public static interface Zustand1 {
         Zustand2 withId(final String chartId);

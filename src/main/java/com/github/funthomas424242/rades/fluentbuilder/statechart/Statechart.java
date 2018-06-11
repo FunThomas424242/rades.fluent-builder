@@ -50,5 +50,8 @@ public class Statechart {
         return this.states.stream();
     }
 
+    public void addState(final State state){
+        states.add(state);
+    }
 
 }

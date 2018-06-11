@@ -26,32 +26,46 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import org.junit.Test;
 
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 public class ArchitekturTest {
 
-    final JavaClasses classes = new ClassFileImporter().importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
+    final JavaClasses klassen = new ClassFileImporter().importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
 
 //
 //    @Test
 //    public void accessOfDomainPackage() {
 //
 //
-//        final ArchRule myRule = classes()
+//        final ArchRule myRule = klassen()
 //            .that().resideInAPackage("..statechart")
 //            .should().onlyBeAccessed().byAnyPackage("..statechart..");
 //
-//        myRule.check(classes);
+//        myRule.check(klassen);
 //    }
 
     @Test
     public void noAccessFromStateToStatechart(){
-        noClasses().that().haveNameMatching(".*Statechart")
-            .should().onlyBeAccessed().byClassesThat().haveSimpleName("State").check(classes);
-        noClasses().that().haveNameMatching(".*Statechart")
-            .should().onlyBeAccessed().byClassesThat().haveSimpleName("Transition").check(classes);
-        noClasses().that().haveNameMatching(".*Statechart")
-            .should().onlyBeAccessed().byClassesThat().haveSimpleName("ParameterSignatur").check(classes);
+//        classes().that().haveSimpleName("GeneratedAbstractStatechart")
+//            .should().onlyBeAccessed().byClassesThat().haveSimpleNameStartingWith("Statechart")
+//            .check(klassen);
+
+        classes().that().haveSimpleName("GeneratedAbstractStatechart")
+            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(StatechartTest|StatechartBuilder)").check(klassen);
+
+        noClasses().that().haveSimpleName("State")
+            .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);
+
+        noClasses().that().haveSimpleName("Transiton")
+            .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);
+
+
+//        noClasses().that().haveNameMatching(".*Statechart")
+//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("Transition").check(klassen);
+//        noClasses().that().haveNameMatching(".*Statechart")
+//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("ParameterSignatur").check(klassen);
+
     }
 
 

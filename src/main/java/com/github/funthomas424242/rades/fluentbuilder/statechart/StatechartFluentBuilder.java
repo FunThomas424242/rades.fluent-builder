@@ -31,21 +31,22 @@ import javax.validation.Validator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class StatechartBuilder extends GeneratedAbstractStatechart implements GeneratedAbstractStatechart.AllStates {
+//@RadesAddFluentBuilder
+public class StatechartFluentBuilder extends GeneratedAbstractStatechart implements GeneratedAbstractStatechart.AllStates {
 
 
     protected Statechart statechart;
 
-    protected StatechartBuilder() {
+    protected StatechartFluentBuilder() {
         this(new Statechart());
     }
 
-    protected StatechartBuilder(final Statechart statechart) {
+    protected StatechartFluentBuilder(final Statechart statechart) {
         this.statechart = statechart;
     }
 
     public static Zustand1 newStatechart() {
-        return new StatechartBuilder();
+        return new StatechartFluentBuilder();
     }
 
     public Statechart build() {

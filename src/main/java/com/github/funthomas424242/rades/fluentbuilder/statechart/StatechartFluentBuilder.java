@@ -23,6 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.InvalidAccessorException;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generate.GeneratedAbstractStatechart;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -43,6 +44,23 @@ public class StatechartFluentBuilder extends GeneratedAbstractStatechart impleme
 
     protected StatechartFluentBuilder(final Statechart statechart) {
         this.statechart = statechart;
+    }
+
+    protected static Statechart getStatechart(final String chartId) {
+        if (!statecharts.containsKey(chartId)) {
+            throw new IllegalStateException("chart mit id <" + chartId + " nicht gefunden.");
+        }
+        return statecharts.get(chartId);
+    }
+
+    public static State state(final String chartId, final String stateName) {
+        final Statechart statechart = getStatechart(chartId);
+        return statechart.states.stream().filter(state -> state.stateName.equals(stateName))
+            .findFirst().get();
+    }
+
+    public static State newState(final String stateName) {
+        return State.of(stateName);
     }
 
     public static Zustand1 newStatechart() {
@@ -107,5 +125,16 @@ public class StatechartFluentBuilder extends GeneratedAbstractStatechart impleme
     public State atState(final String stateName) {
         return state(this.statechart.id, stateName);
     }
+
+
+
+    private static Statechart register(final String chartId, final Statechart statechart) {
+        final long anzahl = statecharts.values().stream().filter(statechart1 -> {
+            return statechart1.id.equals(chartId);
+        }).count();
+        if (anzahl > 0) throw new IllegalStateException("statechart wurde bereits registriert mit id " + chartId);
+        return statecharts.put(chartId, statechart);
+    }
+
 
 }

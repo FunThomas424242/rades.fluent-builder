@@ -24,8 +24,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import org.junit.jupiter.api.Test;
 
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.newState;
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.state;
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartFluentBuilder.newState;
+import static com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartFluentBuilder.state;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;

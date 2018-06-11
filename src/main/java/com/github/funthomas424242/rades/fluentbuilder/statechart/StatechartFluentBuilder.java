@@ -23,7 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.InvalidAccessorException;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.generate.GeneratedAbstractStatechart;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generate.AbstractStatechartFluentBuilder;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -33,7 +33,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 //@RadesAddFluentBuilder
-public class StatechartFluentBuilder extends GeneratedAbstractStatechart implements GeneratedAbstractStatechart.AllStates {
+public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {
 
 
     protected Statechart statechart;

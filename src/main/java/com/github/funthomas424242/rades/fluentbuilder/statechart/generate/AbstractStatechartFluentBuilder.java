@@ -28,7 +28,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class GeneratedAbstractStatechart {
+public abstract class AbstractStatechartFluentBuilder {
 
     protected static final Map<String, Statechart> statecharts = new HashMap<>();
 

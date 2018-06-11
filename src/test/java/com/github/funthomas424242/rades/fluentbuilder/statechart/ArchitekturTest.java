@@ -51,7 +51,7 @@ public class ArchitekturTest {
 //            .should().onlyBeAccessed().byClassesThat().haveSimpleNameStartingWith("Statechart")
 //            .check(klassen);
 
-        classes().that().haveSimpleName("GeneratedAbstractStatechart")
+        classes().that().haveSimpleName("AbstractStatechartFluentBuilder")
             .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(StatechartTest|StatechartFluentBuilder)").check(klassen);
 
         noClasses().that().haveSimpleName("State")

@@ -36,14 +36,13 @@ class StatechartTest {
     @Test
     public void createQueueStatechart() {
         final String id = "Statechart ID";
-        final StatechartAccessor statechart = new StatechartBuilder()
+        final StatechartAccessor statechart = StatechartBuilder.newStatechart()
             .withId(id)
             .addState(
-                newState( "Empty"))
+                newState("Empty"))
             .addState(
-                newState( "Not Empty")
+                newState("Not Empty")
             )
-            .withStartState(state(id,"Empty"))
             .addTransition("Empty", "Not Empty", "enqueue")
             .addTransition("Empty", "Empty", "isEmpty")
 
@@ -51,13 +50,14 @@ class StatechartTest {
             .addTransition("Not Empty", "Not Empty", "isEmpty")
             .addTransition("Not Empty", "Not Empty", "dequeue")
             .addTransition("Not Empty", "Empty", "dequeue")
+            .withStartState(state(id, "Empty"))
             .build(StatechartAccessor.class);
 
         assertEquals(2, statechart.states().count());
-        assertSame(state(id,"Empty"), statechart.getStartState());
-        assertEquals(state(id,"Not Empty"), newState("Not Empty"));
-        assertNotSame(state(id,"Not Empty"), newState("Not Empty"));
-        assertNotEquals(state(id,"Not Empty"), state(id,"Empty"));
+        assertSame(state(id, "Empty"), statechart.getStartState());
+        assertEquals(state(id, "Not Empty"), newState("Not Empty"));
+        assertNotSame(state(id, "Not Empty"), newState("Not Empty"));
+        assertNotEquals(state(id, "Not Empty"), state(id, "Empty"));
 
         // TODO Transitions - equals same, nocht nicht bedacht
     }

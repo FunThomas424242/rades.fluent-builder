@@ -32,9 +32,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 // TODO nutzen wenn issue #94 @Singular umgesetzt wurde
-//@RadesAddBuilder
+//@RadesAddFluentBuilder
 @RadesAddAccessor
-public class Statechart extends GeneratedAbstractStatechart {
+public class Statechart {
 
     @RadesNoBuilder
     @RadesNoAccessor
@@ -45,7 +45,7 @@ public class Statechart extends GeneratedAbstractStatechart {
 
     protected State startState;
 
-    public Stream<State> states(){
+    public Stream<State> states() {
         return this.states.stream();
     }
 

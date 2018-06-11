@@ -31,19 +31,21 @@ import javax.validation.Validator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.register;
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.GeneratedAbstractStatechart.state;
+public class StatechartBuilder extends GeneratedAbstractStatechart implements GeneratedAbstractStatechart.AllStates {
 
-public class StatechartBuilder {
 
-    private Statechart statechart;
+    protected Statechart statechart;
 
-    public StatechartBuilder() {
+    protected StatechartBuilder() {
         this(new Statechart());
     }
 
-    public StatechartBuilder(final Statechart statechart) {
+    protected StatechartBuilder(final Statechart statechart) {
         this.statechart = statechart;
+    }
+
+    public static Zustand1 newStatechart() {
+        return new StatechartBuilder();
     }
 
     public Statechart build() {
@@ -80,24 +82,24 @@ public class StatechartBuilder {
         }
     }
 
-    public StatechartBuilder withId(final String id) {
+    public Zustand2 withId(final String id) {
         this.statechart.id = id;
-        register(this.statechart.id,this.statechart);
+        register(this.statechart.id, this.statechart);
         return this;
     }
 
-    public StatechartBuilder withStartState(final State startState) {
+    public Zustand3 withStartState(final State startState) {
         this.statechart.startState = startState;
         return this;
     }
 
-    public StatechartBuilder addState(final State state) {
+    public Zustand2 addState(final State state) {
         this.statechart.states.add(state);
         return this;
     }
 
-    public StatechartBuilder addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
-        state(this.statechart.id, srcStateName).addTransitionTo(state(this.statechart.id,targetStateName),parameterSignatur);
+    public Zustand2 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
+        state(this.statechart.id, srcStateName).addTransitionTo(state(this.statechart.id, targetStateName), parameterSignatur);
         return this;
     }
 

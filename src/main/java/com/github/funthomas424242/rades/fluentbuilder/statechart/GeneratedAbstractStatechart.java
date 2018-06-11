@@ -22,13 +22,32 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GeneratedAbstractStatechart {
+
+    public static interface Zustand1 {
+        Zustand2 withId(final String chartId);
+    }
+
+    public static interface Zustand2 {
+        Zustand2 addState(final State state);
+
+        Zustand2 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur);
+
+        Zustand3 withStartState(final State startState);
+    }
+
+    public static interface Zustand3 {
+        <A> A build(Class<A> accessorClass);
+
+        Statechart build();
+    }
+
+    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {
+    }
+
 
     protected static final Map<String, Statechart> statecharts = new HashMap<>();
 

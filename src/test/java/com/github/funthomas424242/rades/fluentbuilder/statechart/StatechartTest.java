@@ -44,6 +44,7 @@ class StatechartTest {
             .addState(
                 newState("Not Empty")
             )
+            .withStartState(state(id, "Empty"))
             .addTransition("Empty", "Not Empty", "enqueue")
             .addTransition("Empty", "Empty", "isEmpty")
 
@@ -51,7 +52,7 @@ class StatechartTest {
             .addTransition("Not Empty", "Not Empty", "isEmpty")
             .addTransition("Not Empty", "Not Empty", "dequeue")
             .addTransition("Not Empty", "Empty", "dequeue")
-            .withStartState(state(id, "Empty"))
+
             .build(StatechartAccessor.class);
 
         assertEquals(2, statechart.states().count());

@@ -88,7 +88,7 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         return this;
     }
 
-    public Zustand2 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
+    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
         state(this.statechart.getId(), srcStateName).addTransitionTo(state(this.statechart.getId(), targetStateName), parameterSignatur);
         return this;
     }

@@ -40,17 +40,22 @@ public abstract class AbstractStatechartFluentBuilder {
     public static interface Zustand2 {
         Zustand2 addState(final State state);
 
-        Zustand2 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur);
-
         Zustand3 withStartState(final State startState);
     }
 
+
     public static interface Zustand3 {
+
+        Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur);
+
         <A> A build(Class<A> accessorClass);
 
         Statechart build();
+
     }
 
-    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {}
+
+    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {
+    }
 
 }

@@ -23,7 +23,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
@@ -89,13 +88,13 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
 
     @Override
     public Zustand2 addState(final String stateName) {
-        this.statechart.addState(stateName,State.of(stateName));
+        this.statechart.addState(stateName, State.of(stateName));
         return this;
     }
 
     @Override
     public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
-        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName),parameterSignatur);
+        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName), parameterSignatur);
         return this;
     }
 

@@ -22,6 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class ArchitekturTest {
 //            .check(klassen);
 
         classes().that().haveSimpleName("AbstractStatechartFluentBuilder")
-            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(StatechartTest|StatechartFluentBuilder)").check(klassen);
+            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
 
         noClasses().that().haveSimpleName("State")
             .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);

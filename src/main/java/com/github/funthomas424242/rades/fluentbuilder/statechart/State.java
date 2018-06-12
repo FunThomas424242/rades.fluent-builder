@@ -60,17 +60,6 @@ public class State {
         return this;
     }
 
-//    public StatechartBuilder addTransition( final State startState, final State targetState, final ParameterSignatur parameters){
-//        this.statechart.transitions.add(Transition.of(startState,targetState,parameters));
-//        return this;
-//    }
-//
-//    public StatechartBuilder addTransition( final String startStateName, final String targetStateName, final String parameterSignatur){
-//        this.addTransition(State.of(startStateName),State.of(targetStateName),ParameterSignatur.of(parameterSignatur));
-//        return this;
-//    }
-
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

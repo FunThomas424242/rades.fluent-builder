@@ -42,23 +42,6 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         this.statechart = statechart;
     }
 
-//    protected static StatechartAccessor getStatechart(final String chartId) {
-//        if (!statecharts.containsKey(chartId)) {
-//            throw new IllegalStateException("chart mit id <" + chartId + " nicht gefunden.");
-//        }
-//        return statecharts.get(chartId);
-//    }
-
-//    public static State state(final String chartId, final String stateName) {
-//        final StatechartAccessor statechart = getStatechart(chartId);
-//        return statechart.states().filter(state -> new StateAccessor(state).getStateName().equals(stateName))
-//            .findFirst().get();
-//    }
-
-//    public static State newState(final String stateName) {
-//        return State.of(stateName);
-//    }
-
     public static Zustand1 newStatechart() {
         return new StatechartFluentBuilder();
     }
@@ -76,7 +59,6 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     @Override
     public Zustand2 withId(final String id) {
         this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withId(id).build(StatechartAccessor.class);
-//        register(id, this.statechart.toStatechart());
         return this;
     }
 
@@ -97,14 +79,5 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName), parameterSignatur);
         return this;
     }
-
-//    private static StatechartAccessor register(final String chartId, final Statechart statechart) {
-//        final long anzahl = statecharts.values().stream().filter(statechart1 -> {
-//            return statechart1.getId().equals(chartId);
-//        }).count();
-//        if (anzahl > 0) throw new IllegalStateException("statechart wurde bereits registriert mit id " + chartId);
-//        return statecharts.put(chartId, new StatechartAccessor(statechart));
-//    }
-
 
 }

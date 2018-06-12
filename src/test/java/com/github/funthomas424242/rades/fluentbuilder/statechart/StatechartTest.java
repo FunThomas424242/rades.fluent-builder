@@ -56,8 +56,6 @@ class StatechartTest {
         assertEquals(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
-
-        // TODO Transitions - equals same, nocht nicht bedacht
     }
 
 }

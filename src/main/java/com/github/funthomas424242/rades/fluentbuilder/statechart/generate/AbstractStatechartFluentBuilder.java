@@ -26,8 +26,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 
 public abstract class AbstractStatechartFluentBuilder {
 
-//    protected static final Map<String, StatechartAccessor> statecharts = new HashMap<>();
-
     public static interface Zustand1 {
         Zustand2 withId(final String chartId);
     }

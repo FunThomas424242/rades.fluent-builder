@@ -22,12 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generate;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class AbstractStatechartFluentBuilder {
 

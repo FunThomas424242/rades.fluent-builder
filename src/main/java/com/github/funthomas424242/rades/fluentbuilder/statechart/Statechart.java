@@ -29,11 +29,8 @@ import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Stream;
 
-// TODO nutzen wenn issue #94 @Singular umgesetzt wurde
 @RadesAddBuilder
 @RadesAddAccessor
 public class Statechart {
@@ -41,7 +38,7 @@ public class Statechart {
     @RadesNoBuilder
     @RadesNoAccessor
     @NotNull
-    protected final HashMap<String,State> states = new HashMap<>();
+    protected final HashMap<String, State> states = new HashMap<>();
 
     protected String id;
 
@@ -51,11 +48,11 @@ public class Statechart {
         return this.states.values().stream();
     }
 
-    public void addState(final String stateName, final State state){
+    public void addState(final String stateName, final State state) {
         states.put(stateName, state);
     }
 
-    public State getState(final String stateName){
+    public State getState(final String stateName) {
         return states.get(stateName);
     }
 

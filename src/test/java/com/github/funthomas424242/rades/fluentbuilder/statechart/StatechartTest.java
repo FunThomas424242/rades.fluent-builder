@@ -25,12 +25,11 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import org.junit.jupiter.api.Test;
 
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder.newState;
-import static com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder.state;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+
 
 class StatechartTest {
 
@@ -39,12 +38,9 @@ class StatechartTest {
         final String id = "Statechart ID";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withId(id)
-            .addState(
-                newState("Empty"))
-            .addState(
-                newState("Not Empty")
-            )
-            .withStartState(state(id, "Empty"))
+            .addState("Empty")
+            .addState("Not Empty")
+            .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue")
             .addTransition("Empty", "Empty", "isEmpty")
 
@@ -56,10 +52,10 @@ class StatechartTest {
             .build(StatechartAccessor.class);
 
         assertEquals(2, statechart.states().count());
-        assertSame(state(id, "Empty"), statechart.getStartState());
-        assertEquals(state(id, "Not Empty"), newState("Not Empty"));
-        assertNotSame(state(id, "Not Empty"), newState("Not Empty"));
-        assertNotEquals(state(id, "Not Empty"), state(id, "Empty"));
+        assertSame(statechart.getState("Empty"), statechart.getStartState());
+        assertEquals(statechart.getState("Not Empty"), State.of("Not Empty"));
+        assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
+        assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
 
         // TODO Transitions - equals same, nocht nicht bedacht
     }

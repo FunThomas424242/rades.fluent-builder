@@ -31,16 +31,16 @@ import java.util.Map;
 
 public abstract class AbstractStatechartFluentBuilder {
 
-    protected static final Map<String, StatechartAccessor> statecharts = new HashMap<>();
+//    protected static final Map<String, StatechartAccessor> statecharts = new HashMap<>();
 
     public static interface Zustand1 {
         Zustand2 withId(final String chartId);
     }
 
     public static interface Zustand2 {
-        Zustand2 addState(final State state);
+        Zustand2 addState(final String stateName);
 
-        Zustand3 withStartState(final State startState);
+        Zustand3 withStartState(final String startStatename);
     }
 
 

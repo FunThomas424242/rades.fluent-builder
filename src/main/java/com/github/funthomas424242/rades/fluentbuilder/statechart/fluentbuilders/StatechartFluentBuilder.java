@@ -43,63 +43,69 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         this.statechart = statechart;
     }
 
-    protected static StatechartAccessor getStatechart(final String chartId) {
-        if (!statecharts.containsKey(chartId)) {
-            throw new IllegalStateException("chart mit id <" + chartId + " nicht gefunden.");
-        }
-        return statecharts.get(chartId);
-    }
+//    protected static StatechartAccessor getStatechart(final String chartId) {
+//        if (!statecharts.containsKey(chartId)) {
+//            throw new IllegalStateException("chart mit id <" + chartId + " nicht gefunden.");
+//        }
+//        return statecharts.get(chartId);
+//    }
 
-    public static State state(final String chartId, final String stateName) {
-        final StatechartAccessor statechart = getStatechart(chartId);
-        return statechart.states().filter(state -> new StateAccessor(state).getStateName().equals(stateName))
-            .findFirst().get();
-    }
+//    public static State state(final String chartId, final String stateName) {
+//        final StatechartAccessor statechart = getStatechart(chartId);
+//        return statechart.states().filter(state -> new StateAccessor(state).getStateName().equals(stateName))
+//            .findFirst().get();
+//    }
 
-    public static State newState(final String stateName) {
-        return State.of(stateName);
-    }
+//    public static State newState(final String stateName) {
+//        return State.of(stateName);
+//    }
 
     public static Zustand1 newStatechart() {
         return new StatechartFluentBuilder();
     }
 
+    @Override
     public Statechart build() {
         return new StatechartBuilder(this.statechart.toStatechart()).build();
     }
 
+    @Override
     public <A> A build(Class<A> accessorClass) {
         return new StatechartBuilder(this.statechart.toStatechart()).build(accessorClass);
     }
 
+    @Override
     public Zustand2 withId(final String id) {
         this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withId(id).build(StatechartAccessor.class);
-        register(id, this.statechart.toStatechart());
+//        register(id, this.statechart.toStatechart());
         return this;
     }
 
-    public Zustand3 withStartState(final State startState) {
-        this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withStartState(startState).build(StatechartAccessor.class);
+    @Override
+    public Zustand3 withStartState(final String startStatename) {
+        this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withStartState(this.statechart.getState(startStatename)).build(StatechartAccessor.class);
         return this;
     }
 
-    public Zustand2 addState(final State state) {
-        this.statechart.addState(state);
+    @Override
+    public Zustand2 addState(final String stateName) {
+        this.statechart.addState(stateName,State.of(stateName));
         return this;
     }
 
+    @Override
     public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
-        state(this.statechart.getId(), srcStateName).addTransitionTo(state(this.statechart.getId(), targetStateName), parameterSignatur);
+        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName),parameterSignatur);
         return this;
     }
 
-    private static StatechartAccessor register(final String chartId, final Statechart statechart) {
-        final long anzahl = statecharts.values().stream().filter(statechart1 -> {
-            return statechart1.getId().equals(chartId);
-        }).count();
-        if (anzahl > 0) throw new IllegalStateException("statechart wurde bereits registriert mit id " + chartId);
-        return statecharts.put(chartId, new StatechartAccessor(statechart));
-    }
+//    private static StatechartAccessor register(final String chartId, final Statechart statechart) {
+//        final long anzahl = statecharts.values().stream().filter(statechart1 -> {
+//            return statechart1.getId().equals(chartId);
+//        }).count();
+//        if (anzahl > 0) throw new IllegalStateException("statechart wurde bereits registriert mit id " + chartId);
+//        return statecharts.put(chartId, new StatechartAccessor(statechart));
+//    }
 
 
 }

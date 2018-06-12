@@ -28,6 +28,7 @@ import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -40,18 +41,22 @@ public class Statechart {
     @RadesNoBuilder
     @RadesNoAccessor
     @NotNull
-    protected final Set<State> states = new HashSet<State>();
+    protected final HashMap<String,State> states = new HashMap<>();
 
     protected String id;
 
     protected State startState;
 
     public Stream<State> states() {
-        return this.states.stream();
+        return this.states.values().stream();
     }
 
-    public void addState(final State state){
-        states.add(state);
+    public void addState(final String stateName, final State state){
+        states.put(stateName, state);
+    }
+
+    public State getState(final String stateName){
+        return states.get(stateName);
     }
 
 }

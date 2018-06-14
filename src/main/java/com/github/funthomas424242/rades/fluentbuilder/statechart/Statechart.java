@@ -26,8 +26,15 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 
+import javax.annotation.processing.Filer;
 import javax.validation.constraints.NotNull;
+import javax.lang.model.element.Modifier;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -40,6 +47,7 @@ public class Statechart {
     @NotNull
     protected final HashMap<String, State> states = new HashMap<>();
 
+    // full qualified class name
     protected String id;
 
     protected State startState;
@@ -56,4 +64,36 @@ public class Statechart {
         return states.get(stateName);
     }
 
+    public void generate( final Filer filer) {
+        try {
+            generate(new PrintWriter(filer.createSourceFile(id).openWriter()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void generate( final PrintWriter writer) {
+
+        MethodSpec main = MethodSpec.methodBuilder("main")
+            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+            .returns(void.class)
+            .addParameter(String[].class, "args")
+            .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
+            .build();
+
+        TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+            .addMethod(main)
+            .build();
+
+        JavaFile javaFile = JavaFile.builder("com.example.helloworld", helloWorld)
+            .build();
+
+        try {
+            javaFile.writeTo(writer);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

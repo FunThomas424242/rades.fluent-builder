@@ -57,7 +57,7 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand2 withId(final String id) {
+    public Zustand2 withQualifiedClassName(final String id) {
         this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withId(id).build(StatechartAccessor.class);
         return this;
     }

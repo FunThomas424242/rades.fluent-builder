@@ -37,7 +37,7 @@ class StatechartTest {
     public void createQueueStatechart() {
         final String id = "Statechart ID";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
-            .withId(id)
+            .withQualifiedClassName(id)
             .addState("Empty")
             .addState("Not Empty")
             .withStartState("Empty")

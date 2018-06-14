@@ -27,7 +27,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 public abstract class AbstractStatechartFluentBuilder {
 
     public static interface Zustand1 {
-        Zustand2 withId(final String chartId);
+        Zustand2 withQualifiedClassName(final String chartId);
     }
 
     public static interface Zustand2 {

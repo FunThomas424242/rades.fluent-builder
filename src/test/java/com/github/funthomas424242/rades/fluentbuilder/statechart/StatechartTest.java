@@ -41,7 +41,7 @@ class StatechartTest {
 
     @Test
     public void createQueueStatechart() throws IOException {
-        final String id = "com.example.helloworld.HelloWorld";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.QueueStatechart";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
             .addState("Empty")
@@ -62,9 +62,12 @@ class StatechartTest {
         assertEquals(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
-        final Path filePath = Paths.get("target/generated-test-sources/test-annotations/com/example/helloworld", "HelloWorld.java");
+
+        final Path filePath = Paths.get("target/generated-test-sources/test-annotations/"
+            + Statechart.packageAsPathString(Statechart.computePackage(id)), Statechart.computeClassName(id)+".java");
         filePath.getParent().toFile().mkdirs();
         filePath.toFile().createNewFile();
+
         statechart.generate(new PrintWriter(new FileOutputStream(filePath.toFile())));
     }
 

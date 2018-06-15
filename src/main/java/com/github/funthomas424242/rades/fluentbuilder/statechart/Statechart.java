@@ -31,8 +31,9 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import javax.annotation.processing.Filer;
-import javax.validation.constraints.NotNull;
 import javax.lang.model.element.Modifier;
+import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class Statechart {
         return states.get(stateName);
     }
 
-    public void generate( final Filer filer) {
+    public void generate(final Filer filer) {
         try {
             generate(new PrintWriter(filer.createSourceFile(id).openWriter()));
         } catch (IOException e) {
@@ -72,7 +73,12 @@ public class Statechart {
         }
     }
 
-    public void generate( final PrintWriter writer) {
+    public void generate(final PrintWriter writer) {
+
+        final String fullQualifiedClassName = this.id;
+        final String packageName = computePackage(fullQualifiedClassName);
+        final String className = computeClassName(fullQualifiedClassName);
+
 
         MethodSpec main = MethodSpec.methodBuilder("main")
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -81,13 +87,12 @@ public class Statechart {
             .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
             .build();
 
-        TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+        TypeSpec abstractClass = TypeSpec.classBuilder(className)
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .addMethod(main)
             .build();
 
-        JavaFile javaFile = JavaFile.builder("com.example.helloworld", helloWorld)
-            .build();
+        JavaFile javaFile = JavaFile.builder(packageName, abstractClass).build();
 
         try {
             javaFile.writeTo(writer);
@@ -95,5 +100,19 @@ public class Statechart {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static  String computeClassName(final String fullQualifiedClassName) {
+        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
+        return fullQualifiedClassName.substring(lastDot + 1);
+    }
+
+    public static  String computePackage(final String fullQualifiedClassName) {
+        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
+        return fullQualifiedClassName.substring(0, lastDot);
+    }
+
+    public static String packageAsPathString(final String packageName){
+        return packageName.replace('.', File.separatorChar);
     }
 }

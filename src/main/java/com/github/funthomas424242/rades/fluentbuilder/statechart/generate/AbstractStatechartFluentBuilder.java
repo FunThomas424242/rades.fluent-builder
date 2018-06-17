@@ -26,18 +26,18 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 
 public abstract class AbstractStatechartFluentBuilder {
 
-    public static interface Zustand1 {
+    public interface Zustand1 {
         Zustand2 withQualifiedClassName(final String chartId);
     }
 
-    public static interface Zustand2 {
+    public interface Zustand2 {
         Zustand2 addState(final String stateName);
 
         Zustand3 withStartState(final String startStatename);
     }
 
 
-    public static interface Zustand3 {
+    public interface Zustand3 {
 
         Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur);
 
@@ -48,7 +48,7 @@ public abstract class AbstractStatechartFluentBuilder {
     }
 
 
-    public static interface AllStates extends Zustand1, Zustand2, Zustand3 {
+    public interface AllStates extends Zustand1, Zustand2, Zustand3 {
     }
 
 }

@@ -22,6 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AbstractFluentBuilderGenerator {
 
@@ -83,6 +86,15 @@ public class AbstractFluentBuilderGenerator {
         this.generate(this.createPrintWriter(folderPath));
     }
 
+    public String convertStringToClassifier(final String name) {
+        if(name == null){
+            throw new IllegalArgumentException("name darf nicht null sein");
+        }
+        final String classifierName = name.replace(' ','_');
+        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, classifierName);
+    }
+
+
     public void generate(final PrintWriter writer) {
 
         final String packageName = computePackageName();
@@ -96,10 +108,22 @@ public class AbstractFluentBuilderGenerator {
             .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
             .build();
 
-        TypeSpec abstractClass = TypeSpec.classBuilder(className)
-            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .addMethod(main)
-            .build();
+        final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
+
+        this.statechart.states().map(state -> new StateAccessor(state)).forEach(state -> {
+            final TypeSpec stateInterface = TypeSpec.interfaceBuilder(convertStringToClassifier(state.getStateName()))
+                .addModifiers(Modifier.PUBLIC)
+                .build();
+            interfaceDefinitions.add(stateInterface);
+            // TODO add transitions as methods
+        });
+
+
+        final TypeSpec.Builder abstractClassBuilder = TypeSpec.classBuilder(className)
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+            .addMethod(main);
+        interfaceDefinitions.forEach(typeSpec -> abstractClassBuilder.addType(typeSpec));
+        final TypeSpec abstractClass = abstractClassBuilder.build();
 
         JavaFile javaFile = JavaFile.builder(packageName, abstractClass).build();
 

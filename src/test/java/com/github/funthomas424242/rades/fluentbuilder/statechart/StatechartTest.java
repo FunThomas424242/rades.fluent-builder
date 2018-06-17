@@ -63,5 +63,32 @@ class StatechartTest {
         generator.generate("target/generated-test-sources/test-annotations/");
     }
 
+    @Test
+    public void createStatechartStatechart() throws IOException {
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.generated.AbstractStatechartFluentBuilder";
+        final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
+            .withQualifiedClassName(id)
+            .addState("Empty")
+            .addState("Not Empty")
+            .withStartState("Empty")
+            .addTransition("Empty", "Not Empty", "enqueue")
+            .addTransition("Empty", "Empty", "isEmpty")
+
+            .addTransition("Not Empty", "Not Empty", "enqueue")
+            .addTransition("Not Empty", "Not Empty", "isEmpty")
+            .addTransition("Not Empty", "Not Empty", "dequeue")
+            .addTransition("Not Empty", "Empty", "dequeue")
+
+            .build(StatechartAccessor.class);
+
+        assertEquals(2, statechart.states().count());
+        assertSame(statechart.getState("Empty"), statechart.getStartState());
+        assertEquals(statechart.getState("Not Empty"), State.of("Not Empty"));
+        assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
+        assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
+
+        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+        generator.generate("target/generated-test-sources/test-annotations/");
+    }
 
 }

@@ -25,11 +25,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -63,12 +59,9 @@ class StatechartTest {
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
 
-        final Path filePath = Paths.get("target/generated-test-sources/test-annotations/"
-            + Statechart.packageAsPathString(Statechart.computePackage(id)), Statechart.computeClassName(id)+".java");
-        filePath.getParent().toFile().mkdirs();
-        filePath.toFile().createNewFile();
-
-        statechart.generate(new PrintWriter(new FileOutputStream(filePath.toFile())));
+        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+        generator.generate("target/generated-test-sources/test-annotations/");
     }
+
 
 }

@@ -26,16 +26,8 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
 
-import javax.annotation.processing.Filer;
-import javax.lang.model.element.Modifier;
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -48,7 +40,7 @@ public class Statechart {
     @NotNull
     protected final HashMap<String, State> states = new HashMap<>();
 
-    // full qualified class name
+    // full qualified class name for generation
     protected String id;
 
     protected State startState;
@@ -65,54 +57,4 @@ public class Statechart {
         return states.get(stateName);
     }
 
-    public void generate(final Filer filer) {
-        try {
-            generate(new PrintWriter(filer.createSourceFile(id).openWriter()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void generate(final PrintWriter writer) {
-
-        final String fullQualifiedClassName = this.id;
-        final String packageName = computePackage(fullQualifiedClassName);
-        final String className = computeClassName(fullQualifiedClassName);
-
-
-        MethodSpec main = MethodSpec.methodBuilder("main")
-            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-            .returns(void.class)
-            .addParameter(String[].class, "args")
-            .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
-            .build();
-
-        TypeSpec abstractClass = TypeSpec.classBuilder(className)
-            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .addMethod(main)
-            .build();
-
-        JavaFile javaFile = JavaFile.builder(packageName, abstractClass).build();
-
-        try {
-            javaFile.writeTo(writer);
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static  String computeClassName(final String fullQualifiedClassName) {
-        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
-        return fullQualifiedClassName.substring(lastDot + 1);
-    }
-
-    public static  String computePackage(final String fullQualifiedClassName) {
-        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
-        return fullQualifiedClassName.substring(0, lastDot);
-    }
-
-    public static String packageAsPathString(final String packageName){
-        return packageName.replace('.', File.separatorChar);
-    }
 }

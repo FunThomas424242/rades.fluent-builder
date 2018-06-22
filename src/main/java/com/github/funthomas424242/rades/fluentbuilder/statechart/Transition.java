@@ -35,14 +35,20 @@ public class Transition {
     protected State startState;
     protected State targetState;
 
+    protected String transitionName;
     protected List<ParameterSignatur> parameters = new ArrayList<ParameterSignatur>();
 
-    public static Transition of(final State startState, final State targetState, final ParameterSignatur parameters) {
-        return new TransitionBuilder().withStartState(startState).withTargetState(startState).build();
+    public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignatur parameterSignatur) {
+        final List<ParameterSignatur> parameterSignaturs = new ArrayList<>();
+        parameterSignaturs.add(parameterSignatur);
+        return new TransitionBuilder().withStartState(startState)
+            .withTargetState(targetState)
+            .withTransitionName(transitionName)
+            .withParameters(parameterSignaturs).build();
     }
 
-    public static Transition of(final String startStateName, final String targetStateName, final String parameterSignatur) {
-        return Transition.of(State.of(startStateName), State.of(targetStateName), ParameterSignatur.of(parameterSignatur));
+    public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final String parameterSignatur) {
+        return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignatur.of(parameterSignatur));
     }
 
 }

@@ -54,8 +54,9 @@ public class State {
     }
 
 
-    public State addTransitionTo(final State targetState, final String transitionSignatur) {
-        final Transition transition = Transition.of(this, targetState, ParameterSignatur.of(transitionSignatur));
+    public State addTransitionTo(final State targetState, final String transitionName) {
+        // TODO Signatur
+        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignatur.of("()"));
         this.transitions.add(transition);
         return this;
     }

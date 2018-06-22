@@ -23,6 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.google.common.base.CaseFormat;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -87,10 +88,10 @@ public class AbstractFluentBuilderGenerator {
     }
 
     public String convertStringToClassifier(final String name) {
-        if(name == null){
+        if (name == null) {
             throw new IllegalArgumentException("name darf nicht null sein");
         }
-        final String classifierName = name.replace(' ','_');
+        final String classifierName = name.replace(' ', '_');
         return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, classifierName);
     }
 
@@ -111,11 +112,19 @@ public class AbstractFluentBuilderGenerator {
         final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
 
         this.statechart.states().map(state -> new StateAccessor(state)).forEach(state -> {
-            final TypeSpec stateInterface = TypeSpec.interfaceBuilder(convertStringToClassifier(state.getStateName()))
-                .addModifiers(Modifier.PUBLIC)
-                .build();
-            interfaceDefinitions.add(stateInterface);
-            // TODO add transitions as methods
+            // add transitions as methods
+            final TypeSpec.Builder stateInterface = computeInterfaceTypeSpec(state);
+            state.transitions().map(transition -> new TransitionAccessor(transition)).forEach(transition -> {
+                final String methodName = transition.getTransitionName();
+                final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
+                final ClassName returnTyp = ClassName.get(packageName,className, targetStateName);
+                final MethodSpec method = MethodSpec.methodBuilder(methodName)
+                    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                    .returns(returnTyp)
+                    .build();
+                stateInterface.addMethod(method);
+            });
+            interfaceDefinitions.add(stateInterface.build());
         });
 
 
@@ -133,6 +142,11 @@ public class AbstractFluentBuilderGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected TypeSpec.Builder computeInterfaceTypeSpec(final StateAccessor state) {
+        return TypeSpec.interfaceBuilder(convertStringToClassifier(state.getStateName()))
+            .addModifiers(Modifier.PUBLIC);
     }
 
 

@@ -29,10 +29,10 @@ import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 @RadesAddAccessor
 public class ParameterSignatur {
 
-    protected String signator;
+    protected String signatur;
 
     public static ParameterSignatur of(final String signatur) {
-        return new ParameterSignaturBuilder().withSignator(signatur).build();
+        return new ParameterSignaturBuilder().withSignatur(signatur).build();
     }
 
 }

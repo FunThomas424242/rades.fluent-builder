@@ -71,7 +71,7 @@ public class AbstractFluentBuilderGenerator {
             final PrintWriter writer = new PrintWriter(new FileOutputStream(filePath.toFile()));
             return writer;
         } catch (Throwable ex) {
-            throw new RuntimeException(ex);
+            throw new CreationException(ex);
         }
     }
 

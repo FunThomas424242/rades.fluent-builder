@@ -117,7 +117,7 @@ public class AbstractFluentBuilderGenerator {
             state.transitions().map(transition -> new TransitionAccessor(transition)).forEach(transition -> {
                 final String methodName = transition.getTransitionName();
                 final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
-                final ClassName returnTyp = ClassName.get(packageName,className, targetStateName);
+                final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
                 final MethodSpec method = MethodSpec.methodBuilder(methodName)
                     .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                     .returns(returnTyp)

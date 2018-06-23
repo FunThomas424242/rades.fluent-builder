@@ -47,15 +47,22 @@ public class AbstractFluentBuilderGenerator {
         this.statechart = statechart;
     }
 
+    public String computeClassName(final String fullQualifiedClassName) {
+        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
+        return fullQualifiedClassName.substring(lastDot + 1);
+    }
 
     public String computeClassName() {
-        final int lastDot = statechart.getId().lastIndexOf('.');
-        return statechart.getId().substring(lastDot + 1);
+        return computeClassName(statechart.getId());
+    }
+
+    public String computePackageName( final String fullQualifiedClassName){
+        final int lastDot = fullQualifiedClassName.lastIndexOf('.');
+        return fullQualifiedClassName.substring(0, lastDot);
     }
 
     public String computePackageName() {
-        final int lastDot = statechart.getId().lastIndexOf('.');
-        return this.statechart.getId().substring(0, lastDot);
+        return computePackageName(statechart.getId());
     }
 
     public static String packageAsPathString(final String packageName) {
@@ -113,7 +120,7 @@ public class AbstractFluentBuilderGenerator {
                 if (targetState == null) {
                     // Transition mit individuellen Return Type
                     final String returnType = transition.getReturnType();
-                    final ClassName returnTyp = ClassName.get(packageName, returnType);
+                    final ClassName returnTyp = ClassName.get(computePackageName(returnType), computeClassName(returnType));
                     method = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp)

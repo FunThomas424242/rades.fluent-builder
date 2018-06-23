@@ -65,23 +65,20 @@ class StatechartTest {
 
     @Test
     public void createStatechartStatechart() throws IOException {
-        final String id = "com.github.funthomas424242.rades.fluentbuilder.generated.AbstractStatechartFluentBuilder";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
-            .addState("Zustand1")
-            .addState("Zustand2")
-            .addState("Zustand3")
-            .withStartState("Zustand1")
-            .addTransition("Zustand1", "Zustand2", "withQualifiedName")
+            .addState("Zustand 1")
+            .addState("Zustand 2")
+            .addState("Zustand 3")
+            .withStartState("Zustand 1")
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedName")
 
-            .addTransition("Zustand2", "Zustand2", "addState")
-            .addTransition("Zustand2", "Zustand3", "withStartState")
+            .addTransition("Zustand 2", "Zustand 2", "addState")
+            .addTransition("Zustand 2", "Zustand 3", "withStartState")
 
-            .addTransition("Zustand3", "Zustand3", "addTransitionTo")
-            .addTransitionWithReturnValue("Zustand3", "addTransition", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
-//            .addTransition("Zustand3", "Not Empty", "dequeue")
-//            .addTransition("Not Empty", "Empty", "dequeue")
-
+            .addTransition("Zustand 3", "Zustand 3", "addTransitionTo")
+            .addTransitionWithReturnValue("Zustand 3", "addTransition", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

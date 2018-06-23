@@ -57,7 +57,7 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand2 withId(final String id) {
+    public Zustand2 withQualifiedClassName(final String id) {
         this.statechart = new StatechartBuilder(this.statechart.toStatechart()).withId(id).build(StatechartAccessor.class);
         return this;
     }
@@ -75,8 +75,14 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur) {
-        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName), parameterSignatur);
+    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName) {
+        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName), transitionName);
+        return this;
+    }
+
+    @Override
+    public Zustand3 addSignal(final String srcStateName, final String transitionName, final String returnType) {
+        this.statechart.getState(srcStateName).addTransition(transitionName,returnType);
         return this;
     }
 

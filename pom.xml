@@ -70,7 +70,18 @@
       <artifactId>rades-annotations</artifactId>
       <version>3.1.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.squareup</groupId>
+      <artifactId>javapoet</artifactId>
+      <version>1.11.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>25.1-jre</version>
+      <scope>compile</scope>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
     <!--<dependency>-->
       <!--<groupId>org.slf4j</groupId>-->
@@ -102,7 +113,7 @@
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit</artifactId>
-      <version>0.8.1</version>
+      <version>0.8.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -111,7 +122,6 @@
       <version>0.15</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>

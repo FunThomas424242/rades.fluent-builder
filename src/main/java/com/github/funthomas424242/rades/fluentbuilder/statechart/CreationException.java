@@ -22,17 +22,9 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
-import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+public class CreationException extends RuntimeException {
 
-@RadesAddBuilder
-@RadesAddAccessor
-public class ParameterSignatur {
-
-    protected String signatur;
-
-    public static ParameterSignatur of(final String signatur) {
-        return new ParameterSignaturBuilder().withSignatur(signatur).build();
+    public CreationException(final Throwable throwable) {
+        super(throwable);
     }
-
 }

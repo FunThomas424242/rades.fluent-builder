@@ -40,6 +40,7 @@ public class Statechart {
     @NotNull
     protected final HashMap<String, State> states = new HashMap<>();
 
+    // full qualified class name for generation
     protected String id;
 
     protected State startState;

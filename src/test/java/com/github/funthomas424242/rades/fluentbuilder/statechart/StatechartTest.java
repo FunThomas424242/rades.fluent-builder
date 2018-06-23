@@ -25,6 +25,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -34,10 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 class StatechartTest {
 
     @Test
-    public void createQueueStatechart() {
-        final String id = "Statechart ID";
+    public void createQueueStatechart() throws IOException {
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.QueueStatechart";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
-            .withId(id)
+            .withQualifiedClassName(id)
             .addState("Empty")
             .addState("Not Empty")
             .withStartState("Empty")
@@ -56,6 +58,34 @@ class StatechartTest {
         assertEquals(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
+
+//        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+//        generator.generate("target/generated-test-sources/test-annotations/");
+    }
+
+    @Test
+    public void createStatechartStatechart() throws IOException {
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
+        final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
+            .withQualifiedClassName(id)
+            .addState("Zustand 1")
+            .addState("Zustand 2")
+            .addState("Zustand 3")
+            .withStartState("Zustand 1")
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedName")
+
+            .addTransition("Zustand 2", "Zustand 2", "addState")
+            .addTransition("Zustand 2", "Zustand 3", "withStartState")
+
+            .addTransition("Zustand 3", "Zustand 3", "addTransition")
+            .addTransition("Zustand 3", "Zustand 3", "addSignal")
+            .addSignal("Zustand 3", "build", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
+            .build(StatechartAccessor.class);
+
+        assertEquals(3, statechart.states().count());
+
+        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+        generator.generate("target/generated-test-sources/test-annotations/");
     }
 
 }

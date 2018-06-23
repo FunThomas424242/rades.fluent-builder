@@ -116,12 +116,26 @@ public class AbstractFluentBuilderGenerator {
             final TypeSpec.Builder stateInterface = computeInterfaceTypeSpec(state);
             state.transitions().map(transition -> new TransitionAccessor(transition)).forEach(transition -> {
                 final String methodName = transition.getTransitionName();
-                final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
-                final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
-                final MethodSpec method = MethodSpec.methodBuilder(methodName)
-                    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                    .returns(returnTyp)
-                    .build();
+                final State targetState = transition.getTargetState();
+                final MethodSpec method;
+                if(targetState==null){
+                    // Transition mit individuellen Return Type
+                    final String returnType = transition.getReturnType();
+                    final ClassName returnTyp = ClassName.get(packageName, returnType);
+                    method = MethodSpec.methodBuilder(methodName)
+                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                        .returns(returnTyp)
+                        .build();
+                }else{
+                    // Transition mit Target State
+                    final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
+                    final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
+                    method = MethodSpec.methodBuilder(methodName)
+                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                        .returns(returnTyp)
+                        .build();
+                }
+
                 stateInterface.addMethod(method);
             });
             interfaceDefinitions.add(stateInterface.build());

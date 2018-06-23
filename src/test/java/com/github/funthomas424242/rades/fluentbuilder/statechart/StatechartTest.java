@@ -78,6 +78,7 @@ class StatechartTest {
             .addTransition("Zustand2", "Zustand3", "withStartState")
 
             .addTransition("Zustand3", "Zustand3", "addTransitionTo")
+            .addTransitionWithReturnValue("Zustand3", "addTransition", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
 //            .addTransition("Zustand3", "Not Empty", "dequeue")
 //            .addTransition("Not Empty", "Empty", "dequeue")
 

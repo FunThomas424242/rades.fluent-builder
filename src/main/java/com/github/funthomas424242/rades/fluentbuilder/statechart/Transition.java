@@ -23,8 +23,10 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
+import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,20 @@ import java.util.List;
 @RadesAddAccessor
 public class Transition {
 
+    @NotNull
     protected State startState;
-    protected State targetState;
-
+    @NotNull
     protected String transitionName;
+    @NotNull
+    //@RadesNoBuilder
+    @RadesNoAccessor
     protected List<ParameterSignatur> parameters = new ArrayList<ParameterSignatur>();
+
+    // Entweder mit
+    protected State targetState;
+    // oder mit
+    protected String returnType;
+
 
     public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignatur parameterSignatur) {
         final List<ParameterSignatur> parameterSignaturs = new ArrayList<>();

@@ -40,6 +40,7 @@ public abstract class AbstractStatechartFluentBuilder {
     public interface Zustand3 {
 
         Zustand3 addTransition(final String srcStateName, final String targetStateName, final String parameterSignatur);
+        Zustand3 addTransitionWithReturnValue(final String srcStateName, final String parameterSignatur, final String returnType);
 
         <A> A build(Class<A> accessorClass);
 

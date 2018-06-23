@@ -26,7 +26,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.generate.AbstractStatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
 
 //@RadesAddFluentBuilder
 public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {

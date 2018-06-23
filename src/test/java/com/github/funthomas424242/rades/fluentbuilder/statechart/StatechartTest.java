@@ -23,6 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.AbstractFluentBuilderGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -60,7 +61,7 @@ class StatechartTest {
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
 
 //        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
-//        generator.generate("target/generated-test-sources/test-annotations/");
+//        generator.generated("target/generated-test-sources/test-annotations/");
     }
 
     @Test

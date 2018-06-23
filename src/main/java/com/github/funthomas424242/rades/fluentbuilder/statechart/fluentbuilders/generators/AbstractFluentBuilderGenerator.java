@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
 
 /*-
  * #%L
@@ -22,6 +22,10 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -127,7 +131,7 @@ public class AbstractFluentBuilderGenerator {
                         .build();
                 } else {
                     // Transition mit Target State
-                    final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
+                    final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
                     final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
                     method = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)

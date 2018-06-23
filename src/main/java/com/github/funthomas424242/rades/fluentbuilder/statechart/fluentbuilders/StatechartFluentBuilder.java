@@ -81,7 +81,7 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand3 addTransitionWithReturnValue(final String srcStateName, final String transitionName, final String returnType) {
+    public Zustand3 addSignal(final String srcStateName, final String transitionName, final String returnType) {
         this.statechart.getState(srcStateName).addTransition(transitionName,returnType);
         return this;
     }

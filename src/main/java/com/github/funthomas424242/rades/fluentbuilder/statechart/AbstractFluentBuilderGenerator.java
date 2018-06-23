@@ -101,14 +101,6 @@ public class AbstractFluentBuilderGenerator {
         final String packageName = computePackageName();
         final String className = computeClassName();
 
-
-        MethodSpec main = MethodSpec.methodBuilder("main")
-            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-            .returns(void.class)
-            .addParameter(String[].class, "args")
-            .addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!")
-            .build();
-
         final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
 
         this.statechart.states().map(state -> new StateAccessor(state)).forEach(state -> {
@@ -118,7 +110,7 @@ public class AbstractFluentBuilderGenerator {
                 final String methodName = transition.getTransitionName();
                 final State targetState = transition.getTargetState();
                 final MethodSpec method;
-                if(targetState==null){
+                if (targetState == null) {
                     // Transition mit individuellen Return Type
                     final String returnType = transition.getReturnType();
                     final ClassName returnTyp = ClassName.get(packageName, returnType);
@@ -126,7 +118,7 @@ public class AbstractFluentBuilderGenerator {
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp)
                         .build();
-                }else{
+                } else {
                     // Transition mit Target State
                     final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
                     final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
@@ -143,8 +135,7 @@ public class AbstractFluentBuilderGenerator {
 
 
         final TypeSpec.Builder abstractClassBuilder = TypeSpec.classBuilder(className)
-            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-            .addMethod(main);
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
         interfaceDefinitions.forEach(typeSpec -> abstractClassBuilder.addType(typeSpec));
         final TypeSpec abstractClass = abstractClassBuilder.build();
 

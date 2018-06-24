@@ -68,6 +68,10 @@ class StatechartTest {
 
     @Test
     public void createStatechartStatechart() throws IOException {
+        final ParameterSignaturList transitionVarargTypes = new ParameterSignaturListBuilder().build();
+        transitionVarargTypes.addTypes(String.class, String.class, String.class);
+        transitionVarargTypes.addParameterSignatur(new ParameterSignaturVarargBuilder().withParameterName("typ").withVarargTyp(Class[].class).build());
+
         final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
@@ -80,8 +84,11 @@ class StatechartTest {
             .addTransition("Zustand 2", "Zustand 2", "addState",String.class)
             .addTransition("Zustand 2", "Zustand 3", "withStartState",String.class)
 
-            .addTransition("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, String.class)
-//            .addTransitionVarag("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, String.class,Class.class)
+            .addTransition("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, ParameterSignaturList.class)
+
+            // Varargs
+            .addTransition("Zustand 3", "Zustand 3", "addTransition",transitionVarargTypes)
+
             .addTransition("Zustand 3", "Zustand 3", "addEmission",String.class, String.class, String.class)
             .addEmission("Zustand 3", "build", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
             .build(StatechartAccessor.class);

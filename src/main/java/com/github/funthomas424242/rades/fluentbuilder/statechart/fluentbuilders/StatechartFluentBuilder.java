@@ -85,8 +85,9 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
 
     @Override
     public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignaturList parameterList) {
-        // TODO
-        return null;
+        this.statechart.getState(srcStateName)
+            .addTransitionTo(statechart.getState(targetStateName), transitionName, parameterList);
+        return this;
     }
 
     @Override

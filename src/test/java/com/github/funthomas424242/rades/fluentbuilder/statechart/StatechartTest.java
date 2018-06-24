@@ -79,8 +79,8 @@ class StatechartTest {
             .addTransition("Zustand 2", "Zustand 3", "withStartState")
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition")
-            .addTransition("Zustand 3", "Zustand 3", "addSignal")
-            .addSignal("Zustand 3", "build", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
+            .addTransition("Zustand 3", "Zustand 3", "addEmission")
+            .addEmission("Zustand 3", "build", "com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart")
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

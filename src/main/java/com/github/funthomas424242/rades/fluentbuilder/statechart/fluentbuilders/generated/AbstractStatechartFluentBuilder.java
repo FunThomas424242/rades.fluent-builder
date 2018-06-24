@@ -43,7 +43,7 @@ public abstract class AbstractStatechartFluentBuilder {
 
         Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final Class... parameterList);
 
-        Zustand3 addSignal(final String srcStateName, final String transitionName, final String returnType);
+        Zustand3 addEmission(final String srcStateName, final String emissionName, final String returnType);
 
         <A> A build(Class<A> accessorClass);
 

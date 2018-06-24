@@ -140,7 +140,7 @@ public class AbstractFluentBuilderGenerator {
                         .returns(returnTyp);
                     final Counter count = new Counter();
                     new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
-                        clazz -> methodBuilder.addParameter(clazz, "p" + count.value++, Modifier.FINAL)
+                        signatur -> methodBuilder.addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL)
                     );
                     method = methodBuilder.build();
                 }

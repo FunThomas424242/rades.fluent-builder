@@ -41,7 +41,7 @@ public class Transition {
     // Entweder mit
     protected State targetState;
     // oder mit
-    protected String returnType;
+    protected Class returnType;
 
 
     public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignaturList parameterSignatur) {

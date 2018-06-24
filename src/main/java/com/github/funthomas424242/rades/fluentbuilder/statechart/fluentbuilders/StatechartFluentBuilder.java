@@ -91,7 +91,7 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand3 addEmission(final String srcStateName, final String emissionName, final String returnType) {
+    public Zustand3 addEmission(final String srcStateName, final String emissionName, final Class returnType) {
         this.statechart.getState(srcStateName).addTransition(emissionName, returnType);
         return this;
     }

@@ -68,7 +68,7 @@ public class State {
         return this;
     }
 
-    public State addTransition(final String transitionName, final String returnType) {
+    public State addTransition(final String transitionName, final Class returnType) {
         final Transition transition = new TransitionBuilder()
             .withStartState(this)
             .withTargetState(null)

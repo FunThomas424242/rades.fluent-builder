@@ -22,6 +22,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignaturAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
@@ -60,7 +62,7 @@ public class AbstractFluentBuilderGenerator {
         return computeClassName(statechart.getId());
     }
 
-    public String computePackageName( final String fullQualifiedClassName){
+    public String computePackageName(final String fullQualifiedClassName) {
         final int lastDot = fullQualifiedClassName.lastIndexOf('.');
         return fullQualifiedClassName.substring(0, lastDot);
     }
@@ -122,7 +124,7 @@ public class AbstractFluentBuilderGenerator {
                 final State targetState = transition.getTargetState();
                 final MethodSpec method;
                 if (targetState == null) {
-                    // Transition mit individuellen Return Type
+                    // Emission
                     final String returnType = transition.getReturnType();
                     final ClassName returnTyp = ClassName.get(computePackageName(returnType), computeClassName(returnType));
                     method = MethodSpec.methodBuilder(methodName)
@@ -130,13 +132,17 @@ public class AbstractFluentBuilderGenerator {
                         .returns(returnTyp)
                         .build();
                 } else {
-                    // Transition mit Target State
+                    // Transition
                     final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
                     final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
-                    method = MethodSpec.methodBuilder(methodName)
+                    final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(returnTyp)
-                        .build();
+                        .returns(returnTyp);
+                    final Counter count = new Counter();
+                    new ParameterSignaturAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+                        clazz -> methodBuilder.addParameter(clazz, "p" + count.value++, Modifier.FINAL)
+                    );
+                    method = methodBuilder.build();
                 }
 
                 stateInterface.addMethod(method);

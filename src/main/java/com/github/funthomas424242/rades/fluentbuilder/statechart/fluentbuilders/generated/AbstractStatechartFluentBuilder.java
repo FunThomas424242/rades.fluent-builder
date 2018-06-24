@@ -39,8 +39,6 @@ public abstract class AbstractStatechartFluentBuilder {
 
     public interface Zustand3 {
 
-        Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName);
-
         Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final Class... parameterList);
 
         Zustand3 addEmission(final String srcStateName, final String emissionName, final String returnType);

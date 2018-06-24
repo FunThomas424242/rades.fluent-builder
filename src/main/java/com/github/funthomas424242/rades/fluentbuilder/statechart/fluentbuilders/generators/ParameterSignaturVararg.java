@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
 
 /*-
  * #%L
@@ -23,16 +23,35 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
+import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+
+import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignatur {
+public class ParameterSignaturVararg implements ParameterSignatur {
 
-    protected String signatur;
+    @RadesNoAccessor
+    protected String parameterName;
 
-    public static ParameterSignatur of(final String signatur) {
-        return new ParameterSignaturBuilder().withSignatur(signatur).build();
+    @RadesNoAccessor
+    @NotNull
+    protected Class varargTyp;
+
+
+    @Override
+    public String getParameterName() {
+        return parameterName;
     }
 
+    @Override
+    public Class getParameterTyp() {
+        return varargTyp;
+    }
+
+    @Override
+    public boolean isVarargTyp() {
+        return true;
+    }
 }

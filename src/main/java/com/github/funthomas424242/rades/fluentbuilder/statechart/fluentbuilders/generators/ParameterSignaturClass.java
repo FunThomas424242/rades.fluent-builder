@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
 
 /*-
  * #%L
@@ -22,9 +22,28 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-public class CreationException extends RuntimeException {
+import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
+import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 
-    public CreationException(final Throwable throwable) {
-        super(throwable);
+@RadesAddBuilder
+@RadesAddAccessor
+public class ParameterSignaturClass implements ParameterSignatur {
+
+    protected Class typ;
+
+
+    @Override
+    public String getParameterName() {
+        return null;
+    }
+
+    @Override
+    public Class getParameterTyp() {
+        return typ;
+    }
+
+    @Override
+    public boolean isVarargTyp() {
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
 
 /*-
  * #%L
@@ -22,6 +22,11 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -56,7 +61,7 @@ public class AbstractFluentBuilderGenerator {
         return computeClassName(statechart.getId());
     }
 
-    public String computePackageName( final String fullQualifiedClassName){
+    public String computePackageName(final String fullQualifiedClassName) {
         final int lastDot = fullQualifiedClassName.lastIndexOf('.');
         return fullQualifiedClassName.substring(0, lastDot);
     }
@@ -118,21 +123,31 @@ public class AbstractFluentBuilderGenerator {
                 final State targetState = transition.getTargetState();
                 final MethodSpec method;
                 if (targetState == null) {
-                    // Transition mit individuellen Return Type
-                    final String returnType = transition.getReturnType();
-                    final ClassName returnTyp = ClassName.get(computePackageName(returnType), computeClassName(returnType));
+                    // Emission
+                    final Class returnTyp = transition.getReturnType();
                     method = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp)
                         .build();
                 } else {
-                    // Transition mit Target State
-                    final String targetStateName = convertStringToClassifier(transition.getTargetState().stateName);
+                    // Transition
+                    final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
                     final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
-                    method = MethodSpec.methodBuilder(methodName)
+                    final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(returnTyp)
-                        .build();
+                        .returns(returnTyp);
+                    final Counter count = new Counter();
+                    new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+                        signatur -> {
+                            if (signatur.isVarargTyp()) {
+                                methodBuilder.varargs()
+                                    .addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
+                            } else {
+                                methodBuilder.addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
+                            }
+                        }
+                    );
+                    method = methodBuilder.build();
                 }
 
                 stateInterface.addMethod(method);

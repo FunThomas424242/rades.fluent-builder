@@ -27,8 +27,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -81,15 +79,15 @@ class StatechartTest {
             .withStartState("Zustand 1")
             .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", String.class)
 
-            .addTransition("Zustand 2", "Zustand 2", "addState",String.class)
-            .addTransition("Zustand 2", "Zustand 3", "withStartState",String.class)
+            .addTransition("Zustand 2", "Zustand 2", "addState", String.class)
+            .addTransition("Zustand 2", "Zustand 3", "withStartState", String.class)
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, ParameterSignaturList.class)
 
             // Varargs
-            .addTransition("Zustand 3", "Zustand 3", "addTransition",transitionVarargTypes)
+            .addTransition("Zustand 3", "Zustand 3", "addTransition", transitionVarargTypes)
 
-            .addTransition("Zustand 3", "Zustand 3", "addEmission",String.class, String.class, String.class)
+            .addTransition("Zustand 3", "Zustand 3", "addEmission", String.class, String.class, String.class)
             .addEmission("Zustand 3", "build", Statechart.class)
             .build(StatechartAccessor.class);
 

@@ -26,6 +26,8 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 
+import javax.validation.constraints.NotNull;
+
 @RadesAddBuilder
 @RadesAddAccessor
 public class ParameterSignaturVararg implements ParameterSignatur {
@@ -34,6 +36,7 @@ public class ParameterSignaturVararg implements ParameterSignatur {
     protected String parameterName;
 
     @RadesNoAccessor
+    @NotNull
     protected Class varargTyp;
 
 

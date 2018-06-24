@@ -28,9 +28,7 @@ import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -58,20 +56,24 @@ public class State {
 
     public State addTransitionTo(final State targetState, final String transitionName) {
         // TODO Signatur
-        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignatur.of("()"));
+        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignatur.of());
         this.transitions.add(transition);
         return this;
     }
 
-    public State addTransition( final String transitionName, final String returnType) {
+    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignatur parameterList) {
         // TODO Signatur
-        final List<ParameterSignatur> parameterSignaturs = new ArrayList<>();
-        parameterSignaturs.add(ParameterSignatur.of("()"));
+        final Transition transition = Transition.of(this, targetState, transitionName, parameterList);
+        this.transitions.add(transition);
+        return this;
+    }
+
+    public State addTransition(final String transitionName, final String returnType) {
         final Transition transition = new TransitionBuilder()
             .withStartState(this)
             .withTargetState(null)
             .withTransitionName(transitionName)
-            .withParameters(parameterSignaturs)
+            .withParameterSignatur(ParameterSignatur.of())
             .withReturnType(returnType)
             .build();
         this.transitions.add(transition);

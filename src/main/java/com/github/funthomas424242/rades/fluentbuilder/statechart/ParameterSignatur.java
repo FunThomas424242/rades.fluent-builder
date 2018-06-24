@@ -24,15 +24,30 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RadesAddBuilder
 @RadesAddAccessor
 public class ParameterSignatur {
 
-    protected String signatur;
+    @NotNull
+    @RadesNoBuilder
+    protected List<Class> parameterList = new ArrayList<>();
 
-    public static ParameterSignatur of(final String signatur) {
-        return new ParameterSignaturBuilder().withSignatur(signatur).build();
+
+    public void addParameterTyp(Class clazz) {
+        this.parameterList.add(clazz);
+    }
+
+    public static ParameterSignatur of(final Class... parameterTyp) {
+        final ParameterSignaturAccessor parameterSignaturAccessor = new ParameterSignaturBuilder().build(ParameterSignaturAccessor.class);
+        Arrays.stream(parameterTyp).forEach(typ -> parameterSignaturAccessor.addParameterTyp(typ));
+        return parameterSignaturAccessor.toParameterSignatur();
     }
 
 }

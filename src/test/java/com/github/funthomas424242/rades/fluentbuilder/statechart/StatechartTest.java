@@ -75,7 +75,7 @@ class StatechartTest {
             .withStartState("Zustand 1")
             .addTransition("Zustand 1", "Zustand 2", "withQualifiedName")
 
-            .addTransition("Zustand 2", "Zustand 2", "addState")
+            .addTransition("Zustand 2", "Zustand 2", "addState",String.class)
             .addTransition("Zustand 2", "Zustand 3", "withStartState")
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition")

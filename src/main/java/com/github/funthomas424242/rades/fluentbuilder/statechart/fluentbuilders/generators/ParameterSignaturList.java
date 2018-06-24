@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
 
 /*-
  * #%L
@@ -23,7 +23,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
-import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
@@ -45,7 +44,7 @@ public class ParameterSignaturList {
         this.parameterList.add(parameterSignatur);
     }
 
-    public void addTypes(final Class... parameterTyp){
+    public void addTypes(final Class... parameterTyp) {
         Arrays.stream(parameterTyp)
             .map(clazz -> new ParameterSignaturClassBuilder().withTyp(clazz).build())
             .forEach(signatur -> parameterList.add(signatur));

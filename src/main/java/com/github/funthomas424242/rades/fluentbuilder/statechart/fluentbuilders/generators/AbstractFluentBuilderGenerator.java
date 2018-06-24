@@ -23,7 +23,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignaturListAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
@@ -140,10 +139,10 @@ public class AbstractFluentBuilderGenerator {
                     final Counter count = new Counter();
                     new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
                         signatur -> {
-                            if(signatur.isVarargTyp()) {
+                            if (signatur.isVarargTyp()) {
                                 methodBuilder.varargs()
-                                .addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
-                            }else{
+                                    .addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
+                            } else {
                                 methodBuilder.addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
                             }
                         }

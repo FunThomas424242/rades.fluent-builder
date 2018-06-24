@@ -23,7 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignaturAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignaturListAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
@@ -139,7 +139,7 @@ public class AbstractFluentBuilderGenerator {
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp);
                     final Counter count = new Counter();
-                    new ParameterSignaturAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+                    new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
                         clazz -> methodBuilder.addParameter(clazz, "p" + count.value++, Modifier.FINAL)
                     );
                     method = methodBuilder.build();

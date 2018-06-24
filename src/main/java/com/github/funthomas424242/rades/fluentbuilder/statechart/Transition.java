@@ -23,13 +23,9 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
-import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
-import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @RadesAddBuilder
 @RadesAddAccessor
@@ -40,7 +36,7 @@ public class Transition {
     @NotNull
     protected String transitionName;
     @NotNull
-    protected ParameterSignatur parameterSignatur;
+    protected ParameterSignaturList parameterSignatur;
 
     // Entweder mit
     protected State targetState;
@@ -48,7 +44,7 @@ public class Transition {
     protected String returnType;
 
 
-    public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignatur parameterSignatur) {
+    public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignaturList parameterSignatur) {
         return new TransitionBuilder().withStartState(startState)
             .withTargetState(targetState)
             .withTransitionName(transitionName)
@@ -56,7 +52,7 @@ public class Transition {
     }
 
     public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final Class ...parameterTyp) {
-        return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignatur.of(parameterTyp));
+        return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignaturList.of(parameterTyp));
     }
 
 }

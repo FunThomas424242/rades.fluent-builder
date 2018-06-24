@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.ParameterSignaturList;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
@@ -75,19 +75,18 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         return this;
     }
 
-//    @Override
-//    public Zustand3 addTransition
-//        (final String srcStateName, final String targetStateName, final String transitionName) {
-//        this.statechart.getState(srcStateName).addTransitionTo(statechart.getState(targetStateName), transitionName);
-//        return this;
-//    }
-
     @Override
     public Zustand3 addTransition
         (final String srcStateName, final String targetStateName, final String transitionName, final Class... parameterTyp) {
         this.statechart.getState(srcStateName)
-            .addTransitionTo(statechart.getState(targetStateName), transitionName, ParameterSignatur.of(parameterTyp));
+            .addTransitionTo(statechart.getState(targetStateName), transitionName, ParameterSignaturList.of(parameterTyp));
         return this;
+    }
+
+    @Override
+    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignaturList parameterList) {
+        // TODO
+        return null;
     }
 
     @Override

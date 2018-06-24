@@ -33,7 +33,7 @@ import java.util.List;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignatur {
+public class ParameterSignaturList {
 
     @NotNull
     @RadesNoBuilder
@@ -44,10 +44,10 @@ public class ParameterSignatur {
         this.parameterList.add(clazz);
     }
 
-    public static ParameterSignatur of(final Class... parameterTyp) {
-        final ParameterSignaturAccessor parameterSignaturAccessor = new ParameterSignaturBuilder().build(ParameterSignaturAccessor.class);
+    public static ParameterSignaturList of(final Class... parameterTyp) {
+        final ParameterSignaturListAccessor parameterSignaturAccessor = new ParameterSignaturListBuilder().build(ParameterSignaturListAccessor.class);
         Arrays.stream(parameterTyp).forEach(typ -> parameterSignaturAccessor.addParameterTyp(typ));
-        return parameterSignaturAccessor.toParameterSignatur();
+        return parameterSignaturAccessor.toParameterSignaturList();
     }
 
 }

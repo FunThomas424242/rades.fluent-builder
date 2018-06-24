@@ -56,12 +56,12 @@ public class State {
 
     public State addTransitionTo(final State targetState, final String transitionName) {
         // TODO Signatur
-        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignatur.of());
+        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignaturList.of());
         this.transitions.add(transition);
         return this;
     }
 
-    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignatur parameterList) {
+    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignaturList parameterList) {
         // TODO Signatur
         final Transition transition = Transition.of(this, targetState, transitionName, parameterList);
         this.transitions.add(transition);
@@ -73,7 +73,7 @@ public class State {
             .withStartState(this)
             .withTargetState(null)
             .withTransitionName(transitionName)
-            .withParameterSignatur(ParameterSignatur.of())
+            .withParameterSignatur(ParameterSignaturList.of())
             .withReturnType(returnType)
             .build();
         this.transitions.add(transition);

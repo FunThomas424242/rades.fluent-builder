@@ -48,10 +48,10 @@ class StatechartTest {
             .addState("Not Empty")
             .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue")
-            .addEmission("Empty", "isEmpty", boolean.class)
+            .addEmission("Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
 
             .addTransition("Not Empty", "Not Empty", "enqueue")
-            .addEmission("Not Empty", "isEmpty", boolean.class)
+            .addEmission("Not Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
             .addTransition("Not Empty", "Not Empty", "dequeue")
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
@@ -89,7 +89,7 @@ class StatechartTest {
 
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturClass.of(String.class), ParameterSignaturClass.of("emissionName", String.class), ParameterSignaturClass.of(Class.class))
-            .addEmission("Zustand 3", "build", Statechart.class)
+            .addEmission("Zustand 3", "build", ParameterSignaturClass.of(Statechart.class))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

@@ -124,7 +124,7 @@ public class AbstractFluentBuilderGenerator {
                 final MethodSpec method;
                 if (targetState == null) {
                     // Emission
-                    final Class returnTyp = transition.getReturnType();
+                    final Class returnTyp = transition.getReturnType().getParameterTyp();
                     final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp);

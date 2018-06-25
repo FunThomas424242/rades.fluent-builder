@@ -48,10 +48,10 @@ class StatechartTest {
             .addState("Not Empty")
             .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue")
-            .addTransition("Empty", "Empty", "isEmpty")
+            .addEmission("Empty", "isEmpty", boolean.class)
 
             .addTransition("Not Empty", "Not Empty", "enqueue")
-            .addTransition("Not Empty", "Not Empty", "isEmpty")
+            .addEmission("Not Empty", "isEmpty", boolean.class)
             .addTransition("Not Empty", "Not Empty", "dequeue")
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported

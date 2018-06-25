@@ -124,11 +124,12 @@ public class AbstractFluentBuilderGenerator {
                 final MethodSpec method;
                 if (targetState == null) {
                     // Emission
-                    final Class returnTyp = transition.getReturnType();
-                    method = MethodSpec.methodBuilder(methodName)
+                    final Class returnTyp = transition.getReturnType().getParameterTyp();
+                    final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(returnTyp)
-                        .build();
+                        .returns(returnTyp);
+                    addParameters(transition, methodBuilder);
+                    method = methodBuilder.build();
                 } else {
                     // Transition
                     final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
@@ -136,17 +137,8 @@ public class AbstractFluentBuilderGenerator {
                     final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp);
-                    final Counter count = new Counter();
-                    new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
-                        signatur -> {
-                            if (signatur.isVarargTyp()) {
-                                methodBuilder.varargs()
-                                    .addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
-                            } else {
-                                methodBuilder.addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
-                            }
-                        }
-                    );
+
+                    addParameters(transition, methodBuilder);
                     method = methodBuilder.build();
                 }
 
@@ -154,7 +146,6 @@ public class AbstractFluentBuilderGenerator {
             });
             interfaceDefinitions.add(stateInterface.build());
         });
-
 
         final TypeSpec.Builder abstractClassBuilder = TypeSpec.classBuilder(className)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
@@ -168,6 +159,26 @@ public class AbstractFluentBuilderGenerator {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
+        final Counter count = new Counter();
+        new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+            signatur -> {
+                if (signatur.isVarargTyp()) {
+                    methodBuilder.varargs();
+                }
+                methodBuilder.addParameter(signatur.getParameterTyp(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
+            }
+        );
+    }
+
+    protected String computeParameterName(final String parameterName, final Counter counter) {
+        if (parameterName != null) {
+            return parameterName;
+        } else {
+            return "p" + counter.value++;
         }
     }
 

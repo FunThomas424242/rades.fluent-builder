@@ -24,9 +24,9 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.AbstractFluentBuilderGenerator;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturListBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVarargBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturClass;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVararg;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -41,19 +41,21 @@ class StatechartTest {
 
     @Test
     public void createQueueStatechart() throws IOException {
-        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.QueueStatechart";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.test.QueueStatechart";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
             .addState("Empty")
             .addState("Not Empty")
             .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue")
-            .addTransition("Empty", "Empty", "isEmpty")
+            .addEmission("Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
 
             .addTransition("Not Empty", "Not Empty", "enqueue")
-            .addTransition("Not Empty", "Not Empty", "isEmpty")
+            .addEmission("Not Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
             .addTransition("Not Empty", "Not Empty", "dequeue")
-            .addTransition("Not Empty", "Empty", "dequeue")
+
+            // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
+            //.addTransition("Not Empty", "Empty", "dequeue")
 
             .build(StatechartAccessor.class);
 
@@ -63,15 +65,12 @@ class StatechartTest {
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
 
-//        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
-//        generator.generated("target/generated-test-sources/test-annotations/");
+        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+        generator.generate("target/generated-test-sources/test-annotations/");
     }
 
     @Test
     public void createStatechartStatechart() throws IOException {
-        final ParameterSignaturList transitionVarargTypes = new ParameterSignaturListBuilder().build();
-        transitionVarargTypes.addTypes(String.class, String.class, String.class);
-        transitionVarargTypes.addParameterSignatur(new ParameterSignaturVarargBuilder().withParameterName("typ").withVarargTyp(Class[].class).build());
 
         final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
@@ -80,18 +79,17 @@ class StatechartTest {
             .addState("Zustand 2")
             .addState("Zustand 3")
             .withStartState("Zustand 1")
-            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", String.class)
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", ParameterSignaturClass.of(String.class))
 
-            .addTransition("Zustand 2", "Zustand 2", "addState", String.class)
-            .addTransition("Zustand 2", "Zustand 3", "withStartState", String.class)
+            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturClass.of(String.class))
+            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturClass.of(String.class))
 
-            .addTransition("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, ParameterSignaturList.class)
+            .addTransition("Zustand 3", "Zustand 3", "addTransition",
+                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
 
-            // Varargs
-            .addTransition("Zustand 3", "Zustand 3", "addTransition", transitionVarargTypes)
-
-            .addTransition("Zustand 3", "Zustand 3", "addEmission", String.class, String.class, String.class)
-            .addEmission("Zustand 3", "build", Statechart.class)
+            .addTransition("Zustand 3", "Zustand 3", "addEmission",
+                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of("emissionName", String.class), ParameterSignaturClass.of(Class.class))
+            .addEmission("Zustand 3", "build", ParameterSignaturClass.of(Statechart.class))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

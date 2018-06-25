@@ -22,12 +22,12 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 
 //@RadesAddFluentBuilder
 public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {
@@ -76,22 +76,14 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
     }
 
     @Override
-    public Zustand3 addTransition
-        (final String srcStateName, final String targetStateName, final String transitionName, final Class... parameterTyp) {
+    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs) {
         this.statechart.getState(srcStateName)
-            .addTransitionTo(statechart.getState(targetStateName), transitionName, ParameterSignaturList.of(parameterTyp));
+            .addTransitionTo(statechart.getState(targetStateName), transitionName, parameterSignaturs);
         return this;
     }
 
     @Override
-    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignaturList parameterList) {
-        this.statechart.getState(srcStateName)
-            .addTransitionTo(statechart.getState(targetStateName), transitionName, parameterList);
-        return this;
-    }
-
-    @Override
-    public Zustand3 addEmission(final String srcStateName, final String emissionName, final Class returnType) {
+    public Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType) {
         this.statechart.getState(srcStateName).addTransition(emissionName, returnType);
         return this;
     }

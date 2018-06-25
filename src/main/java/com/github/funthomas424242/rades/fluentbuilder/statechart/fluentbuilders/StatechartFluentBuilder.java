@@ -76,26 +76,12 @@ public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder imp
         return this;
     }
 
-//    @Override
-//    public Zustand3 addTransition
-//        (final String srcStateName, final String targetStateName, final String transitionName, final Class... parameterTyp) {
-//        this.statechart.getState(srcStateName)
-//            .addTransitionTo(statechart.getState(targetStateName), transitionName, ParameterSignaturList.of(parameterTyp));
-//        return this;
-//    }
-
     @Override
     public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs) {
         this.statechart.getState(srcStateName)
             .addTransitionTo(statechart.getState(targetStateName), transitionName, parameterSignaturs);
         return this;
     }
-//    @Override
-//    public Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignaturList parameterList) {
-//        this.statechart.getState(srcStateName)
-//            .addTransitionTo(statechart.getState(targetStateName), transitionName, parameterList);
-//        return this;
-//    }
 
     @Override
     public Zustand3 addEmission(final String srcStateName, final String emissionName, final Class returnType) {

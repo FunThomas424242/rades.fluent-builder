@@ -53,7 +53,7 @@ public class ParameterSignaturClass implements ParameterSignatur {
 
     @Override
     public String getParameterName() {
-        return null;
+        return parameterName;
     }
 
     @Override

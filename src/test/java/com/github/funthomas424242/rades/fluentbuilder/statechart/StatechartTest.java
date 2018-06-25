@@ -72,9 +72,6 @@ class StatechartTest {
 
     @Test
     public void createStatechartStatechart() throws IOException {
-        final ParameterSignaturList transitionVarargTypes = new ParameterSignaturListBuilder().build();
-        transitionVarargTypes.addTypes(String.class, String.class, String.class);
-        transitionVarargTypes.addParameterSignatur(new ParameterSignaturVarargBuilder().withParameterName("typ").withVarargTyp(Class[].class).build());
 
         final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()

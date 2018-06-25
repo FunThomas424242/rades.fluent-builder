@@ -44,7 +44,7 @@ class StatechartTest {
 
     @Test
     public void createQueueStatechart() throws IOException {
-        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.QueueStatechart";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.test.QueueStatechart";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
             .addState("Empty")
@@ -56,7 +56,9 @@ class StatechartTest {
             .addTransition("Not Empty", "Not Empty", "enqueue")
             .addTransition("Not Empty", "Not Empty", "isEmpty")
             .addTransition("Not Empty", "Not Empty", "dequeue")
-            .addTransition("Not Empty", "Empty", "dequeue")
+
+            // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
+            //.addTransition("Not Empty", "Empty", "dequeue")
 
             .build(StatechartAccessor.class);
 
@@ -66,8 +68,8 @@ class StatechartTest {
         assertNotSame(statechart.getState("Not Empty"), State.of("Not Empty"));
         assertNotEquals(statechart.getState("Not Empty"), statechart.getState("Empty"));
 
-//        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
-//        generator.generated("target/generated-test-sources/test-annotations/");
+        final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
+        generator.generate("target/generated-test-sources/test-annotations/");
     }
 
     @Test

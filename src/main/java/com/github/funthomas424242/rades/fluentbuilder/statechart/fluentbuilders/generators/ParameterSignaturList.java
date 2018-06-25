@@ -51,7 +51,7 @@ public class ParameterSignaturList {
     }
 
     public static ParameterSignaturList of() {
-       return new ParameterSignaturListBuilder().build();
+        return new ParameterSignaturListBuilder().build();
     }
 
     public static ParameterSignaturList of(final ParameterSignatur... parameterSignaturs) {

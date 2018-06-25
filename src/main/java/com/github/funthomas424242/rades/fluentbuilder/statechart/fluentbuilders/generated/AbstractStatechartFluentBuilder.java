@@ -24,7 +24,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
 
 public abstract class AbstractStatechartFluentBuilder {
 

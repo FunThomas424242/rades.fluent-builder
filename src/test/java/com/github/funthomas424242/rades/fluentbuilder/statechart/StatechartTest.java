@@ -24,8 +24,11 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.AbstractFluentBuilderGenerator;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturClass;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturListBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVararg;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVarargBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -80,17 +83,16 @@ class StatechartTest {
             .addState("Zustand 2")
             .addState("Zustand 3")
             .withStartState("Zustand 1")
-            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", String.class)
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", ParameterSignaturClass.of(String.class))
 
-            .addTransition("Zustand 2", "Zustand 2", "addState", String.class)
-            .addTransition("Zustand 2", "Zustand 3", "withStartState", String.class)
+            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturClass.of(String.class))
+            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturClass.of(String.class))
 
-            .addTransition("Zustand 3", "Zustand 3", "addTransition", String.class, String.class, ParameterSignaturList.class)
+            .addTransition("Zustand 3", "Zustand 3", "addTransition",
+                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturVararg.of(ParameterSignatur[].class))
 
-            // Varargs
-            .addTransition("Zustand 3", "Zustand 3", "addTransition", transitionVarargTypes)
-
-            .addTransition("Zustand 3", "Zustand 3", "addEmission", String.class, String.class, String.class)
+            .addTransition("Zustand 3", "Zustand 3", "addEmission",
+                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(Class.class))
             .addEmission("Zustand 3", "build", Statechart.class)
             .build(StatechartAccessor.class);
 

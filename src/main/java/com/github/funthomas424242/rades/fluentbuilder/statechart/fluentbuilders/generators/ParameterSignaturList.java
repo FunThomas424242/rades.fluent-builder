@@ -50,6 +50,18 @@ public class ParameterSignaturList {
             .forEach(signatur -> parameterList.add(signatur));
     }
 
+    public static ParameterSignaturList of() {
+       return new ParameterSignaturListBuilder().build();
+    }
+
+    public static ParameterSignaturList of(final ParameterSignatur... parameterSignaturs) {
+        final ParameterSignaturListAccessor parameterSignaturListAccessor =
+            new ParameterSignaturListBuilder().build(ParameterSignaturListAccessor.class);
+        Arrays.stream(parameterSignaturs)
+            .forEach(signatur -> parameterSignaturListAccessor.addParameterSignatur(signatur));
+        return parameterSignaturListAccessor.toParameterSignaturList();
+    }
+
     public static ParameterSignaturList of(final Class... parameterTyp) {
         final ParameterSignaturListAccessor parameterSignaturListAccessor =
             new ParameterSignaturListBuilder().build(ParameterSignaturListAccessor.class);

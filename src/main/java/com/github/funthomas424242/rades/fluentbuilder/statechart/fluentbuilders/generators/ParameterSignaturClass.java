@@ -23,14 +23,33 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  */
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
+import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+
+import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
 public class ParameterSignaturClass implements ParameterSignatur {
 
+    @RadesNoAccessor
+    protected String parameterName;
+
+    @RadesNoAccessor
+    @NotNull
     protected Class typ;
 
+
+    public static ParameterSignatur of(final Class parameterTyp) {
+        return of(null, parameterTyp);
+    }
+
+    public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
+        return new ParameterSignaturClassBuilder()
+            .withParameterName(parameterName)
+            .withTyp(parameterTyp)
+            .build();
+    }
 
     @Override
     public String getParameterName() {

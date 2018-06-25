@@ -39,6 +39,17 @@ public class ParameterSignaturVararg implements ParameterSignatur {
     @NotNull
     protected Class varargTyp;
 
+    public static ParameterSignatur of(final Class parameterTyp) {
+        return of(null,parameterTyp);
+    }
+
+    public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
+        return new ParameterSignaturVarargBuilder()
+            .withParameterName(parameterName)
+            .withVarargTyp(parameterTyp)
+            .build();
+    }
+
 
     @Override
     public String getParameterName() {

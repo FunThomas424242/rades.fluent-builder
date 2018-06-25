@@ -26,6 +26,7 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
 
 import javax.validation.constraints.NotNull;
@@ -56,14 +57,18 @@ public class State {
 
 
     public State addTransitionTo(final State targetState, final String transitionName) {
-        // TODO Signatur
         final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignaturList.of());
         this.transitions.add(transition);
         return this;
     }
 
+    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignatur... parameterSignaturs) {
+        final Transition transition = Transition.of(this, targetState, transitionName, parameterSignaturs);
+        this.transitions.add(transition);
+        return this;
+    }
+
     public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignaturList parameterList) {
-        // TODO Signatur
         final Transition transition = Transition.of(this, targetState, transitionName, parameterList);
         this.transitions.add(transition);
         return this;

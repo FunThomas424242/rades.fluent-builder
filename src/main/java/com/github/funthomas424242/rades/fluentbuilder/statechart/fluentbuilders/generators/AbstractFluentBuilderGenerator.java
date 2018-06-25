@@ -141,9 +141,9 @@ public class AbstractFluentBuilderGenerator {
                         signatur -> {
                             if (signatur.isVarargTyp()) {
                                 methodBuilder.varargs()
-                                    .addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
+                                    .addParameter(signatur.getParameterTyp(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
                             } else {
-                                methodBuilder.addParameter(signatur.getParameterTyp(), "p" + count.value++, Modifier.FINAL);
+                                methodBuilder.addParameter(signatur.getParameterTyp(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
                             }
                         }
                     );
@@ -154,7 +154,6 @@ public class AbstractFluentBuilderGenerator {
             });
             interfaceDefinitions.add(stateInterface.build());
         });
-
 
         final TypeSpec.Builder abstractClassBuilder = TypeSpec.classBuilder(className)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
@@ -168,6 +167,14 @@ public class AbstractFluentBuilderGenerator {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected String computeParameterName(final String parameterName, final Counter counter) {
+        if (parameterName != null) {
+            return parameterName;
+        } else {
+            return "p" + counter.value++;
         }
     }
 

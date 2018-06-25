@@ -89,7 +89,7 @@ class StatechartTest {
             .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturClass.of(String.class))
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition",
-                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturVararg.of(ParameterSignatur[].class))
+                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
 
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(Class.class))

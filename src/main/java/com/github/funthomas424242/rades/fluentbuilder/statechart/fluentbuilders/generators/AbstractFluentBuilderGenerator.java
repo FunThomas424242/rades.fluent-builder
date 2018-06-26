@@ -52,13 +52,13 @@ public class AbstractFluentBuilderGenerator {
         this.statechart = statechart;
     }
 
-    public String computeClassName(final String fullQualifiedClassName) {
+    public String computeJavaIdentifier(final String fullQualifiedClassName) {
         final int lastDot = fullQualifiedClassName.lastIndexOf('.');
         return fullQualifiedClassName.substring(lastDot + 1);
     }
 
-    public String computeClassName() {
-        return computeClassName(statechart.getId());
+    public String computeJavaIdentifier() {
+        return computeJavaIdentifier(statechart.getId());
     }
 
     public String computePackageName(final String fullQualifiedClassName) {
@@ -76,7 +76,7 @@ public class AbstractFluentBuilderGenerator {
 
     public PrintWriter createPrintWriter(final String folderPath) {
         final Path filePath = Paths.get(folderPath, this.packageAsPathString(this.computePackageName())
-            , this.computeClassName() + ".java");
+            , this.computeJavaIdentifier() + ".java");
         filePath.getParent().toFile().mkdirs();
         try {
             filePath.toFile().createNewFile();
@@ -111,7 +111,7 @@ public class AbstractFluentBuilderGenerator {
     public void generate(final PrintWriter writer) {
 
         final String packageName = computePackageName();
-        final String className = computeClassName();
+        final String outerInterfaceName = computeJavaIdentifier();
 
         final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
 
@@ -133,7 +133,7 @@ public class AbstractFluentBuilderGenerator {
                 } else {
                     // Transition
                     final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
-                    final ClassName returnTyp = ClassName.get(packageName, className, targetStateName);
+                    final ClassName returnTyp = ClassName.get(packageName, outerInterfaceName, targetStateName);
                     final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
                         .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                         .returns(returnTyp);
@@ -147,12 +147,12 @@ public class AbstractFluentBuilderGenerator {
             interfaceDefinitions.add(stateInterface.build());
         });
 
-        final TypeSpec.Builder abstractClassBuilder = TypeSpec.classBuilder(className)
-            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
-        interfaceDefinitions.forEach(typeSpec -> abstractClassBuilder.addType(typeSpec));
-        final TypeSpec abstractClass = abstractClassBuilder.build();
+        final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
+            .addModifiers(Modifier.PUBLIC);
+        interfaceDefinitions.forEach(typeSpec -> outerInterfaceBuilder.addType(typeSpec));
+        final TypeSpec outerInterface = outerInterfaceBuilder.build();
 
-        JavaFile javaFile = JavaFile.builder(packageName, abstractClass).build();
+        JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
 
         try {
             javaFile.writeTo(writer);
@@ -184,7 +184,7 @@ public class AbstractFluentBuilderGenerator {
 
     protected TypeSpec.Builder computeInterfaceTypeSpec(final StateAccessor state) {
         return TypeSpec.interfaceBuilder(convertStringToClassifier(state.getStateName()))
-            .addModifiers(Modifier.PUBLIC);
+            .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
     }
 
 

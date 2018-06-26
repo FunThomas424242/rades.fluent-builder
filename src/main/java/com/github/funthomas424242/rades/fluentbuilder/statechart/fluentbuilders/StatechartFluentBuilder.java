@@ -27,10 +27,13 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand1;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand2;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand3;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 
 //@RadesAddFluentBuilder
-public class StatechartFluentBuilder extends AbstractStatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {
+public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {
 
 
     protected StatechartAccessor statechart;

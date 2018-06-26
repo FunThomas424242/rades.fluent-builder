@@ -25,20 +25,20 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 
-public abstract class AbstractStatechartFluentBuilder {
+public interface AbstractStatechartFluentBuilder {
 
-    public interface Zustand1 {
+    interface Zustand1 {
         Zustand2 withQualifiedClassName(final String chartId);
     }
 
-    public interface Zustand2 {
+    interface Zustand2 {
         Zustand2 addState(final String stateName);
 
         Zustand3 withStartState(final String startStatename);
     }
 
 
-    public interface Zustand3 {
+    interface Zustand3 {
 
         Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs);
 
@@ -51,7 +51,7 @@ public abstract class AbstractStatechartFluentBuilder {
     }
 
 
-    public interface AllStates extends Zustand1, Zustand2, Zustand3 {
+    interface AllStates extends Zustand1, Zustand2, Zustand3 {
     }
 
 }

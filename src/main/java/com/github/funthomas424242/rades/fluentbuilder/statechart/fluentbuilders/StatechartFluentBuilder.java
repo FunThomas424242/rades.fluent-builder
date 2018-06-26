@@ -91,4 +91,10 @@ public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.
         return this;
     }
 
+    @Override
+    public Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs) {
+        this.statechart.getState(srcStateName).addTransition(emissionName, returnType,parameterSignaturs);
+        return this;
+    }
+
 }

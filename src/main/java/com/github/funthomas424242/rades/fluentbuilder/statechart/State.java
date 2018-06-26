@@ -74,12 +74,12 @@ public class State {
         return this;
     }
 
-    public State addTransition(final String transitionName, final ParameterSignatur returnType) {
+    public State addTransition(final String transitionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs) {
         final Transition transition = new TransitionBuilder()
             .withStartState(this)
             .withTargetState(null)
             .withTransitionName(transitionName)
-            .withParameterSignatur(ParameterSignaturList.of())
+            .withParameterSignatur(ParameterSignaturList.of(parameterSignaturs))
             .withReturnType(returnType)
             .build();
         this.transitions.add(transition);

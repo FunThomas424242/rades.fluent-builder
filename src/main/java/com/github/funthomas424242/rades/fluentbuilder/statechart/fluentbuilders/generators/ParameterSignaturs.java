@@ -33,7 +33,7 @@ import java.util.List;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturList {
+public class ParameterSignaturs {
 
     @NotNull
     @RadesNoBuilder
@@ -50,25 +50,25 @@ public class ParameterSignaturList {
             .forEach(signatur -> parameterList.add(signatur));
     }
 
-    public static ParameterSignaturList of() {
-        return new ParameterSignaturListBuilder().build();
+    public static ParameterSignaturs of() {
+        return new ParameterSignatursBuilder().build();
     }
 
-    public static ParameterSignaturList of(final ParameterSignatur... parameterSignaturs) {
-        final ParameterSignaturListAccessor parameterSignaturListAccessor =
-            new ParameterSignaturListBuilder().build(ParameterSignaturListAccessor.class);
+    public static ParameterSignaturs of(final ParameterSignatur... parameterSignaturs) {
+        final ParameterSignatursAccessor ParameterSignatursAccessor =
+            new ParameterSignatursBuilder().build(ParameterSignatursAccessor.class);
         Arrays.stream(parameterSignaturs)
-            .forEach(signatur -> parameterSignaturListAccessor.addParameterSignatur(signatur));
-        return parameterSignaturListAccessor.toParameterSignaturList();
+            .forEach(signatur -> ParameterSignatursAccessor.addParameterSignatur(signatur));
+        return ParameterSignatursAccessor.toParameterSignaturs();
     }
 
-    public static ParameterSignaturList of(final Class... parameterTyp) {
-        final ParameterSignaturListAccessor parameterSignaturListAccessor =
-            new ParameterSignaturListBuilder().build(ParameterSignaturListAccessor.class);
+    public static ParameterSignaturs of(final Class... parameterTyp) {
+        final ParameterSignatursAccessor ParameterSignatursAccessor =
+            new ParameterSignatursBuilder().build(ParameterSignatursAccessor.class);
         Arrays.stream(parameterTyp)
             .map(clazz -> new ParameterSignaturClassBuilder().withTyp(clazz).build())
-            .forEach(signatur -> parameterSignaturListAccessor.addParameterSignatur(signatur));
-        return parameterSignaturListAccessor.toParameterSignaturList();
+            .forEach(signatur -> ParameterSignatursAccessor.addParameterSignatur(signatur));
+        return ParameterSignatursAccessor.toParameterSignaturs();
     }
 
 }

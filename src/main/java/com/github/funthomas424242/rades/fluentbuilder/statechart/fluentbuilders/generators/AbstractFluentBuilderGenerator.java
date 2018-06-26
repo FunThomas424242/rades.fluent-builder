@@ -178,7 +178,7 @@ public class AbstractFluentBuilderGenerator {
 
     private void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
         final Counter count = new Counter();
-        new ParameterSignaturListAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+        new ParameterSignatursAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
             signatur -> {
                 if (signatur.isVarargTyp()) {
                     methodBuilder.varargs();

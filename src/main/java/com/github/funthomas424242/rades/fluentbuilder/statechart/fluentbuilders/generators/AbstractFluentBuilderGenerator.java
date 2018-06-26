@@ -113,11 +113,29 @@ public class AbstractFluentBuilderGenerator {
         final String packageName = computePackageName();
         final String outerInterfaceName = computeJavaIdentifier();
 
+        final List<TypeSpec> interfaceDefinitions = createStateInterfaces(packageName, outerInterfaceName);
+
+        final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
+            .addModifiers(Modifier.PUBLIC);
+        interfaceDefinitions.forEach(typeSpec -> outerInterfaceBuilder.addType(typeSpec));
+        final TypeSpec outerInterface = outerInterfaceBuilder.build();
+
+        JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
+
+        try {
+            javaFile.writeTo(writer);
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected List<TypeSpec> createStateInterfaces(final String packageName, final String outerInterfaceName) {
         final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
 
         this.statechart.states().map(state -> new StateAccessor(state)).forEach(state -> {
             // add transitions as methods
-            final TypeSpec.Builder stateInterface = computeInterfaceTypeSpec(state);
+            final TypeSpec.Builder stateInterfaceBuilder = computeInterfaceTypeSpec(state.getStateName());
             state.transitions().map(transition -> new TransitionAccessor(transition)).forEach(transition -> {
                 final String methodName = transition.getTransitionName();
                 final State targetState = transition.getTargetState();
@@ -142,24 +160,20 @@ public class AbstractFluentBuilderGenerator {
                     method = methodBuilder.build();
                 }
 
-                stateInterface.addMethod(method);
+                stateInterfaceBuilder.addMethod(method);
             });
-            interfaceDefinitions.add(stateInterface.build());
+            interfaceDefinitions.add(stateInterfaceBuilder.build());
         });
 
-        final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
-            .addModifiers(Modifier.PUBLIC);
-        interfaceDefinitions.forEach(typeSpec -> outerInterfaceBuilder.addType(typeSpec));
-        final TypeSpec outerInterface = outerInterfaceBuilder.build();
+        final TypeSpec.Builder stateInterfaceBuilder = computeInterfaceTypeSpec("All States");
+        interfaceDefinitions.forEach(typeSpec -> {
+            final ClassName superInterface = ClassName.get(packageName, outerInterfaceName, typeSpec.name);
+            stateInterfaceBuilder.addSuperinterface(superInterface);
+        });
+        interfaceDefinitions.add(stateInterfaceBuilder.build());
 
-        JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
 
-        try {
-            javaFile.writeTo(writer);
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return interfaceDefinitions;
     }
 
     private void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
@@ -182,8 +196,8 @@ public class AbstractFluentBuilderGenerator {
         }
     }
 
-    protected TypeSpec.Builder computeInterfaceTypeSpec(final StateAccessor state) {
-        return TypeSpec.interfaceBuilder(convertStringToClassifier(state.getStateName()))
+    protected TypeSpec.Builder computeInterfaceTypeSpec(final String stateName) {
+        return TypeSpec.interfaceBuilder(convertStringToClassifier(stateName))
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
     }
 

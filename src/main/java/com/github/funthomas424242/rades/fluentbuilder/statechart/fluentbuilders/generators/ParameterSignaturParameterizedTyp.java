@@ -25,6 +25,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public class ParameterSignaturParameterizedTyp implements ParameterSignatur {
     @RadesNoAccessor
     @NotNull
     protected List<Class> types=new ArrayList<>();
+
+    public ParameterSignaturParameterizedTyp(){
+        throw new NotImplementedException();
+    }
 
 
     public static ParameterSignatur of(final Class parameterTyp) {

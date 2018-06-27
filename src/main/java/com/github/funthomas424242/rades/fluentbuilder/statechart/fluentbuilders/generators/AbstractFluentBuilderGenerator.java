@@ -26,11 +26,13 @@ import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.Transition;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import javax.annotation.processing.Filer;
@@ -39,6 +41,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -143,23 +146,13 @@ public class AbstractFluentBuilderGenerator {
                 if (targetState == null) {
                     // Emission
                     final Class returnTyp = transition.getReturnType().getParameterTyp();
-                    final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
-                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(returnTyp);
-                    addParameters(transition, methodBuilder);
-                    method = methodBuilder.build();
+                    method = getMethodSpec(transition,methodName,returnTyp);
                 } else {
                     // Transition
                     final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
                     final ClassName returnTyp = ClassName.get(packageName, outerInterfaceName, targetStateName);
-                    final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
-                        .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                        .returns(returnTyp);
-
-                    addParameters(transition, methodBuilder);
-                    method = methodBuilder.build();
+                    method = getMethodSpec(transition,methodName,returnTyp);
                 }
-
                 stateInterfaceBuilder.addMethod(method);
             });
             interfaceDefinitions.add(stateInterfaceBuilder.build());
@@ -176,7 +169,20 @@ public class AbstractFluentBuilderGenerator {
         return interfaceDefinitions;
     }
 
-    private void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
+    protected <R > MethodSpec getMethodSpec(final TransitionAccessor transition, final String methodName, R returnTyp){
+        final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
+            .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+        if(returnTyp instanceof Type) {
+            methodBuilder.returns( (Type)returnTyp);
+        }else{
+            methodBuilder.returns( (TypeName)returnTyp);
+        }
+
+        addParameters(transition, methodBuilder);
+        return methodBuilder.build();
+    }
+
+    protected void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
         final Counter count = new Counter();
         new ParameterSignatursAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
             signatur -> {

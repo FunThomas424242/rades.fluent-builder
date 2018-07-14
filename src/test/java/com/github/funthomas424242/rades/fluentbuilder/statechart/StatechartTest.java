@@ -91,7 +91,7 @@ class StatechartTest {
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
-            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),ParameterSignaturTypeVariable.of("B"))
+            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("accessorClass","A"),ParameterSignaturTypeVariable.of("A"))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

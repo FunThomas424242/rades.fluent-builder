@@ -26,19 +26,47 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
+
+import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
 public class ParameterSignaturTypeVariable implements ParameterSignatur {
 
+
     @RadesNoAccessor
     protected String parameterName;
 
-    public static ParameterSignatur of(final String parameterName) {
-        return new ParameterSignaturTypeVariableBuilder()
+
+    @RadesNoAccessor
+    @NotNull
+    protected TypeVariableName typ;
+
+
+    public static ParameterSignatur of(final String parameterTyp) {
+        return of(null, parameterTyp);
+    }
+
+    public static ParameterSignatur of(final String parameterName, final String parameterTyp) {
+        return new ParameterSignaturTypeBuilder()
             .withParameterName(parameterName)
+            .withTyp(TypeVariableName.get(parameterTyp))
             .build();
     }
+
+
+
+
+
+
+//
+//
+//    public static ParameterSignatur of(final String parameterName) {
+//        return new ParameterSignaturTypeVariableBuilder()
+//            .withParameterName(parameterName)
+//            .build();
+//    }
 
     @Override
     public Parameterart getParameterart() {
@@ -50,14 +78,9 @@ public class ParameterSignaturTypeVariable implements ParameterSignatur {
         return parameterName;
     }
 
-//    @Override
-//    public Class getParameterTypAsClass() {
-//        return null;
-//    }
-//TODO hier muss noch ein Field für eingeführt werden
     @Override
     public TypeName getParameterTypAsTypeName() {
-        return null;
+        return typ;
     }
 
     @Override

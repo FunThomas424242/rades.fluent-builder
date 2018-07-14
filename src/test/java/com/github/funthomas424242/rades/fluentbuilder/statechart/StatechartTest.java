@@ -26,6 +26,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturType;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturTypeVariable;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVararg;
 import org.junit.jupiter.api.Test;
 
@@ -90,7 +91,7 @@ class StatechartTest {
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
-//            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),ParameterSignaturTypeVariable.of("B"))
+            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),ParameterSignaturTypeVariable.of("B"))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

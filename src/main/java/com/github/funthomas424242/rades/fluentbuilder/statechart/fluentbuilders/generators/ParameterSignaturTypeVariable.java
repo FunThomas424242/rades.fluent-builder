@@ -49,24 +49,12 @@ public class ParameterSignaturTypeVariable implements ParameterSignatur {
     }
 
     public static ParameterSignatur of(final String parameterName, final String parameterTyp) {
-        return new ParameterSignaturTypeBuilder()
+        return new ParameterSignaturTypeVariableBuilder()
             .withParameterName(parameterName)
             .withTyp(TypeVariableName.get(parameterTyp))
             .build();
     }
 
-
-
-
-
-
-//
-//
-//    public static ParameterSignatur of(final String parameterName) {
-//        return new ParameterSignaturTypeVariableBuilder()
-//            .withParameterName(parameterName)
-//            .build();
-//    }
 
     @Override
     public Parameterart getParameterart() {

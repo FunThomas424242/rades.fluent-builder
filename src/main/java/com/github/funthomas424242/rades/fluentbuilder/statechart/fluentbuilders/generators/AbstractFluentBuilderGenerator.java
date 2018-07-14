@@ -157,18 +157,6 @@ public class AbstractFluentBuilderGenerator {
                 stateInterfaceBuilder.addMethod(method);
             });
 
-
-            final TypeVariableName tVar = TypeVariableName.get("A");
-            final TypeVariableName tVar1 = TypeVariableName.get("B");
-            final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("builderbuild")
-                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                .returns(tVar)
-                .addTypeVariable(tVar)
-                .addTypeVariable(tVar1)
-                .addParameter(tVar1, "a", Modifier.FINAL);
-
-            stateInterfaceBuilder.addMethod(methodBuilder.build());
-
             interfaceDefinitions.add(stateInterfaceBuilder.build());
         });
 
@@ -183,14 +171,30 @@ public class AbstractFluentBuilderGenerator {
         return interfaceDefinitions;
     }
 
+
+
+//            final TypeVariableName tVar = TypeVariableName.get("A");
+//            final TypeVariableName tVar1 = TypeVariableName.get("B");
+//            final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("builderbuild")
+//                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+//                .returns(tVar)
+//                .addTypeVariable(tVar)
+//                .addTypeVariable(tVar1)
+//                .addParameter(tVar1, "a", Modifier.FINAL);
+
+//            stateInterfaceBuilder.addMethod(methodBuilder.build());
+
     protected MethodSpec getMethodSpec(final String methodName, ParameterSignatur returnTyp, final ParameterSignaturs parameterSignaturs) {
         final TypeName returnTypeName = returnTyp.getParameterTypAsTypeName();
 
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
-        methodBuilder.returns(returnTypeName);
+
         if(returnTyp.getParameterart().equals(Parameterart.TYPEVAR)){
+            methodBuilder.returns((TypeVariableName)returnTypeName);
             methodBuilder.addTypeVariable((TypeVariableName)returnTypeName);
+        }else{
+            methodBuilder.returns(returnTypeName);
         }
         addParameters(parameterSignaturs, methodBuilder);
         return methodBuilder.build();
@@ -205,8 +209,10 @@ public class AbstractFluentBuilderGenerator {
                 }
                 if(signatur.getParameterart().equals(Parameterart.TYPEVAR)){
                     methodBuilder.addTypeVariable((TypeVariableName)signatur.getParameterTypAsTypeName());
+                    methodBuilder.addParameter((TypeVariableName)signatur.getParameterTypAsTypeName(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
+                }else {
+                    methodBuilder.addParameter(signatur.getParameterTypAsTypeName(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
                 }
-                methodBuilder.addParameter(signatur.getParameterTypAsTypeName(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
             }
         );
     }

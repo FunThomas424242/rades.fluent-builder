@@ -184,25 +184,14 @@ public class AbstractFluentBuilderGenerator {
     }
 
     protected MethodSpec getMethodSpec(final String methodName, ParameterSignatur returnTyp, final ParameterSignaturs parameterSignaturs) {
-        final Parameterart parameterArt = returnTyp.getParameterart();
         final TypeName returnTypeName = returnTyp.getParameterTypAsTypeName();
 
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
         methodBuilder.returns(returnTypeName);
-//        switch (parameterArt) {
-//            // all Class types
-//            case VARARG:
-//            case CLASS:
-//                methodBuilder.returns((Type) returnTyp);
-//                break;
-//            // all TypeName types
-//            case TYPEVAR:
-//                methodBuilder.returns((TypeName) returnTyp);
-//                break;
-//            default:
-//                break;
-//        }
+        if(returnTyp.getParameterart().equals(Parameterart.TYPEVAR)){
+            methodBuilder.addTypeVariable((TypeVariableName)returnTypeName);
+        }
         addParameters(parameterSignaturs, methodBuilder);
         return methodBuilder.build();
     }
@@ -213,6 +202,9 @@ public class AbstractFluentBuilderGenerator {
             signatur -> {
                 if (signatur.isVarargTyp()) {
                     methodBuilder.varargs();
+                }
+                if(signatur.getParameterart().equals(Parameterart.TYPEVAR)){
+                    methodBuilder.addTypeVariable((TypeVariableName)signatur.getParameterTypAsTypeName());
                 }
                 methodBuilder.addParameter(signatur.getParameterTypAsTypeName(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
             }

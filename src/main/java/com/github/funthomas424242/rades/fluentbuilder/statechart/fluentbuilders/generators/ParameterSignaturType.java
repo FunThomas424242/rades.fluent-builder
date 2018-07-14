@@ -31,30 +31,38 @@ import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturVararg implements ParameterSignatur {
+public class ParameterSignaturType implements ParameterSignatur {
 
     @RadesNoAccessor
     protected String parameterName;
 
     @RadesNoAccessor
     @NotNull
-    protected Class varargTyp;
+    protected TypeName typ;
+
 
     public static ParameterSignatur of(final Class parameterTyp) {
+        return of(null, TypeName.get(parameterTyp));
+    }
+
+    public static ParameterSignatur of(final TypeName parameterTyp) {
         return of(null, parameterTyp);
     }
 
     public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
-        return new ParameterSignaturVarargBuilder()
+        return of(parameterName, TypeName.get(parameterTyp));
+    }
+
+    public static ParameterSignatur of(final String parameterName, final TypeName parameterTyp) {
+        return new ParameterSignaturTypeBuilder()
             .withParameterName(parameterName)
-            .withVarargTyp(parameterTyp)
+            .withTyp(parameterTyp)
             .build();
     }
 
-
     @Override
     public Parameterart getParameterart() {
-        return Parameterart.VARARG;
+        return Parameterart.TYPENAME;
     }
 
     @Override
@@ -64,16 +72,16 @@ public class ParameterSignaturVararg implements ParameterSignatur {
 
 //    @Override
 //    public Class getParameterTypAsClass() {
-//        return varargTyp;
+//        return null;
 //    }
 
     @Override
     public TypeName getParameterTypAsTypeName() {
-        return TypeName.get(varargTyp);
+        return typ;
     }
 
     @Override
     public boolean isVarargTyp() {
-        return true;
+        return false;
     }
 }

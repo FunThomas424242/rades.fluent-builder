@@ -26,14 +26,15 @@ import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.Transition;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur.Parameterart;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeVariableName;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
@@ -41,7 +42,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -145,16 +145,30 @@ public class AbstractFluentBuilderGenerator {
                 final MethodSpec method;
                 if (targetState == null) {
                     // Emission
-                    final Class returnTyp = transition.getReturnType().getParameterTyp();
-                    method = getMethodSpec(transition,methodName,returnTyp);
+                    final ParameterSignatur returnTyp = transition.getReturnType();
+                    method = getMethodSpec(methodName, returnTyp, transition.getParameterSignatur());
                 } else {
                     // Transition
                     final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
-                    final ClassName returnTyp = ClassName.get(packageName, outerInterfaceName, targetStateName);
-                    method = getMethodSpec(transition,methodName,returnTyp);
+                    final ClassName returnClassName = ClassName.get(packageName, outerInterfaceName, targetStateName);
+                    final ParameterSignatur returnTyp = new ParameterSignaturTypeBuilder().withTyp(returnClassName).build();
+                    method = getMethodSpec(methodName, returnTyp, transition.getParameterSignatur());
                 }
                 stateInterfaceBuilder.addMethod(method);
             });
+
+
+            final TypeVariableName tVar = TypeVariableName.get("A");
+            final TypeVariableName tVar1 = TypeVariableName.get("B");
+            final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("builderbuild")
+                .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
+                .returns(tVar)
+                .addTypeVariable(tVar)
+                .addTypeVariable(tVar1)
+                .addParameter(tVar1, "a", Modifier.FINAL);
+
+            stateInterfaceBuilder.addMethod(methodBuilder.build());
+
             interfaceDefinitions.add(stateInterfaceBuilder.build());
         });
 
@@ -169,27 +183,38 @@ public class AbstractFluentBuilderGenerator {
         return interfaceDefinitions;
     }
 
-    protected <R > MethodSpec getMethodSpec(final TransitionAccessor transition, final String methodName, R returnTyp){
+    protected MethodSpec getMethodSpec(final String methodName, ParameterSignatur returnTyp, final ParameterSignaturs parameterSignaturs) {
+        final Parameterart parameterArt = returnTyp.getParameterart();
+        final TypeName returnTypeName = returnTyp.getParameterTypAsTypeName();
+
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
-        if(returnTyp instanceof Type) {
-            methodBuilder.returns( (Type)returnTyp);
-        }else{
-            methodBuilder.returns( (TypeName)returnTyp);
-        }
-
-        addParameters(transition, methodBuilder);
+        methodBuilder.returns(returnTypeName);
+//        switch (parameterArt) {
+//            // all Class types
+//            case VARARG:
+//            case CLASS:
+//                methodBuilder.returns((Type) returnTyp);
+//                break;
+//            // all TypeName types
+//            case TYPEVAR:
+//                methodBuilder.returns((TypeName) returnTyp);
+//                break;
+//            default:
+//                break;
+//        }
+        addParameters(parameterSignaturs, methodBuilder);
         return methodBuilder.build();
     }
 
-    protected void addParameters(final TransitionAccessor transition, final MethodSpec.Builder methodBuilder) {
+    protected void addParameters(final ParameterSignaturs parameterSignaturs, final MethodSpec.Builder methodBuilder) {
         final Counter count = new Counter();
-        new ParameterSignatursAccessor(transition.getParameterSignatur()).getParameterList().stream().forEach(
+        new ParameterSignatursAccessor(parameterSignaturs).getParameterList().stream().forEach(
             signatur -> {
                 if (signatur.isVarargTyp()) {
                     methodBuilder.varargs();
                 }
-                methodBuilder.addParameter(signatur.getParameterTyp(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
+                methodBuilder.addParameter(signatur.getParameterTypAsTypeName(), computeParameterName(signatur.getParameterName(), count), Modifier.FINAL);
             }
         );
     }

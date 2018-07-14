@@ -25,7 +25,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturClass;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturType;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturVararg;
 import org.junit.jupiter.api.Test;
 
@@ -48,10 +48,10 @@ class StatechartTest {
             .addState("Not Empty")
             .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue")
-            .addEmission("Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
+            .addEmission("Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
 
             .addTransition("Not Empty", "Not Empty", "enqueue")
-            .addEmission("Not Empty", "isEmpty", ParameterSignaturClass.of(boolean.class))
+            .addEmission("Not Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
             .addTransition("Not Empty", "Not Empty", "dequeue")
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
@@ -79,18 +79,18 @@ class StatechartTest {
             .addState("Zustand 2")
             .addState("Zustand 3")
             .withStartState("Zustand 1")
-            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", ParameterSignaturClass.of(String.class))
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", ParameterSignaturType.of(String.class))
 
-            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturClass.of(String.class))
-            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturClass.of(String.class))
+            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturType.of(String.class))
+            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturType.of(String.class))
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition",
-                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
+                ParameterSignaturType.of(String.class), ParameterSignaturType.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
 
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
-                ParameterSignaturClass.of(String.class), ParameterSignaturClass.of("emissionName", String.class), ParameterSignaturClass.of(Class.class))
-            .addEmission("Zustand 3", "build", ParameterSignaturClass.of(Statechart.class))
-            .addEmission("Zustand 3", "build",ParameterSignaturClass.of(Statechart.class),ParameterSignaturClass.of("accessorClass",String.class))
+                ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
+            .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
+//            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),ParameterSignaturTypeVariable.of("B"))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

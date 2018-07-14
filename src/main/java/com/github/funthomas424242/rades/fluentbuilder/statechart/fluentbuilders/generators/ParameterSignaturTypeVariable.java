@@ -25,37 +25,24 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import com.squareup.javapoet.TypeName;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturParameterizedTyp implements ParameterSignatur {
+public class ParameterSignaturTypeVariable implements ParameterSignatur {
 
     @RadesNoAccessor
     protected String parameterName;
 
-    @RadesNoAccessor
-    @NotNull
-    protected List<Class> types=new ArrayList<>();
-
-    public ParameterSignaturParameterizedTyp(){
-        throw new NotImplementedException();
-    }
-
-
-    public static ParameterSignatur of(final Class parameterTyp) {
-        return of(null, parameterTyp);
-    }
-
-    public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
-        return new ParameterSignaturClassBuilder()
+    public static ParameterSignatur of(final String parameterName) {
+        return new ParameterSignaturTypeVariableBuilder()
             .withParameterName(parameterName)
-            .withTyp(parameterTyp)
             .build();
+    }
+
+    @Override
+    public Parameterart getParameterart() {
+        return Parameterart.TYPEVAR;
     }
 
     @Override
@@ -63,9 +50,14 @@ public class ParameterSignaturParameterizedTyp implements ParameterSignatur {
         return parameterName;
     }
 
+//    @Override
+//    public Class getParameterTypAsClass() {
+//        return null;
+//    }
+//TODO hier muss noch ein Field für eingeführt werden
     @Override
-    public Class getParameterTyp() {
-        return types.get(0);
+    public TypeName getParameterTypAsTypeName() {
+        return null;
     }
 
     @Override

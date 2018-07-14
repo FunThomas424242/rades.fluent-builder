@@ -25,6 +25,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+import com.squareup.javapoet.TypeName;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ParameterSignaturs {
 
     public void addTypes(final Class... parameterTyp) {
         Arrays.stream(parameterTyp)
-            .map(clazz -> new ParameterSignaturClassBuilder().withTyp(clazz).build())
+            .map(clazz -> new ParameterSignaturTypeBuilder().withTyp(TypeName.get(clazz)).build())
             .forEach(signatur -> parameterList.add(signatur));
     }
 
@@ -66,7 +67,7 @@ public class ParameterSignaturs {
         final ParameterSignatursAccessor ParameterSignatursAccessor =
             new ParameterSignatursBuilder().build(ParameterSignatursAccessor.class);
         Arrays.stream(parameterTyp)
-            .map(clazz -> new ParameterSignaturClassBuilder().withTyp(clazz).build())
+            .map(clazz -> new ParameterSignaturTypeBuilder().withTyp(TypeName.get(clazz)).build())
             .forEach(signatur -> ParameterSignatursAccessor.addParameterSignatur(signatur));
         return ParameterSignatursAccessor.toParameterSignaturs();
     }

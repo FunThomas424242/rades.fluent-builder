@@ -62,7 +62,7 @@ public class ParameterSignaturType implements ParameterSignatur {
 
     @Override
     public Parameterart getParameterart() {
-        return Parameterart.TYPENAME;
+        return Parameterart.TYPE;
     }
 
     @Override

@@ -29,8 +29,8 @@ public interface ParameterSignatur {
 
     enum Parameterart {
 
-        TYPENAME,
-        CLASS,
+        TYPE,
+//        CLASS,
         VARARG,
         TYPEVAR
 

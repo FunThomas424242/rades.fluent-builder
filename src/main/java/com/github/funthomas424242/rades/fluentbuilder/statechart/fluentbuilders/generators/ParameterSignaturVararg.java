@@ -62,11 +62,6 @@ public class ParameterSignaturVararg implements ParameterSignatur {
         return parameterName;
     }
 
-//    @Override
-//    public Class getParameterTypAsClass() {
-//        return varargTyp;
-//    }
-
     @Override
     public TypeName getParameterTypAsTypeName() {
         return TypeName.get(varargTyp);

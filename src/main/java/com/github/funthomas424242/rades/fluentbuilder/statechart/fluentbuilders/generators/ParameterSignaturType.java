@@ -70,11 +70,6 @@ public class ParameterSignaturType implements ParameterSignatur {
         return parameterName;
     }
 
-//    @Override
-//    public Class getParameterTypAsClass() {
-//        return null;
-//    }
-
     @Override
     public TypeName getParameterTypAsTypeName() {
         return typ;

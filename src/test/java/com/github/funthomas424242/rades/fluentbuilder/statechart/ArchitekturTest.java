@@ -25,6 +25,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.lang.ArchRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -32,7 +34,31 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 public class ArchitekturTest {
 
-    protected final JavaClasses klassen = new ClassFileImporter().importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
+    protected final JavaClasses klassen = new ClassFileImporter()
+        .importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
+
+
+    @Test
+    public void noAccessGeneratedToGenerators() {
+
+        final ArchRule rule = noClasses().that().resideInAPackage("..generated..")
+            .should().accessClassesThat().resideInAPackage("..generators..");
+
+        rule.check(klassen);
+    }
+
+    @Test
+    @Ignore
+    //TODO Prüfen ob ParameterSignatur etc Domain oder Modellobjekte z.B. in eigenem Package
+    public void noAccessDomainToGenerators() {
+
+        final ArchRule rule = noClasses().that().haveNameMatching(".*statechart.Transition")
+            .should().accessClassesThat().resideInAPackage("..generators..");
+
+        rule.check(klassen);
+    }
+
+
 
 //
 //    @Test

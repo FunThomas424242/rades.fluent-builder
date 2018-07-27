@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generated;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.Statechart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 
 public interface AbstractStatechartFluentBuilder {

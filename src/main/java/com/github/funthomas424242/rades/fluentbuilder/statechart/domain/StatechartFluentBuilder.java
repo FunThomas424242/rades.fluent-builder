@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -89,7 +89,7 @@ public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.
 
     @Override
     public Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs) {
-        this.statechart.getState(srcStateName).addTransition(emissionName, returnType,parameterSignaturs);
+        this.statechart.getState(srcStateName).addTransition(emissionName, returnType, parameterSignaturs);
         return this;
     }
 

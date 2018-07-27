@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -22,6 +22,9 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.State;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.Statechart;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartFluentBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
@@ -37,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 
-class StatechartTest {
+public class StatechartTest {
 
     @Test
     public void createQueueStatechart() throws IOException {

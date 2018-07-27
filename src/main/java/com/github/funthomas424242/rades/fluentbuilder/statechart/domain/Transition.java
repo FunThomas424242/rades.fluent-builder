@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -58,7 +58,7 @@ public class Transition {
             .withParameterSignatur(parameterSignaturList).build();
     }
 
-    public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final Class ...parameterTyp) {
+    public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final Class... parameterTyp) {
         return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignaturs.of(parameterTyp));
     }
 

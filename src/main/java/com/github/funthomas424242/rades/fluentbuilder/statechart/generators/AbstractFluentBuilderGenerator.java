@@ -23,10 +23,10 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generators;
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StateAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.TransitionAccessor;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur.Parameterart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeBuilder;

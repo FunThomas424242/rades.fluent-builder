@@ -22,6 +22,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartTest;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
@@ -52,9 +54,9 @@ public class ArchitekturTest {
     public void accessOfDomainObjects() {
 
         classes()
-            .that().resideInAPackage("..statechart")
+            .that().resideInAPackage("..domain")
             .should().accessClassesThat().resideInAnyPackage("..generated.."
-            , "..modelling..", "..statechart", "..rades.annotations..", "java..")
+            , "..domain", "..rades.annotations..", "java..")
             .check(klassen);
     }
 

@@ -22,10 +22,10 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand1;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand2;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand3;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand1;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand2;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand3;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 
 //@RadesAddFluentBuilder

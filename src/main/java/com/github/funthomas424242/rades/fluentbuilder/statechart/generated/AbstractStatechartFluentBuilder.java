@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.generated;
 
 /*-
  * #%L

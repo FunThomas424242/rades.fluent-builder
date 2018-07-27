@@ -27,7 +27,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.TransitionAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.CreationException;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur.Parameterart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturTypeBuilder;

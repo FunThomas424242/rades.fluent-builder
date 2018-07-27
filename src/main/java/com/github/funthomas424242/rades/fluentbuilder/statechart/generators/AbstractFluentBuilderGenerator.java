@@ -184,11 +184,9 @@ public class AbstractFluentBuilderGenerator {
         final MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
         methodBuilder.returns(returnTypeName);
-        if (returnTyp.getParameterart().equals(Parameterart.TYPEVAR)) {
-            if (!typeVariableNames.contains(returnTypeName)) {
-                methodBuilder.addTypeVariable((TypeVariableName) returnTypeName);
-                typeVariableNames.add((TypeVariableName) returnTypeName);
-            }
+        if (returnTyp.getParameterart().equals(Parameterart.TYPEVAR) && !typeVariableNames.contains(returnTypeName)) {
+            methodBuilder.addTypeVariable((TypeVariableName) returnTypeName);
+            typeVariableNames.add((TypeVariableName) returnTypeName);
         }
         addParameters(typeVariableNames, parameterSignaturs, methodBuilder);
         return methodBuilder.build();

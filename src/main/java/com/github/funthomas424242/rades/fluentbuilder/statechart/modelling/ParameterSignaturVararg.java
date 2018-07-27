@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.modelling;
 
 /*-
  * #%L
@@ -31,38 +31,30 @@ import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturType implements ParameterSignatur {
+public class ParameterSignaturVararg implements ParameterSignatur {
 
     @RadesNoAccessor
     protected String parameterName;
 
     @RadesNoAccessor
     @NotNull
-    protected TypeName typ;
-
+    protected Class varargTyp;
 
     public static ParameterSignatur of(final Class parameterTyp) {
-        return of(null, TypeName.get(parameterTyp));
-    }
-
-    public static ParameterSignatur of(final TypeName parameterTyp) {
         return of(null, parameterTyp);
     }
 
     public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
-        return of(parameterName, TypeName.get(parameterTyp));
-    }
-
-    public static ParameterSignatur of(final String parameterName, final TypeName parameterTyp) {
-        return new ParameterSignaturTypeBuilder()
+        return new ParameterSignaturVarargBuilder()
             .withParameterName(parameterName)
-            .withTyp(parameterTyp)
+            .withVarargTyp(parameterTyp)
             .build();
     }
 
+
     @Override
     public Parameterart getParameterart() {
-        return Parameterart.TYPE;
+        return Parameterart.VARARG;
     }
 
     @Override
@@ -72,11 +64,11 @@ public class ParameterSignaturType implements ParameterSignatur {
 
     @Override
     public TypeName getParameterTypAsTypeName() {
-        return typ;
+        return TypeName.get(varargTyp);
     }
 
     @Override
     public boolean isVarargTyp() {
-        return false;
+        return true;
     }
 }

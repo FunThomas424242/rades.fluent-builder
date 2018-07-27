@@ -26,7 +26,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.Abstr
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand1;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand2;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand3;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 
 //@RadesAddFluentBuilder
 public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {

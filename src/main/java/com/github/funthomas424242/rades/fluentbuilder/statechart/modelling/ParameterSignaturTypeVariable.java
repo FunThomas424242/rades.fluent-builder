@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.modelling;
 
 /*-
  * #%L
@@ -26,35 +26,39 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeVariableName;
 
 import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturVararg implements ParameterSignatur {
+public class ParameterSignaturTypeVariable implements ParameterSignatur {
+
 
     @RadesNoAccessor
     protected String parameterName;
 
+
     @RadesNoAccessor
     @NotNull
-    protected Class varargTyp;
+    protected TypeVariableName typ;
 
-    public static ParameterSignatur of(final Class parameterTyp) {
+
+    public static ParameterSignatur of(final String parameterTyp) {
         return of(null, parameterTyp);
     }
 
-    public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
-        return new ParameterSignaturVarargBuilder()
+    public static ParameterSignatur of(final String parameterName, final String parameterTyp) {
+        return new ParameterSignaturTypeVariableBuilder()
             .withParameterName(parameterName)
-            .withVarargTyp(parameterTyp)
+            .withTyp(TypeVariableName.get(parameterTyp))
             .build();
     }
 
 
     @Override
     public Parameterart getParameterart() {
-        return Parameterart.VARARG;
+        return Parameterart.TYPEVAR;
     }
 
     @Override
@@ -64,11 +68,11 @@ public class ParameterSignaturVararg implements ParameterSignatur {
 
     @Override
     public TypeName getParameterTypAsTypeName() {
-        return TypeName.get(varargTyp);
+        return typ;
     }
 
     @Override
     public boolean isVarargTyp() {
-        return true;
+        return false;
     }
 }

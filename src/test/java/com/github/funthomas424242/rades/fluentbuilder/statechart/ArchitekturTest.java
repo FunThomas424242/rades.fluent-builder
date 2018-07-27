@@ -25,7 +25,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -40,42 +39,47 @@ public class ArchitekturTest {
     @Test
     public void noAccessGeneratedToGenerators() {
 
-        final ArchRule rule = noClasses().that().resideInAPackage("..generated..")
-            .should().accessClassesThat().resideInAPackage("..generators..");
-
-        rule.check(klassen);
-    }
-
-    @Test
-    @Ignore
-    //TODO Prüfen ob ParameterSignatur etc Domain oder Modellobjekte z.B. in eigenem Package
-    public void noAccessDomainToGenerators() {
-
-        final ArchRule rule = noClasses().that().haveNameMatching(".*statechart.Transition")
+        final ArchRule rule = noClasses()
+            .that().resideOutsideOfPackage("..generators..")
+            .and().haveNameNotMatching(".*Test")
             .should().accessClassesThat().resideInAPackage("..generators..");
 
         rule.check(klassen);
     }
 
 
+    @Test
+    public void accessOfDomainObjects() {
 
-//
-//    @Test
-//    public void accessOfDomainPackage() {
-//
-//
-//        final ArchRule myRule = klassen()
-//            .that().resideInAPackage("..statechart")
-//            .should().onlyBeAccessed().byAnyPackage("..statechart..");
-//
-//        myRule.check(klassen);
-//    }
+        classes()
+            .that().resideInAPackage("..statechart")
+            .should().accessClassesThat().resideInAnyPackage("..generated.."
+            , "..modelling..", "..statechart", "..rades.annotations..", "java..")
+            .check(klassen);
+    }
+
 
     @Test
-    public void noAccessFromStateToStatechart() {
-//        classes().that().haveSimpleName("GeneratedAbstractStatechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleNameStartingWith("Statechart")
-//            .check(klassen);
+    public void noAccessTransitionToGenerators() {
+
+        noClasses().that().haveNameMatching(".*statechart.Transition")
+            .should().accessClassesThat().resideInAPackage("..generators..")
+            .check(klassen);
+    }
+
+
+    @Test
+    public void accessOfDomainPackageOnlyFromStatechartSubs() {
+
+        final ArchRule myRule = classes()
+            .that().resideInAPackage("..statechart")
+            .should().onlyBeAccessed().byAnyPackage("..statechart..");
+
+        myRule.check(klassen);
+    }
+
+    @Test
+    public void noAccessFromItemsToStatechart() {
 
         classes().that().haveSimpleName("AbstractStatechartFluentBuilder")
             .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
@@ -85,12 +89,6 @@ public class ArchitekturTest {
 
         noClasses().that().haveSimpleName("Transiton")
             .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);
-
-
-//        noClasses().that().haveNameMatching(".*Statechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("Transition").check(klassen);
-//        noClasses().that().haveNameMatching(".*Statechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("ParameterSignatur").check(klassen);
 
     }
 

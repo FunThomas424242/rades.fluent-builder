@@ -22,7 +22,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.ArchRule;

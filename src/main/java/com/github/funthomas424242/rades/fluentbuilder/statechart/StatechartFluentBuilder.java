@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders;
+package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 /*-
  * #%L
@@ -22,10 +22,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand1;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand2;

@@ -45,7 +45,6 @@ public class ArchitekturTest {
 
         final ArchRule rule = noClasses()
             .that().resideOutsideOfPackage("..generators..")
-            .and().haveNameNotMatching(".*Test")
             .should().accessClassesThat().resideInAPackage("..generators..");
 
         rule.check(klassen);

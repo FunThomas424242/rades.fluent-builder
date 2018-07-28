@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 public class ArchitekturTest {
 
@@ -69,6 +70,14 @@ public class ArchitekturTest {
             .check(klassen);
     }
 
+
+    @Test
+    public void noCyles() {
+
+        slices().matching("com.github.funthomas424242.rades.fluentbuilder.statechart(*)..")
+            .should().beFreeOfCycles()
+            .check(klassen);
+    }
 
     @Test
     public void accessOfDomainPackageOnlyFromStatechartSubs() {

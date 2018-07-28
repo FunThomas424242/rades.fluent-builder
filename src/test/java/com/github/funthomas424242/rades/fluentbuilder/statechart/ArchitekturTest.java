@@ -26,6 +26,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.Statecha
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartTest;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
 
 public class ArchitekturTest {
 
-    protected final JavaClasses klassen = new ClassFileImporter()
+    protected final JavaClasses klassen = new ClassFileImporter().withImportOption(ImportOption.Predefined.DONT_INCLUDE_TESTS)
         .importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
 
 
@@ -74,7 +75,7 @@ public class ArchitekturTest {
     @Test
     public void noCyles() {
 
-        slices().matching("com.github.funthomas424242.rades.fluentbuilder.statechart(*)..")
+        slices().matching("com.github.funthomas424242.rades.fluentbuilder.statechart.(*)..")
             .should().beFreeOfCycles()
             .check(klassen);
     }

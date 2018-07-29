@@ -1,0 +1,8 @@
+@startuml
+Empty --> NotEmpty : enqueue
+Empty --> [*] : isEmpty
+NotEmpty --> NotEmpty : enqueue
+NotEmpty --> [*] : top
+NotEmpty --> NotEmpty : dequeue
+NotEmpty --> [*] : isEmpty
+@enduml

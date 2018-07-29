@@ -1,0 +1,1 @@
+plantuml::generated-diagrams/QueueStatechart.txt[format=svg, alt="Class diagram", width=300, height=200]

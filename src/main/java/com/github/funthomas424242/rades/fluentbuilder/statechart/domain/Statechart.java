@@ -62,12 +62,6 @@ public class Statechart {
         return states.get(stateName);
     }
 
-
-    public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
-        final Path filePath = Paths.get(folderPath, diagramName + ".adoc");
-        return createPrintWriter(filePath);
-    }
-
     public PrintWriter createPrintWriter(final Path adocFilePath) {
         adocFilePath.getParent().toFile().mkdirs();
         final File adocFile =  adocFilePath.toFile();
@@ -83,6 +77,11 @@ public class Statechart {
         }
     }
 
+    // TODO Accessor wird nicht korrekt erzeugt
+    public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
+        final Path filePath = Paths.get(folderPath, diagramName + ".adoc");
+        return createPrintWriter(filePath);
+    }
 
     /**
      *

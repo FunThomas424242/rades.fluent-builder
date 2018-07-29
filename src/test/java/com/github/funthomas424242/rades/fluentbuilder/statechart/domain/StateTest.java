@@ -23,8 +23,13 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  */
 
 
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturs;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatursAccessor;
 import com.google.common.testing.EqualsTester;
 import org.junit.jupiter.api.Test;
+
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -110,5 +115,46 @@ public class StateTest {
         assertNotEquals(hasCodeVorUmbenennung, hashCodeNachUmbenennung);
     }
 
+    @Test
+    public void addValidTransasitionWitManyValidParameters() {
+        final State targetState = State.of("Target State");
+        final State stateWithTransitions = State.of("State für Transaktionen");
+
+        // Transaktion ohne Parameter
+        final State state1 = stateWithTransitions.addTransitionTo(targetState, "run");
+        assertNotNull(state1);
+        assertEquals(1, state1.transitions.size());
+        final Transition transition1 = state1.transitions.stream().findFirst().get();
+        assertNotNull(transition1);
+        assertEquals("run", transition1.transitionName);
+        final ParameterSignatursAccessor signatur1 = new ParameterSignatursAccessor(transition1.parameterSignatur);
+        assertEquals(0, signatur1.getParameterList().size());
+
+        // Transaktion mit einem Parameter
+        final State state2 = stateWithTransitions.addTransitionTo(targetState, "run", ParameterSignaturType.of(Integer.class));
+
+
+        // Transaktion mit vielen Parametern
+        final State state3 = stateWithTransitions.addTransitionTo(targetState, "enqueue", ParameterSignaturs.of(Class.class, String.class, Stack.class));
+        assertNotNull(state3);
+        assertEquals(3, state3.transitions.size());
+        final Transition transition3 = state3.transitions.stream().filter(transition -> {
+            if ("enqueue".equals(transition.transitionName)) {
+                return true;
+            } else {
+                return false;
+            }
+        }).findFirst().get();
+        assertNotNull(transition3);
+        assertEquals("enqueue", transition3.transitionName);
+        final ParameterSignatursAccessor signatur3 = new ParameterSignatursAccessor(transition3.parameterSignatur);
+        assertEquals(3, signatur3.getParameterList().size());
+
+
+        assertEquals(state1, state2);
+        assertEquals(state1, state3);
+        assertEquals(state2, state3);
+
+    }
 
 }

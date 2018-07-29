@@ -84,10 +84,10 @@
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
     <!--<dependency>-->
-      <!--<groupId>org.slf4j</groupId>-->
-      <!--<artifactId>slf4j-api</artifactId>-->
-      <!--<version>1.7.25</version>-->
-      <!--<scope>compile</scope>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-api</artifactId>-->
+    <!--<version>1.7.25</version>-->
+    <!--<scope>compile</scope>-->
     <!--</dependency>-->
     <!-- APIs von denen die Generate abhängen -->
     <dependency>
@@ -220,6 +220,10 @@
                   <directory>${basedir}/docs</directory>
                   <followSymlinks>false</followSymlinks>
                 </fileset>
+                <fileset>
+                  <directory>${basedir}/src/site/resources/generated</directory>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
               </filesets>
             </configuration>
           </execution>
@@ -277,11 +281,48 @@
           </execution>
         </executions>
       </plugin>
+
+
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>1.5.6</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctorj-diagram</artifactId>
+            <version>1.5.9</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <!-- (2) defaults to src/main/asciidoc -->
+          <sourceDirectory>src/site/adoc</sourceDirectory>
+          <!-- (3) defaults to docbook -->
+          <backend>html5</backend>
+          <!-- (4) defaults to target/generated-docs -->
+          <outputDirectory>src/site/resources/generated</outputDirectory>
+          <requires>
+            <require>asciidoctor-diagram</require>
+          </requires>
+        </configuration>
+        <executions>
+          <execution>
+            <id>output-html</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.7.1</version>
         <configuration>
+          <systemPropertyVariables>
+            <GRAPHVIZ_DOT>/usr/bin/dot</GRAPHVIZ_DOT>
+          </systemPropertyVariables>
           <outputDirectory>${basedir}/docs</outputDirectory>
           <locales>de</locales>
           <relativizeDecorationLinks>false</relativizeDecorationLinks>
@@ -304,6 +345,22 @@
             <groupId>org.asciidoctor</groupId>
             <artifactId>asciidoctor-maven-plugin</artifactId>
             <version>1.5.6</version>
+          </dependency>
+          <dependency>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctorj-diagram</artifactId>
+            <version>1.5.9</version>
+          </dependency>
+          <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
+          <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
+          </dependency>
+          <dependency>
+            <groupId>guru.nidi</groupId>
+            <artifactId>graphviz-java</artifactId>
+            <version>0.5.3</version>
           </dependency>
         </dependencies>
       </plugin>

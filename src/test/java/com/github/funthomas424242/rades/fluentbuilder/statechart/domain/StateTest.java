@@ -44,37 +44,37 @@ public class StateTest {
     }
 
     @Test
-    public void statesSindNichtGleichWennUndNurWennDerNameUnterschiedlichIst(){
+    public void statesSindNichtGleichWennUndNurWennDerNameUnterschiedlichIst() {
         final State state1 = State.of("Mein TestState #1");
         final State state2 = State.of("Mein TestState #2");
 
         assertNotNull(state1);
         assertNotNull(state2);
 
-        assertNotSame(state1,state2);
-        assertNotEquals(state1,state2);
+        assertNotSame(state1, state2);
+        assertNotEquals(state1, state2);
 
     }
 
     @Test
-    public void statesSindGleichWennUndNurWennDerNameGleichIst(){
+    public void statesSindGleichWennUndNurWennDerNameGleichIst() {
         final State targetState = State.of("Target State");
         final State stateNoTransactions = State.of("Mein TestState #1");
         final State stateWithTransactions = State.of("Mein TestState #1");
-        stateWithTransactions.addTransitionTo(targetState,"add");
+        stateWithTransactions.addTransitionTo(targetState, "add");
 
         // Beide States sind gültige Instanzen
         assertNotNull(stateNoTransactions);
         assertNotNull(stateWithTransactions);
 
         // Beide States sind mit sich selber gleich
-        assertEquals(stateNoTransactions,stateNoTransactions);
-        assertEquals(stateWithTransactions,stateWithTransactions);
+        assertEquals(stateNoTransactions, stateNoTransactions);
+        assertEquals(stateWithTransactions, stateWithTransactions);
 
         // Beide States sind auf Grund des Namen gleich, trotz verschiedener Transitionen
         // HINT: Diese fachliche Entscheidung ist bei der aktuellen Erzeugung von Statecharts relevant.
-        assertNotSame(stateNoTransactions,stateWithTransactions);
-        assertEquals(stateNoTransactions,stateWithTransactions);
+        assertNotSame(stateNoTransactions, stateWithTransactions);
+        assertEquals(stateNoTransactions, stateWithTransactions);
 
         // Standardtest für Gleichheit
         new EqualsTester()
@@ -85,21 +85,21 @@ public class StateTest {
     }
 
     @Test
-    public void hashcodeBleibtKonstantBeiNeuenTransaktionen(){
+    public void hashcodeBleibtKonstantBeiNeuenTransaktionen() {
         final State targetState = State.of("Target State");
         final State state = State.of("Mein TestState");
         assertNotNull(targetState);
         assertNotNull(state);
 
         final int hashCodeOhneTransaktionen = state.hashCode();
-        state.addTransitionTo(targetState,"top");
+        state.addTransitionTo(targetState, "top");
         final int hashCodeMitTransaktionen = state.hashCode();
 
-        assertEquals(hashCodeOhneTransaktionen,hashCodeMitTransaktionen);
+        assertEquals(hashCodeOhneTransaktionen, hashCodeMitTransaktionen);
     }
 
     @Test
-    public void hashcodeAendertSichBeiUmbenennung(){
+    public void hashcodeAendertSichBeiUmbenennung() {
         final State state = State.of("Target State");
         assertNotNull(state);
 
@@ -107,9 +107,8 @@ public class StateTest {
         state.stateName = "Neuer Name";
         final int hashCodeNachUmbenennung = state.hashCode();
 
-        assertNotEquals(hasCodeVorUmbenennung,hashCodeNachUmbenennung);
+        assertNotEquals(hasCodeVorUmbenennung, hashCodeNachUmbenennung);
     }
-
 
 
 }

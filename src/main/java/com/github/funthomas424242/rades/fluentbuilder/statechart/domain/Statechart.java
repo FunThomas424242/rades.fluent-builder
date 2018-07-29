@@ -28,6 +28,11 @@ import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -57,4 +62,51 @@ public class Statechart {
         return states.get(stateName);
     }
 
+
+    public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
+        final Path filePath = Paths.get(folderPath, diagramName + ".adoc");
+        return createPrintWriter(filePath);
+    }
+
+    public PrintWriter createPrintWriter(final Path adocFilePath) {
+        adocFilePath.getParent().toFile().mkdirs();
+        final File adocFile =  adocFilePath.toFile();
+        if(adocFile.exists()){
+            adocFile.delete();
+        }
+        try {
+            adocFilePath.toFile().createNewFile();
+            final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile));
+            return writer;
+        } catch (Throwable ex) {
+            throw new CreationException(ex);
+        }
+    }
+
+
+    /**
+     *
+     * @param folderPath
+     * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
+     */
+    public void saveAsAdoc(final String folderPath, final String  diagramName){
+        saveAsAdoc(createPrintWriter(folderPath,diagramName));
+    }
+
+    public void saveAsAdoc(final Path adocFilePath){
+        saveAsAdoc(createPrintWriter(adocFilePath));
+    }
+
+    public void saveAsAdoc(final PrintWriter adocFileWriter){
+
+        adocFileWriter.println("@startuml");
+        states.values().forEach(state -> {
+            state.transitions.stream().forEach(
+                transition -> {
+                    adocFileWriter.println(transition.startState.stateName +" -->" + transition.targetState.stateName + " : "+transition.transitionName);
+                }
+            );
+        });
+        adocFileWriter.println("@enduml");
+    }
 }

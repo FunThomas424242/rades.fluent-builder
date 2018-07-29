@@ -26,7 +26,9 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 public class StateTest {
 
@@ -38,6 +40,34 @@ public class StateTest {
         assertNotNull(state.transitions);
         assertEquals("Mein State", state.stateName);
         assertEquals(0, state.transitions.size());
+    }
+
+    @Test
+    public void statesSindGleichWennUndNurWennDerNameGleichIst(){
+        final State targetState = State.of("Target State");
+        final State stateNoTransactions = State.of("Mein TestState #1");
+        final State stateWithTransactions = State.of("Mein TestState #1");
+        stateWithTransactions.addTransitionTo(targetState,"add");
+
+        assertNotNull(stateNoTransactions);
+        assertNotNull(stateWithTransactions);
+
+        assertNotSame(stateNoTransactions,stateWithTransactions);
+        assertEquals(stateNoTransactions,stateWithTransactions);
+
+    }
+
+    @Test
+    public void statesSindNichtGleichWennUndNurWennDerNameUnterschiedlichIst(){
+        final State state1 = State.of("Mein TestState #1");
+        final State state2 = State.of("Mein TestState #2");
+
+        assertNotNull(state1);
+        assertNotNull(state2);
+
+        assertNotSame(state1,state2);
+        assertNotEquals(state1,state2);
+
     }
 
 

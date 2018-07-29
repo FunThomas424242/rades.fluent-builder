@@ -2,6 +2,7 @@
 
 # Compiled class file
 *.class
+*.cache
 
 # Log file
 *.log

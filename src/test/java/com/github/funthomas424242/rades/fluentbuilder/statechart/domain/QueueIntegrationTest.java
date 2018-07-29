@@ -24,6 +24,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeVariable;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -53,6 +54,8 @@ public class QueueIntegrationTest {
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
             //.addTransition("Not Empty", "Empty", "dequeue")
+
+            .addEmission("Not Empty","top",ParameterSignaturTypeVariable.of("E"))
 
             .build(StatechartAccessor.class);
 

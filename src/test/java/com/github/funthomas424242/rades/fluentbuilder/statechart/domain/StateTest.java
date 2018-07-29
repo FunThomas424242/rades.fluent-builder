@@ -23,6 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  */
 
 
+import com.google.common.testing.EqualsTester;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,6 +62,12 @@ public class StateTest {
         // HINT: Diese fachliche Entscheidung ist bei der aktuellen Erzeugung von Statecharts relevant.
         assertNotSame(stateNoTransactions,stateWithTransactions);
         assertEquals(stateNoTransactions,stateWithTransactions);
+
+
+        new EqualsTester()
+            .addEqualityGroup(stateNoTransactions, stateWithTransactions)
+            .addEqualityGroup(targetState)
+            .testEquals();
 
     }
 

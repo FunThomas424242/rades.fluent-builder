@@ -26,6 +26,7 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+import com.google.common.base.CaseFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -105,12 +106,22 @@ public class Statechart {
         states.values().forEach(state -> {
             state.transitions.stream().forEach(
                 transition -> {
-                    final String startStateName = transition.startState == null ? "[*]" : transition.startState.stateName;
-                    final String targetStateName = transition.targetState == null ? "[*]" : transition.targetState.stateName;
+                    final String startStateName = transition.startState == null ? "[*]" : convertStringToClassifier(transition.startState.stateName);
+                    final String targetStateName = transition.targetState == null ? "[*]" : convertStringToClassifier(transition.targetState.stateName);
                     adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
                 }
             );
         });
         adocFileWriter.println("@enduml");
+    }
+
+
+    // TODO auslagern (duplicate aus Generators)
+    public String convertStringToClassifier(final String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("name darf nicht null sein");
+        }
+        final String classifierName = name.replace(' ', '_');
+        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, classifierName);
     }
 }

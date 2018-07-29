@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 
-public class QueueTest {
+public class QueueIntegrationTest {
 
     @Test
     public void createQueueStatechart() throws IOException {

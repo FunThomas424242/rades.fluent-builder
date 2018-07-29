@@ -23,7 +23,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartFluentBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartTest;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartIntegrationTest;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
@@ -93,7 +93,7 @@ public class ArchitekturTest {
     public void noAccessFromItemsToStatechart() {
 
         classes().that().haveSimpleName("AbstractStatechartFluentBuilder")
-            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
+            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartIntegrationTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
 
         noClasses().that().haveSimpleName("State")
             .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);

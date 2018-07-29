@@ -35,7 +35,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class StatechartTest {
+public class StatechartIntegrationTest {
 
     @Test
     public void createStatechartStatechart() throws IOException {

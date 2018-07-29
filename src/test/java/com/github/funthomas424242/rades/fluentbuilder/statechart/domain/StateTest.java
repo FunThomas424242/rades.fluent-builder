@@ -49,9 +49,16 @@ public class StateTest {
         final State stateWithTransactions = State.of("Mein TestState #1");
         stateWithTransactions.addTransitionTo(targetState,"add");
 
+        // Beide States sind gültige Instanzen
         assertNotNull(stateNoTransactions);
         assertNotNull(stateWithTransactions);
 
+        // Beide States sind mit sich selber gleich
+        assertEquals(stateNoTransactions,stateNoTransactions);
+        assertEquals(stateWithTransactions,stateWithTransactions);
+
+        // Beide States sind auf Grund des Namen gleich, trotz verschiedener Transitionen
+        // HINT: Diese fachliche Entscheidung ist bei der aktuellen Erzeugung von Statecharts relevant.
         assertNotSame(stateNoTransactions,stateWithTransactions);
         assertEquals(stateNoTransactions,stateWithTransactions);
 

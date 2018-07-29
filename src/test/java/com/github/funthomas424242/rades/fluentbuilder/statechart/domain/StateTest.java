@@ -84,6 +84,31 @@ public class StateTest {
 
     }
 
+    @Test
+    public void hashcodeBleibtKonstantBeiNeuenTransaktionen(){
+        final State targetState = State.of("Target State");
+        final State state = State.of("Mein TestState");
+        assertNotNull(targetState);
+        assertNotNull(state);
+
+        final int hashCodeOhneTransaktionen = state.hashCode();
+        state.addTransitionTo(targetState,"top");
+        final int hashCodeMitTransaktionen = state.hashCode();
+
+        assertEquals(hashCodeOhneTransaktionen,hashCodeMitTransaktionen);
+    }
+
+    @Test
+    public void hashcodeAendertSichBeiUmbenennung(){
+        final State state = State.of("Target State");
+        assertNotNull(state);
+
+        final int hasCodeVorUmbenennung = state.hashCode();
+        state.stateName = "Neuer Name";
+        final int hashCodeNachUmbenennung = state.hashCode();
+
+        assertNotEquals(hasCodeVorUmbenennung,hashCodeNachUmbenennung);
+    }
 
 
 

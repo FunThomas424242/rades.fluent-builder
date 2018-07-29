@@ -44,6 +44,19 @@ public class StateTest {
     }
 
     @Test
+    public void statesSindNichtGleichWennUndNurWennDerNameUnterschiedlichIst(){
+        final State state1 = State.of("Mein TestState #1");
+        final State state2 = State.of("Mein TestState #2");
+
+        assertNotNull(state1);
+        assertNotNull(state2);
+
+        assertNotSame(state1,state2);
+        assertNotEquals(state1,state2);
+
+    }
+
+    @Test
     public void statesSindGleichWennUndNurWennDerNameGleichIst(){
         final State targetState = State.of("Target State");
         final State stateNoTransactions = State.of("Mein TestState #1");
@@ -63,7 +76,7 @@ public class StateTest {
         assertNotSame(stateNoTransactions,stateWithTransactions);
         assertEquals(stateNoTransactions,stateWithTransactions);
 
-
+        // Standardtest für Gleichheit
         new EqualsTester()
             .addEqualityGroup(stateNoTransactions, stateWithTransactions)
             .addEqualityGroup(targetState)
@@ -71,18 +84,7 @@ public class StateTest {
 
     }
 
-    @Test
-    public void statesSindNichtGleichWennUndNurWennDerNameUnterschiedlichIst(){
-        final State state1 = State.of("Mein TestState #1");
-        final State state2 = State.of("Mein TestState #2");
 
-        assertNotNull(state1);
-        assertNotNull(state2);
-
-        assertNotSame(state1,state2);
-        assertNotEquals(state1,state2);
-
-    }
 
 
 }

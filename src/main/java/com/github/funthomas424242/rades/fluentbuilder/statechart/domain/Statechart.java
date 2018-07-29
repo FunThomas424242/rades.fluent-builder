@@ -41,6 +41,9 @@ import java.util.stream.Stream;
 public class Statechart {
 
     @RadesNoBuilder
+    public static final String PLANTUML_ENDUNG = ".txt";
+
+    @RadesNoBuilder
     @RadesNoAccessor
     @NotNull
     protected final HashMap<String, State> states = new HashMap<>();
@@ -79,7 +82,7 @@ public class Statechart {
 
     // TODO Accessor wird nicht korrekt erzeugt
     public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
-        final Path filePath = Paths.get(folderPath, diagramName + ".adoc");
+        final Path filePath = Paths.get(folderPath, diagramName + PLANTUML_ENDUNG);
         return createPrintWriter(filePath);
     }
 
@@ -102,8 +105,8 @@ public class Statechart {
         states.values().forEach(state -> {
             state.transitions.stream().forEach(
                 transition -> {
-                    final String startStateName = transition.startState == null ? "*" : transition.startState.stateName;
-                    final String targetStateName = transition.targetState == null ? "*" : transition.targetState.stateName;
+                    final String startStateName = transition.startState == null ? "[*]" : transition.startState.stateName;
+                    final String targetStateName = transition.targetState == null ? "[*]" : transition.targetState.stateName;
                     adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
                 }
             );

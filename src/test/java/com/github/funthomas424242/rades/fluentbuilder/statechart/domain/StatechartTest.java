@@ -24,6 +24,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturParameterizedType;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeVariable;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturVararg;
@@ -90,7 +91,8 @@ public class StatechartTest {
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
-            .addEmission("Zustand 3", "build", ParameterSignaturTypeVariable.of("A"), ParameterSignaturTypeVariable.of("accessorClass", "A"))
+            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),
+                ParameterSignaturParameterizedType.of("accessorClass",Class.class,ParameterSignaturTypeVariable.of( "A")))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

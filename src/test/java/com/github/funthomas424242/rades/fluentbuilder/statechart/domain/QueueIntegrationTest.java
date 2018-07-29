@@ -28,6 +28,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -58,6 +59,9 @@ public class QueueIntegrationTest {
             .addEmission("Not Empty","top",ParameterSignaturTypeVariable.of("E"))
 
             .build(StatechartAccessor.class);
+
+        final PrintWriter writer = statechart.createPrintWriter("src/site/asciidoc/generated-test-diagrams/", "QueueStatechart");
+        statechart.saveAsAdoc(writer);
 
         assertEquals(2, statechart.states().count());
         assertSame(statechart.getState("Empty"), statechart.getStartState());

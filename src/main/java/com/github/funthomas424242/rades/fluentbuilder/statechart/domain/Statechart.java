@@ -70,7 +70,7 @@ public class Statechart {
         }
         try {
             adocFilePath.toFile().createNewFile();
-            final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile));
+            final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile),true);
             return writer;
         } catch (Throwable ex) {
             throw new CreationException(ex);
@@ -102,7 +102,9 @@ public class Statechart {
         states.values().forEach(state -> {
             state.transitions.stream().forEach(
                 transition -> {
-                    adocFileWriter.println(transition.startState.stateName +" -->" + transition.targetState.stateName + " : "+transition.transitionName);
+                    final String startStateName = transition.startState == null ? "*" : transition.startState.stateName;
+                    final String targetStateName = transition.targetState == null ? "*" : transition.targetState.stateName;
+                    adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
                 }
             );
         });

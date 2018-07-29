@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -22,15 +22,11 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.State;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.Statechart;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.StatechartBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand1;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand2;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generated.AbstractStatechartFluentBuilder.Zustand3;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand1;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand2;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder.Zustand3;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 
 //@RadesAddFluentBuilder
 public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.AllStates {
@@ -88,6 +84,12 @@ public class StatechartFluentBuilder implements AbstractStatechartFluentBuilder.
     @Override
     public Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType) {
         this.statechart.getState(srcStateName).addTransition(emissionName, returnType);
+        return this;
+    }
+
+    @Override
+    public Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs) {
+        this.statechart.getState(srcStateName).addTransition(emissionName, returnType, parameterSignaturs);
         return this;
     }
 

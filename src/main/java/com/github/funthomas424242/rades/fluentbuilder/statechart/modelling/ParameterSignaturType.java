@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.modelling;
 
 /*-
  * #%L
@@ -25,30 +25,44 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
+import com.squareup.javapoet.TypeName;
 
 import javax.validation.constraints.NotNull;
 
 @RadesAddBuilder
 @RadesAddAccessor
-public class ParameterSignaturClass implements ParameterSignatur {
+public class ParameterSignaturType implements ParameterSignatur {
 
     @RadesNoAccessor
     protected String parameterName;
 
     @RadesNoAccessor
     @NotNull
-    protected Class typ;
+    protected TypeName typ;
 
 
     public static ParameterSignatur of(final Class parameterTyp) {
+        return of(null, TypeName.get(parameterTyp));
+    }
+
+    public static ParameterSignatur of(final TypeName parameterTyp) {
         return of(null, parameterTyp);
     }
 
     public static ParameterSignatur of(final String parameterName, final Class parameterTyp) {
-        return new ParameterSignaturClassBuilder()
+        return of(parameterName, TypeName.get(parameterTyp));
+    }
+
+    public static ParameterSignatur of(final String parameterName, final TypeName parameterTyp) {
+        return new ParameterSignaturTypeBuilder()
             .withParameterName(parameterName)
             .withTyp(parameterTyp)
             .build();
+    }
+
+    @Override
+    public Parameterart getParameterart() {
+        return Parameterart.TYPE;
     }
 
     @Override
@@ -57,7 +71,7 @@ public class ParameterSignaturClass implements ParameterSignatur {
     }
 
     @Override
-    public Class getParameterTyp() {
+    public TypeName getParameterTypAsTypeName() {
         return typ;
     }
 

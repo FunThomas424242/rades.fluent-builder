@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.modelling;
 
 /*-
  * #%L
@@ -22,11 +22,27 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders
  * #L%
  */
 
+
+import com.squareup.javapoet.TypeName;
+
 public interface ParameterSignatur {
+
+    enum Parameterart {
+
+        TYPE,
+//        CLASS,
+        VARARG,
+        TYPEVAR
+
+    }
+
+    Parameterart getParameterart();
 
     String getParameterName();
 
-    Class getParameterTyp();
+//    Class getParameterTypAsClass();
+
+    TypeName getParameterTypAsTypeName();
 
     boolean isVarargTyp();
 

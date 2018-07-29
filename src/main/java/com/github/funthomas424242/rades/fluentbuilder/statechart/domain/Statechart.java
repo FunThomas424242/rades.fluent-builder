@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L

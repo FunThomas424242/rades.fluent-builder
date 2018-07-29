@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -24,8 +24,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
 
 import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturs;
 
 import javax.validation.constraints.NotNull;
 
@@ -38,7 +38,7 @@ public class Transition {
     @NotNull
     protected String transitionName;
     @NotNull
-    protected ParameterSignaturList parameterSignatur;
+    protected ParameterSignaturs parameterSignatur;
 
     // Entweder mit
     protected State targetState;
@@ -47,19 +47,19 @@ public class Transition {
 
 
     public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignatur... parameterSignaturs) {
-        final ParameterSignaturList parameterSignaturList = ParameterSignaturList.of(parameterSignaturs);
+        final ParameterSignaturs parameterSignaturList = ParameterSignaturs.of(parameterSignaturs);
         return of(startState, targetState, transitionName, parameterSignaturList);
     }
 
-    public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignaturList parameterSignaturList) {
+    public static Transition of(final State startState, final State targetState, final String transitionName, final ParameterSignaturs parameterSignaturList) {
         return new TransitionBuilder().withStartState(startState)
             .withTargetState(targetState)
             .withTransitionName(transitionName)
             .withParameterSignatur(parameterSignaturList).build();
     }
 
-    public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final Class ...parameterTyp) {
-        return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignaturList.of(parameterTyp));
+    public static Transition of(final String startStateName, final String targetStateName, final String transitionName, final Class... parameterTyp) {
+        return Transition.of(State.of(startStateName), State.of(targetStateName), transitionName, ParameterSignaturs.of(parameterTyp));
     }
 
 }

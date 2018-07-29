@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.statechart;
+package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
 
 /*-
  * #%L
@@ -26,8 +26,8 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignatur;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.generators.ParameterSignaturList;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturs;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -57,7 +57,7 @@ public class State {
 
 
     public State addTransitionTo(final State targetState, final String transitionName) {
-        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignaturList.of());
+        final Transition transition = Transition.of(this, targetState, transitionName, ParameterSignaturs.of());
         this.transitions.add(transition);
         return this;
     }
@@ -68,18 +68,18 @@ public class State {
         return this;
     }
 
-    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignaturList parameterList) {
+    public State addTransitionTo(final State targetState, final String transitionName, final ParameterSignaturs parameterList) {
         final Transition transition = Transition.of(this, targetState, transitionName, parameterList);
         this.transitions.add(transition);
         return this;
     }
 
-    public State addTransition(final String transitionName, final ParameterSignatur returnType) {
+    public State addTransition(final String transitionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs) {
         final Transition transition = new TransitionBuilder()
             .withStartState(this)
             .withTargetState(null)
             .withTransitionName(transitionName)
-            .withParameterSignatur(ParameterSignaturList.of())
+            .withParameterSignatur(ParameterSignaturs.of(parameterSignaturs))
             .withReturnType(returnType)
             .build();
         this.transitions.add(transition);

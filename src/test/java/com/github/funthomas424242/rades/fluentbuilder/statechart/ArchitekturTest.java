@@ -22,50 +22,84 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.statechart.fluentbuilders.StatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartFluentBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartIntegrationTest;
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
+import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.lang.ArchRule;
 import org.junit.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
+import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 public class ArchitekturTest {
 
-    protected final JavaClasses klassen = new ClassFileImporter().importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
+    protected final JavaClasses klassen = new ClassFileImporter().withImportOption(ImportOption.Predefined.DONT_INCLUDE_TESTS)
+        .importPackages("com.github.funthomas424242.rades.fluentbuilder.statechart");
 
-//
-//    @Test
-//    public void accessOfDomainPackage() {
-//
-//
-//        final ArchRule myRule = klassen()
-//            .that().resideInAPackage("..statechart")
-//            .should().onlyBeAccessed().byAnyPackage("..statechart..");
-//
-//        myRule.check(klassen);
-//    }
 
     @Test
-    public void noAccessFromStateToStatechart() {
-//        classes().that().haveSimpleName("GeneratedAbstractStatechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleNameStartingWith("Statechart")
-//            .check(klassen);
+    public void noAccessGeneratedToGenerators() {
+
+        final ArchRule rule = noClasses()
+            .that().resideOutsideOfPackage("..generators..")
+            .should().accessClassesThat().resideInAPackage("..generators..");
+
+        rule.check(klassen);
+    }
+
+
+    @Test
+    public void accessOfDomainObjects() {
+
+        classes()
+            .that().resideInAPackage("..domain")
+            .should().accessClassesThat().resideInAnyPackage("..generated.."
+            , "..domain", "..rades.annotations..", "java..")
+            .check(klassen);
+    }
+
+
+    @Test
+    public void noAccessTransitionToGenerators() {
+
+        noClasses().that().haveNameMatching(".*statechart.Transition")
+            .should().accessClassesThat().resideInAPackage("..generators..")
+            .check(klassen);
+    }
+
+
+    @Test
+    public void noCyles() {
+
+        slices().matching("com.github.funthomas424242.rades.fluentbuilder.statechart.(*)..")
+            .should().beFreeOfCycles()
+            .check(klassen);
+    }
+
+    @Test
+    public void accessOfDomainPackageOnlyFromStatechartSubs() {
+
+        final ArchRule myRule = classes()
+            .that().resideInAPackage("..statechart")
+            .should().onlyBeAccessed().byAnyPackage("..statechart..");
+
+        myRule.check(klassen);
+    }
+
+    @Test
+    public void noAccessFromItemsToStatechart() {
 
         classes().that().haveSimpleName("AbstractStatechartFluentBuilder")
-            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
+            .should().onlyBeAccessed().byClassesThat().haveNameMatching(".*(" + StatechartIntegrationTest.class.getSimpleName() + "|" + StatechartFluentBuilder.class.getSimpleName() + ")").check(klassen);
 
         noClasses().that().haveSimpleName("State")
             .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);
 
         noClasses().that().haveSimpleName("Transiton")
             .should().accessClassesThat().haveNameMatching(".*Statechart.*").check(klassen);
-
-
-//        noClasses().that().haveNameMatching(".*Statechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("Transition").check(klassen);
-//        noClasses().that().haveNameMatching(".*Statechart")
-//            .should().onlyBeAccessed().byClassesThat().haveSimpleName("ParameterSignatur").check(klassen);
 
     }
 

@@ -60,7 +60,7 @@ public class QueueIntegrationTest {
 
             .build(StatechartAccessor.class);
 
-        final PrintWriter writer = statechart.createPrintWriter("src/site/adoc/generated-diagrams/", "QueueStatechart");
+        final PrintWriter writer = statechart.createPrintWriter("src/site/plantuml/generated-diagrams/", "QueueStatechart");
         statechart.saveAsAdoc(writer);
 
         assertEquals(2, statechart.states().count());

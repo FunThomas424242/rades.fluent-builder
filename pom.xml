@@ -125,6 +125,28 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.asciidoctor</groupId>
+          <artifactId>asciidoctor-maven-plugin</artifactId>
+          <version>1.5.6</version>
+          <configuration>
+            <requires>
+              <require>asciidoctor-diagram</require>
+            </requires>
+            <backend>html5</backend>
+            <sourceHighlighter>coderay</sourceHighlighter>
+            <attributes>
+              <icons>font</icons>-->
+              <coderay-css>style</coderay-css>
+              <toc>left</toc>
+              <toclevels>2</toclevels>
+            </attributes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -220,10 +242,6 @@
                   <directory>${basedir}/docs</directory>
                   <followSymlinks>false</followSymlinks>
                 </fileset>
-                <fileset>
-                  <directory>${basedir}/src/site/resources/generated</directory>
-                  <followSymlinks>false</followSymlinks>
-                </fileset>
               </filesets>
             </configuration>
           </execution>
@@ -282,35 +300,34 @@
         </executions>
       </plugin>
 
-
       <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-        <version>1.5.6</version>
+        <groupId>com.github.jeluard</groupId>
+        <artifactId>plantuml-maven-plugin</artifactId>
+        <version>1.2</version>
         <dependencies>
           <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctorj-diagram</artifactId>
-            <version>1.5.9</version>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
           </dependency>
         </dependencies>
         <configuration>
-          <!-- (2) defaults to src/main/asciidoc -->
-          <sourceDirectory>src/site/adoc</sourceDirectory>
-          <!-- (3) defaults to docbook -->
-          <backend>html5</backend>
-          <!-- (4) defaults to target/generated-docs -->
-          <outputDirectory>src/site/resources/generated</outputDirectory>
-          <requires>
-            <require>asciidoctor-diagram</require>
-          </requires>
+          <sourceFiles>
+            <directory>${basedir}/src/site/plantuml/</directory>
+            <includes>
+              <include>**/*.txt</include>
+            </includes>
+          </sourceFiles>
+          <outputDirectory>${basedir}/src/site/resources/images</outputDirectory>
+          <outputInSourceDirectory>false</outputInSourceDirectory>
+          <format>svg</format>
         </configuration>
         <executions>
           <execution>
-            <id>output-html</id>
+            <id>run-plantuml</id>
             <phase>pre-site</phase>
             <goals>
-              <goal>process-asciidoc</goal>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
@@ -320,25 +337,9 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.7.1</version>
         <configuration>
-          <systemPropertyVariables>
-            <GRAPHVIZ_DOT>/usr/bin/dot</GRAPHVIZ_DOT>
-          </systemPropertyVariables>
           <outputDirectory>${basedir}/docs</outputDirectory>
           <locales>de</locales>
           <relativizeDecorationLinks>false</relativizeDecorationLinks>
-          <requires>
-            <require>asciidoctor-diagram</require>
-          </requires>
-          <backend>html5</backend>
-          <asciidoc>
-            <attributes>
-              <icons>font</icons>
-              <source-highlighter>coderay</source-highlighter>
-              <coderay-css>style</coderay-css>
-              <toc>left</toc>
-              <!--<toclevels>2</toclevels>-->
-            </attributes>
-          </asciidoc>
         </configuration>
         <dependencies>
           <dependency>

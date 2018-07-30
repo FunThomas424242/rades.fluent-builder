@@ -1,4 +1,1 @@
-.Queue Statechart
-[#img-queuestatechart]
-[caption="Beispiel 1: "]
-image::images/generated-diagrams/QueueStatechart.svg[Queue Statechart,300,200]
+image:images/generated-diagrams/QueueStatechart.svg[title="Queue Statechart",border=1,300,300] image:images/generated-diagrams/StatechartStatechart.svg[title="Statechart Statechart",300,300]

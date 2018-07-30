@@ -13,6 +13,8 @@ Die Versionierung erfolgt nach http://semver.org/lang/de/[Semantic Versioning].
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/12[issue #12] Projekt rades.example in doku aufgenommen.
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/15[issue #15] Kodegenerierung über JavaPoet realisiert.
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/17[issue #17] Parameterbeschreibungen modellierbar (nur Typen).
+- https://github.com/FunThomas424242/rades.fluent-builder/issues/26[issue #26] Generierung von plantuml Diagrammen aus Statechartinstanzen realisiert.
+
 
 
 ### Changed

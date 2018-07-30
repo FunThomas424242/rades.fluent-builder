@@ -103,8 +103,8 @@ public class Statechart {
     public void saveAsAdoc(final PrintWriter adocFileWriter){
 
         adocFileWriter.println("@startuml");
-        states.values().forEach(state -> {
-            state.transitions.stream().forEach(
+        states.values().stream().forEachOrdered(state -> {
+            state.transitions.stream().forEachOrdered(
                 transition -> {
                     final String startStateName = transition.startState == null ? "[*]" : convertStringToClassifier(transition.startState.stateName);
                     final String targetStateName = transition.targetState == null ? "[*]" : convertStringToClassifier(transition.targetState.stateName);

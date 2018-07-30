@@ -31,6 +31,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -63,6 +64,9 @@ public class StatechartIntegrationTest {
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());
+
+        final PrintWriter writer = statechart.createPrintWriter("src/site/plantuml/generated-diagrams/", "StatechartStatechart");
+        statechart.saveAsAdoc(writer);
 
         final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
         generator.generate("target/generated-test-sources/test-annotations/");

@@ -108,6 +108,13 @@ public class Statechart {
                 transition -> {
                     final String startStateName = transition.startState == null ? "[*]" : convertStringToClassifier(transition.startState.stateName);
                     final String targetStateName = transition.targetState == null ? "[*]" : convertStringToClassifier(transition.targetState.stateName);
+
+                    if(transition.startState != null){
+                        adocFileWriter.println("state \""+transition.startState.stateName+"\" as "+startStateName);
+                    }
+                    if(transition.targetState != null){
+                        adocFileWriter.println("state \""+transition.targetState.stateName+"\" as "+targetStateName);
+                    }
                     adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
                 }
             );

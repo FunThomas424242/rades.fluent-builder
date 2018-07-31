@@ -84,10 +84,10 @@
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
     <!--<dependency>-->
-      <!--<groupId>org.slf4j</groupId>-->
-      <!--<artifactId>slf4j-api</artifactId>-->
-      <!--<version>1.7.25</version>-->
-      <!--<scope>compile</scope>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-api</artifactId>-->
+    <!--<version>1.7.25</version>-->
+    <!--<scope>compile</scope>-->
     <!--</dependency>-->
     <!-- APIs von denen die Generate abhängen -->
     <dependency>
@@ -133,6 +133,28 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.asciidoctor</groupId>
+          <artifactId>asciidoctor-maven-plugin</artifactId>
+          <version>1.5.6</version>
+          <configuration>
+            <requires>
+              <require>asciidoctor-diagram</require>
+            </requires>
+            <backend>html5</backend>
+            <sourceHighlighter>coderay</sourceHighlighter>
+            <attributes>
+              <icons>font</icons>-->
+              <coderay-css>style</coderay-css>
+              <toc>left</toc>
+              <toclevels>2</toclevels>
+            </attributes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -285,6 +307,39 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>com.github.jeluard</groupId>
+        <artifactId>plantuml-maven-plugin</artifactId>
+        <version>1.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <sourceFiles>
+            <directory>${basedir}/src/site/plantuml/</directory>
+            <includes>
+              <include>**/*.txt</include>
+            </includes>
+          </sourceFiles>
+          <outputDirectory>${basedir}/src/site/resources/images</outputDirectory>
+          <outputInSourceDirectory>false</outputInSourceDirectory>
+          <format>svg</format>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run-plantuml</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
@@ -293,25 +348,28 @@
           <outputDirectory>${basedir}/docs</outputDirectory>
           <locales>de</locales>
           <relativizeDecorationLinks>false</relativizeDecorationLinks>
-          <requires>
-            <require>asciidoctor-diagram</require>
-          </requires>
-          <backend>html5</backend>
-          <asciidoc>
-            <attributes>
-              <icons>font</icons>
-              <source-highlighter>coderay</source-highlighter>
-              <coderay-css>style</coderay-css>
-              <toc>left</toc>
-              <!--<toclevels>2</toclevels>-->
-            </attributes>
-          </asciidoc>
         </configuration>
         <dependencies>
           <dependency>
             <groupId>org.asciidoctor</groupId>
             <artifactId>asciidoctor-maven-plugin</artifactId>
             <version>1.5.6</version>
+          </dependency>
+          <dependency>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctorj-diagram</artifactId>
+            <version>1.5.9</version>
+          </dependency>
+          <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
+          <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
+          </dependency>
+          <dependency>
+            <groupId>guru.nidi</groupId>
+            <artifactId>graphviz-java</artifactId>
+            <version>0.5.3</version>
           </dependency>
         </dependencies>
       </plugin>

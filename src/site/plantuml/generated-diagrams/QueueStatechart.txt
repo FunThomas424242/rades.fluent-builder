@@ -1,0 +1,17 @@
+@startuml
+state "Empty" as Empty
+state "Not Empty" as NotEmpty
+Empty --> NotEmpty : enqueue
+state "Empty" as Empty
+Empty --> [*] : isEmpty
+state "Not Empty" as NotEmpty
+NotEmpty --> [*] : isEmpty
+state "Not Empty" as NotEmpty
+state "Not Empty" as NotEmpty
+NotEmpty --> NotEmpty : dequeue
+state "Not Empty" as NotEmpty
+NotEmpty --> [*] : top
+state "Not Empty" as NotEmpty
+state "Not Empty" as NotEmpty
+NotEmpty --> NotEmpty : enqueue
+@enduml

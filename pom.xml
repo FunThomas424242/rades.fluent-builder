@@ -120,7 +120,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-testlib</artifactId>
-      <version>12.0-rc2</version>
+      <version>25.1-jre</version>
       <scope>test</scope>
     </dependency>
 

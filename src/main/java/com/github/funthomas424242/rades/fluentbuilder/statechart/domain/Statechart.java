@@ -54,6 +54,8 @@ public class Statechart {
 
     protected State startState;
 
+    protected Statechart(){}
+
     public Stream<State> states() {
         return this.states.values().stream();
     }

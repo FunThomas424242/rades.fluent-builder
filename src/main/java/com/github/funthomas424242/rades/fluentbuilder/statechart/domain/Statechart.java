@@ -29,11 +29,8 @@ import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
 import com.google.common.base.CaseFormat;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -56,7 +53,8 @@ public class Statechart {
 
     protected State startState;
 
-    protected Statechart(){}
+    protected Statechart() {
+    }
 
     public Stream<State> states() {
         return this.states.values().stream();
@@ -72,19 +70,18 @@ public class Statechart {
 
 
     /**
-     *
      * @param folderPath
      * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
      */
-    public void saveAsAdoc(final String folderPath, final String  diagramName){
-        saveAsAdoc(createPrintWriter(folderPath,diagramName,PLANTUML_ENDUNG));
+    public void saveAsAdoc(final String folderPath, final String diagramName) {
+        saveAsAdoc(createPrintWriter(folderPath, diagramName, PLANTUML_ENDUNG));
     }
 
-    public void saveAsAdoc(final Path adocFilePath){
+    public void saveAsAdoc(final Path adocFilePath) {
         saveAsAdoc(createPrintWriter(adocFilePath));
     }
 
-    public void saveAsAdoc(final PrintWriter adocFileWriter){
+    public void saveAsAdoc(final PrintWriter adocFileWriter) {
 
         adocFileWriter.println("@startuml");
         states.values().stream().forEachOrdered(state -> {
@@ -93,13 +90,13 @@ public class Statechart {
                     final String startStateName = transition.startState == null ? "[*]" : convertStringToClassifier(transition.startState.stateName);
                     final String targetStateName = transition.targetState == null ? "[*]" : convertStringToClassifier(transition.targetState.stateName);
 
-                    if(transition.startState != null){
-                        adocFileWriter.println("state \""+transition.startState.stateName+"\" as "+startStateName);
+                    if (transition.startState != null) {
+                        adocFileWriter.println("state \"" + transition.startState.stateName + "\" as " + startStateName);
                     }
-                    if(transition.targetState != null){
-                        adocFileWriter.println("state \""+transition.targetState.stateName+"\" as "+targetStateName);
+                    if (transition.targetState != null) {
+                        adocFileWriter.println("state \"" + transition.targetState.stateName + "\" as " + targetStateName);
                     }
-                    adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
+                    adocFileWriter.println(startStateName + " --> " + targetStateName + " : " + transition.transitionName);
                 }
             );
         });

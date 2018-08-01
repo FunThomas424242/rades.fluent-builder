@@ -37,6 +37,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
+import static com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileHelper.createPrintWriter;
+
 @RadesAddBuilder
 @RadesAddAccessor
 public class Statechart {
@@ -68,26 +70,6 @@ public class Statechart {
         return states.get(stateName);
     }
 
-    public PrintWriter createPrintWriter(final Path adocFilePath) {
-        adocFilePath.getParent().toFile().mkdirs();
-        final File adocFile =  adocFilePath.toFile();
-        if(adocFile.exists()){
-            adocFile.delete();
-        }
-        try {
-            adocFilePath.toFile().createNewFile();
-            final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile),true);
-            return writer;
-        } catch (Throwable ex) {
-            throw new CreationException(ex);
-        }
-    }
-
-    // TODO Accessor wird nicht korrekt erzeugt
-    public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
-        final Path filePath = Paths.get(folderPath, diagramName + PLANTUML_ENDUNG);
-        return createPrintWriter(filePath);
-    }
 
     /**
      *
@@ -95,7 +77,7 @@ public class Statechart {
      * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
      */
     public void saveAsAdoc(final String folderPath, final String  diagramName){
-        saveAsAdoc(createPrintWriter(folderPath,diagramName));
+        saveAsAdoc(createPrintWriter(folderPath,diagramName,PLANTUML_ENDUNG));
     }
 
     public void saveAsAdoc(final Path adocFilePath){

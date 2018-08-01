@@ -22,6 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileHelper;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeVariable;
@@ -60,7 +61,7 @@ public class QueueIntegrationTest {
 
             .build(StatechartAccessor.class);
 
-        final PrintWriter writer = statechart.createPrintWriter("src/site/plantuml/generated-diagrams/", "QueueStatechart");
+        final PrintWriter writer = FileHelper.createPrintWriter("src/site/plantuml/generated-diagrams/", "QueueStatechart",statechart.getPLANTUML_ENDUNG());
         statechart.saveAsAdoc(writer);
 
         assertEquals(2, statechart.states().count());

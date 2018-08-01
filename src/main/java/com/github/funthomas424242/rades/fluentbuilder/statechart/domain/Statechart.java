@@ -26,6 +26,7 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
+import com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileHelper;
 import com.google.common.base.CaseFormat;
 
 import javax.validation.constraints.NotNull;
@@ -34,7 +35,6 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
-import static com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileHelper.createPrintWriter;
 
 @RadesAddBuilder
 @RadesAddAccessor
@@ -74,11 +74,11 @@ public class Statechart {
      * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
      */
     public void saveAsAdoc(final String folderPath, final String diagramName) {
-        saveAsAdoc(createPrintWriter(folderPath, diagramName, PLANTUML_ENDUNG));
+        saveAsAdoc(new FileHelper(folderPath, diagramName, PLANTUML_ENDUNG).createPrintWriter());
     }
 
     public void saveAsAdoc(final Path adocFilePath) {
-        saveAsAdoc(createPrintWriter(adocFilePath));
+        saveAsAdoc(new FileHelper(adocFilePath).createPrintWriter());
     }
 
     public void saveAsAdoc(final PrintWriter adocFileWriter) {

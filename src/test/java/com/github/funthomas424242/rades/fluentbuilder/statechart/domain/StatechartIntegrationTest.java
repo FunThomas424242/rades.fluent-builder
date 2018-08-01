@@ -31,6 +31,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturVararg;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -66,7 +67,8 @@ public class StatechartIntegrationTest {
 
         assertEquals(3, statechart.states().count());
 
-        final PrintWriter writer = FileHelper.createPrintWriter("src/site/plantuml/generated-diagrams/", "StatechartStatechart", statechart.getPLANTUML_ENDUNG());
+        final FileHelper fileHelper = new FileHelper("src/site/plantuml/generated-diagrams/", "StatechartStatechart", statechart.getPLANTUML_ENDUNG());
+        final PrintWriter writer = ((FileHelper) fileHelper).createPrintWriter();
         statechart.saveAsAdoc(writer);
 
         final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);

@@ -32,7 +32,17 @@ import java.nio.file.Paths;
 
 public class FileHelper {
 
-    public static PrintWriter createPrintWriter(final Path adocFilePath) {
+    final Path adocFilePath;
+
+    public FileHelper(final Path adocFilePath){
+        this.adocFilePath=adocFilePath;
+    }
+
+   public FileHelper(final String folderPath, final String diagramName, final String fileExtension) {
+       adocFilePath = Paths.get(folderPath, diagramName + fileExtension);
+   }
+
+    public PrintWriter createPrintWriter() {
         adocFilePath.getParent().toFile().mkdirs();
         final File adocFile =  adocFilePath.toFile();
         if(adocFile.exists()){
@@ -45,11 +55,6 @@ public class FileHelper {
         } catch (Throwable ex) {
             throw new CreationException(ex);
         }
-    }
-
-    public static PrintWriter createPrintWriter(final String folderPath, final String diagramName, final String fileExtension) {
-        final Path filePath = Paths.get(folderPath, diagramName + fileExtension);
-        return createPrintWriter(filePath);
     }
 
 }

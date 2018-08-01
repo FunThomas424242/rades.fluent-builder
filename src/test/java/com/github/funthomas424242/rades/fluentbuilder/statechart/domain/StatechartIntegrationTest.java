@@ -31,7 +31,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturVararg;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -61,8 +60,8 @@ public class StatechartIntegrationTest {
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
                 ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
-            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),
-                ParameterSignaturParameterizedType.of("accessorClass",Class.class,ParameterSignaturTypeVariable.of( "A")))
+            .addEmission("Zustand 3", "build", ParameterSignaturTypeVariable.of("A"),
+                ParameterSignaturParameterizedType.of("accessorClass", Class.class, ParameterSignaturTypeVariable.of("A")))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());

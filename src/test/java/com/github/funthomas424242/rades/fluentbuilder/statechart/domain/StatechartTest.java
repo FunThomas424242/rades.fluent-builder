@@ -53,7 +53,7 @@ public class StatechartTest {
     }
 
     @Test
-    public void testSaveAsAdoc(@Mock PrintWriter writer) {
+    public void testSaveAsAdocPrintWriter(@Mock PrintWriter writer) {
 
         final Statechart statechart = new StatechartBuilder()
             .withId("test.Statechart1")
@@ -65,6 +65,25 @@ public class StatechartTest {
 
         verify(writer, times(1)).println("@startuml");
         verify(writer, times(1)).println("@enduml");
+    }
+
+    @Test
+    public void testSaveAsAdocFolderName() {
+
+        final State startState = State.of("Not Empty");
+        final Statechart statechart = new StatechartBuilder()
+            .withId("test.Statechart1")
+            .withStartState(startState)
+            .build();
+        final Transition transition = new Transition();
+        transition.targetState = startState;
+        transition.transitionName = "trap";
+        startState.transitions.add(transition);
+
+        statechart.saveAsAdoc("target/tmp/test", "TestStatechart");
+
+        // TODO assert finden, Problem new PrintWriter im Statechart
+
     }
 
 

@@ -23,9 +23,19 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  */
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import test.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.PrintWriter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@ExtendWith(MockitoExtension.class)
 public class StatechartTest {
 
 
@@ -37,9 +47,24 @@ public class StatechartTest {
             .withStartState(State.of("Not Empty")).build();
 
         assertNotNull(statechart);
-        assertEquals("test.Statechart1",statechart.id);
-        assertEquals("Not Empty",statechart.startState.stateName);
+        assertEquals("test.Statechart1", statechart.id);
+        assertEquals("Not Empty", statechart.startState.stateName);
 
+    }
+
+    @Test
+    public void testSaveAsAdoc(@Mock PrintWriter writer) {
+
+        final Statechart statechart = new StatechartBuilder()
+            .withId("test.Statechart1")
+            .withStartState(State.of("Not Empty")).build();
+
+        verify(writer, times(0)).println(any(String.class));
+
+        statechart.saveAsAdoc(writer);
+
+        verify(writer, times(1)).println("@startuml");
+        verify(writer, times(1)).println("@enduml");
     }
 
 

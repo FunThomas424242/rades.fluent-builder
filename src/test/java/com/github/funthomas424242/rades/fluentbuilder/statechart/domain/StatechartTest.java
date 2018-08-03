@@ -22,6 +22,8 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -34,12 +36,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class StatechartTest {
 
 
     @Test
+    @DisplayName("Erzeuge eine gültige Instanz eines Statecharts.")
     public void createValidInstanz() {
 
         final Statechart statechart = new StatechartBuilder()
@@ -53,22 +57,27 @@ public class StatechartTest {
     }
 
     @Test
-    public void testSaveAsAdocPrintWriter(@Mock PrintWriter writer) {
+    @DisplayName("Erzeuge adoc für Statechart ohne Transitionen.")
+    public void testSaveAsAdocPrintWriter(@Mock PrintWriterFactory writerFactory, @Mock PrintWriter printWriter) {
 
         final Statechart statechart = new StatechartBuilder()
             .withId("test.Statechart1")
             .withStartState(State.of("Not Empty")).build();
 
-        verify(writer, times(0)).println(any(String.class));
+        when(writerFactory.createPrintWriter()).thenReturn(printWriter);
+        verify(printWriter, times(0)).println(any(String.class));
 
-        statechart.saveAsAdoc(writer);
+        statechart.saveAsAdoc(writerFactory);
 
-        verify(writer, times(1)).println("@startuml");
-        verify(writer, times(1)).println("@enduml");
+        verify(printWriter, times(1)).println("@startuml");
+        verify(printWriter, times(1)).println("@enduml");
     }
 
     @Test
-    public void testSaveAsAdocFolderName() {
+    @DisplayName("Erzeuge adoc für Statechart mit Transition deren Startstate null ist.")
+    public void testSaveAsAdocFolderName(@Mock PrintWriterFactory writerFactory, @Mock PrintWriter printWriter) {
+
+        when(writerFactory.createPrintWriter()).thenReturn(printWriter);
 
         final State startState = State.of("Not Empty");
         final Statechart statechart = new StatechartBuilder()
@@ -80,9 +89,11 @@ public class StatechartTest {
         transition.transitionName = "trap";
         startState.transitions.add(transition);
 
-        statechart.saveAsAdoc("target/tmp/test", "TestStatechart");
+        verify(printWriter, times(0)).println(any(String.class));
 
-        // TODO assert finden, Problem new PrintWriter im Statechart
+        statechart.saveAsAdoc(writerFactory);
+
+        verify(printWriter, times(2)).println(any(String.class));
 
     }
 

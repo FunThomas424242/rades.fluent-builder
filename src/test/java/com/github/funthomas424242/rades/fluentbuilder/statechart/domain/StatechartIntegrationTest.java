@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileWriter;
+import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturParameterizedType;
@@ -66,9 +66,8 @@ public class StatechartIntegrationTest {
 
         assertEquals(3, statechart.states().count());
 
-        final FileWriter fileHelper = new FileWriter("src/site/plantuml/generated-diagrams/", "StatechartStatechart", statechart.getPLANTUML_ENDUNG());
-        final PrintWriter writer = ((FileWriter) fileHelper).createPrintWriter();
-        statechart.saveAsAdoc(writer);
+        final PrintWriterFactory writerFactory = new PrintWriterFactory("src/site/plantuml/generated-diagrams/", "StatechartStatechart", statechart.getPLANTUML_ENDUNG());
+        statechart.saveAsAdoc(writerFactory);
 
         final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
         generator.generate("target/generated-test-sources/test-annotations/");

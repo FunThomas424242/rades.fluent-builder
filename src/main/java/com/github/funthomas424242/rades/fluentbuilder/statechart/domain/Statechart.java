@@ -26,12 +26,11 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.javalib.io.FileWriter;
+import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
 import com.google.common.base.CaseFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -68,20 +67,9 @@ public class Statechart {
         return states.get(stateName);
     }
 
+    public void saveAsAdoc(final PrintWriterFactory fileWriter) {
 
-    /**
-     * @param folderPath
-     * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
-     */
-    public void saveAsAdoc(final String folderPath, final String diagramName) {
-        saveAsAdoc(new FileWriter(folderPath, diagramName, PLANTUML_ENDUNG).createPrintWriter());
-    }
-
-    public void saveAsAdoc(final Path adocFilePath) {
-        saveAsAdoc(new FileWriter(adocFilePath).createPrintWriter());
-    }
-
-    public void saveAsAdoc(final PrintWriter adocFileWriter) {
+        final PrintWriter adocFileWriter = fileWriter.createPrintWriter();
 
         adocFileWriter.println("@startuml");
         states.values().stream().forEachOrdered(state -> {

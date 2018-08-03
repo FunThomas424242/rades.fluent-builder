@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generators;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.javalib.streaming.Counter;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartAccessor;

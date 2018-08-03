@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.javalib.streaming.Counter;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatursAccessor;
 import org.junit.jupiter.api.Test;
 

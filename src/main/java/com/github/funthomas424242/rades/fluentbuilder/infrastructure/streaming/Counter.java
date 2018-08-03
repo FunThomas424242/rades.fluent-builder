@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.javalib.streaming;
+package com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming;
 
 /*-
  * #%L

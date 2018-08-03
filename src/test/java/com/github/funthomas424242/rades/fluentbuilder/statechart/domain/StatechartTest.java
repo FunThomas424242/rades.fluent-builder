@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

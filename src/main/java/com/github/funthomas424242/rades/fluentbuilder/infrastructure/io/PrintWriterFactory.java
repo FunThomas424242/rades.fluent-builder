@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.javalib.io;
+package com.github.funthomas424242.rades.fluentbuilder.infrastructure.io;
 
 /*-
  * #%L

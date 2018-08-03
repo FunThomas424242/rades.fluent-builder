@@ -22,7 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturParameterizedType;
@@ -32,7 +32,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

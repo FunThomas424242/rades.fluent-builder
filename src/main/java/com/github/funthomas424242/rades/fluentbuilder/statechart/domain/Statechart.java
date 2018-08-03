@@ -26,7 +26,7 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
-import com.github.funthomas424242.rades.fluentbuilder.javalib.io.PrintWriterFactory;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.google.common.base.CaseFormat;
 
 import javax.validation.constraints.NotNull;

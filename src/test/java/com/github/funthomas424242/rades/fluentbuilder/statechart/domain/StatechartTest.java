@@ -74,7 +74,7 @@ public class StatechartTest {
     }
 
     @Test
-    @DisplayName("Erzeuge adoc für Statechart mit Transition deren Startstate null ist.")
+    @DisplayName("Erzeuge adoc für Statechart mit ungültiger Transition deren Startstate null ist.")
     public void testSaveAsAdocFolderName(@Mock PrintWriterFactory writerFactory, @Mock PrintWriter printWriter) {
 
         when(writerFactory.createPrintWriter()).thenReturn(printWriter);
@@ -84,6 +84,7 @@ public class StatechartTest {
             .withId("test.Statechart1")
             .withStartState(startState)
             .build();
+        statechart.states.put("Not Empty",startState);
         final Transition transition = new Transition();
         transition.targetState = startState;
         transition.transitionName = "trap";
@@ -93,7 +94,7 @@ public class StatechartTest {
 
         statechart.saveAsAdoc(writerFactory);
 
-        verify(printWriter, times(2)).println(any(String.class));
+        verify(printWriter, times(4)).println(any(String.class));
 
     }
 

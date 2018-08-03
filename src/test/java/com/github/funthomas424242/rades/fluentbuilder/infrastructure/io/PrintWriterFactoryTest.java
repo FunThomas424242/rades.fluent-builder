@@ -53,6 +53,21 @@ class PrintWriterFactoryTest {
         final PrintWriterFactory factory = new PrintWriterFactory(pathMock);
         assertThrows(CreationException.class, () -> factory.createPrintWriter());
         verify(fileMock, times(1)).delete();
+        verify(fileMock, times(1)).createNewFile();
+    }
+
+    @Test
+    @DisplayName("Erzeuge PrintWriter wenn File noch nicht existiert.")
+    public void createWriterNotExistingFile(@Mock Path pathMock, @Mock File fileMock) throws IOException {
+
+        when(pathMock.getParent()).thenReturn(pathMock);
+        when(pathMock.toFile()).thenReturn(fileMock);
+        when(fileMock.exists()).thenReturn(false);
+
+        final PrintWriterFactory factory = new PrintWriterFactory(pathMock);
+        assertThrows(CreationException.class, () -> factory.createPrintWriter());
+        verify(fileMock, times(0)).delete();
+        verify(fileMock, times(1)).createNewFile();
     }
 
 }

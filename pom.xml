@@ -317,7 +317,8 @@
       <plugin>
         <groupId>com.github.jeluard</groupId>
         <artifactId>plantuml-maven-plugin</artifactId>
-        <version>7954</version>
+        <!-- letzte gültige Version, keine Weiterentwicklung mehr, xxxx versionen sind älter -->
+        <version>1.2</version>
         <dependencies>
           <dependency>
             <groupId>net.sourceforge.plantuml</groupId>
@@ -375,7 +376,7 @@
           <dependency>
             <groupId>guru.nidi</groupId>
             <artifactId>graphviz-java</artifactId>
-            <version>0.5.3</version>
+            <version>0.5.4</version>
           </dependency>
         </dependencies>
       </plugin>

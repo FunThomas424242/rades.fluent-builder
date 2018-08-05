@@ -22,6 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generators;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.infrastructure.text.TextConverter;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
@@ -104,7 +105,7 @@ public class AbstractFluentBuilderGenerator {
 
     public void generate(final Filer filer) {
         try {
-            generate(new PrintWriter(filer.createSourceFile(this.statechart.getId()).openWriter()));
+            generate(PrintWriterFactory.createPrintWriter(filer,this.statechart.getId()));
         } catch (IOException e) {
             // TODO Logging einführen
             e.printStackTrace();

@@ -24,8 +24,10 @@ package com.github.funthomas424242.rades.fluentbuilder.infrastructure.io;
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
 
+import javax.annotation.processing.Filer;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,6 +69,10 @@ public class PrintWriterFactory {
         } catch (Throwable ex) {
             throw new CreationException(ex);
         }
+    }
+
+    public static PrintWriter createPrintWriter(final Filer filer, final String className) throws IOException {
+        return new PrintWriter(filer.createSourceFile(className).openWriter());
     }
 
 }

@@ -8,14 +8,14 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator",
-    date = "2018-08-05T19:36:24.777",
+    date = "2018-08-05T19:41:20.070",
     comments = "TODO: com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder"
 )
 public interface AbstractStatechartFluentBuilder {
   interface Zustand2 {
-    Zustand2 addState(final String stateName);
-
     Zustand3 withStartState(final String startStateName);
+
+    Zustand2 addState(final String stateName);
   }
 
   interface Zustand1 {
@@ -23,14 +23,14 @@ public interface AbstractStatechartFluentBuilder {
   }
 
   interface Zustand3 {
+    Zustand3 addEmission(final String srcStateName, final String emissionName,
+        final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
+
     Zustand3 addTransition(final String srcStateName, final String targetStateName,
         final String transitionName, final ParameterSignatur... parameterSignaturs);
 
     Zustand3 addEmission(final String srcStateName, final String emissionName,
         final ParameterSignatur returnType);
-
-    Zustand3 addEmission(final String srcStateName, final String emissionName,
-        final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
 
     Statechart build();
 

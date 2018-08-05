@@ -57,13 +57,19 @@ public class PrintWriterFactory {
     }
 
     public PrintWriter createPrintWriter() {
-        adocFilePath.getParent().toFile().mkdirs();
+        if(!adocFilePath.getParent().toFile().mkdirs()){
+            // TODO Logging einführen
+            //LOG.info("Directories konnten nicht angelegt werden");
+        };
         final File adocFile = adocFilePath.toFile();
         if (adocFile.exists()) {
             adocFile.delete();
         }
         try {
-            adocFilePath.toFile().createNewFile();
+            if(!adocFilePath.toFile().createNewFile()){
+                // TODO Logging einführen
+                //LOG.info("Datei konnte nicht angelegt werden");
+            };
             final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile), true);
             return writer;
         } catch (Throwable ex) {

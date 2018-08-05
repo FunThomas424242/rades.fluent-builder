@@ -25,7 +25,6 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generators;
 import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming.Counter;
 import com.github.funthomas424242.rades.fluentbuilder.infrastructure.text.TextConverter;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartAccessor;
@@ -45,7 +44,6 @@ import com.squareup.javapoet.TypeVariableName;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -85,27 +83,9 @@ public class AbstractFluentBuilderGenerator {
         return packageName.replace('.', File.separatorChar);
     }
 
-    protected PrintWriter createPrintWriter(final String folderPath) {
-        final Path filePath = Paths.get(folderPath, packageAsPathString(this.computePackageName())
-            , this.computeJavaIdentifier() + ".java");
-        if(!filePath.getParent().toFile().mkdirs()){
-            // TODO Logging einführen
-            //LOG.info("Directories konnten nicht angelegt werden");
-        };
-        try {
-            if(!filePath.toFile().createNewFile()){
-                // TODO Logging einführen
-                //LOG.info("Datei konnte nicht angelegt werden");
-            };
-            return  new PrintWriter(new FileOutputStream(filePath.toFile()));
-        } catch (Throwable ex) {
-            throw new CreationException(ex);
-        }
-    }
-
     public void generate(final Filer filer) {
         try {
-            generate(PrintWriterFactory.createPrintWriter(filer,this.statechart.getId()));
+            generate(PrintWriterFactory.createPrintWriter(filer, this.statechart.getId()));
         } catch (IOException e) {
             // TODO Logging einführen
             e.printStackTrace();
@@ -113,7 +93,9 @@ public class AbstractFluentBuilderGenerator {
     }
 
     public void generate(final String folderPath) {
-        this.generate(this.createPrintWriter(folderPath));
+        final Path filePath = Paths.get(folderPath, packageAsPathString(this.computePackageName())
+            , this.computeJavaIdentifier() + ".java");
+        this.generate(new PrintWriterFactory(filePath).createPrintWriter());
     }
 
     protected void generate(final PrintWriter writer) {

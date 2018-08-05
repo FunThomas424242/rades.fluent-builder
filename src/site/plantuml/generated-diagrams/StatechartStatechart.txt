@@ -9,13 +9,13 @@ state "Zustand 1" as Zustand1
 state "Zustand 2" as Zustand2
 Zustand1 --> Zustand2 : withQualifiedClassName
 state "Zustand 3" as Zustand3
+state "Zustand 3" as Zustand3
+Zustand3 --> Zustand3 : addEmission
+state "Zustand 3" as Zustand3
+Zustand3 --> [*] : build
+state "Zustand 3" as Zustand3
 Zustand3 --> [*] : build
 state "Zustand 3" as Zustand3
 state "Zustand 3" as Zustand3
 Zustand3 --> Zustand3 : addTransition
-state "Zustand 3" as Zustand3
-Zustand3 --> [*] : build
-state "Zustand 3" as Zustand3
-state "Zustand 3" as Zustand3
-Zustand3 --> Zustand3 : addEmission
 @enduml

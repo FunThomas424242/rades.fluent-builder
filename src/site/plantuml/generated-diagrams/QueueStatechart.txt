@@ -5,13 +5,13 @@ Empty --> NotEmpty : enqueue
 state "Empty" as Empty
 Empty --> [*] : isEmpty
 state "Not Empty" as NotEmpty
-NotEmpty --> [*] : isEmpty
-state "Not Empty" as NotEmpty
-state "Not Empty" as NotEmpty
-NotEmpty --> NotEmpty : dequeue
-state "Not Empty" as NotEmpty
 NotEmpty --> [*] : top
 state "Not Empty" as NotEmpty
 state "Not Empty" as NotEmpty
 NotEmpty --> NotEmpty : enqueue
+state "Not Empty" as NotEmpty
+NotEmpty --> [*] : isEmpty
+state "Not Empty" as NotEmpty
+state "Not Empty" as NotEmpty
+NotEmpty --> NotEmpty : dequeue
 @enduml

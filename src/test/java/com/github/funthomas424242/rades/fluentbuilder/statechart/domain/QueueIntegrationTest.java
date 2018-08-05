@@ -47,6 +47,7 @@ public class QueueIntegrationTest {
             .addState("Not Empty")
             .withStartState("Empty")
             .addTransition("Empty", "Not Empty", "enqueue", ParameterSignaturTypeVariable.of("E"))
+            .addEmission("Empty", "enqueue", ParameterSignaturTypeVariable.of("E"),ParameterSignaturTypeVariable.of("E"))
             .addEmission("Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
 
             .addTransition("Not Empty", "Not Empty", "enqueue", ParameterSignaturTypeVariable.of("item", "E"))

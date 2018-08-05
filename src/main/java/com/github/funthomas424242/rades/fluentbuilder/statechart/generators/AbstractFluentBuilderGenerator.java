@@ -34,6 +34,7 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturs;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatursAccessor;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -43,6 +44,7 @@ import com.squareup.javapoet.TypeVariableName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Generated;
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
 import java.io.File;
@@ -50,6 +52,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -91,7 +94,7 @@ public class AbstractFluentBuilderGenerator {
         try {
             generate(PrintWriterFactory.createPrintWriter(filer, this.statechart.getId()));
         } catch (IOException e) {
-           LOG.error("Bei der Generierung ist ein Fehler aufgetreten.",e);
+            LOG.error("Bei der Generierung ist ein Fehler aufgetreten.", e);
         }
     }
 
@@ -110,11 +113,21 @@ public class AbstractFluentBuilderGenerator {
 
         final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
             .addModifiers(Modifier.PUBLIC);
+
+        final AnnotationSpec annonSpec = AnnotationSpec
+            .builder(Generated.class)
+            .addMember("value", "$S", this.getClass().getName())
+            .addMember("date", "$S", LocalDateTime.now().toString())
+            .addMember("comments", "$S", "TODO: " + packageName + "." + outerInterfaceName)
+            .build();
+        outerInterfaceBuilder.addAnnotation(annonSpec);
+
         interfaceDefinitions.forEach(outerInterfaceBuilder::addType);
         final TypeSpec outerInterface = outerInterfaceBuilder.build();
 
-        JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
-
+        final JavaFile javaFile = JavaFile.builder(packageName, outerInterface)
+            .skipJavaLangImports(true)
+            .build();
         try {
             javaFile.writeTo(writer);
             writer.flush();
@@ -178,7 +191,7 @@ public class AbstractFluentBuilderGenerator {
 
     protected void addParameters(final Set<TypeVariableName> typeVariableNames, final ParameterSignaturs parameterSignaturs, final MethodSpec.Builder methodBuilder) {
         final Counter count = new Counter();
-        new ParameterSignatursAccessor(parameterSignaturs).getParameterList().stream().forEach(
+        new ParameterSignatursAccessor(parameterSignaturs).getParameterList().forEach(
             signatur -> {
                 if (signatur.isVarargTyp()) {
                     methodBuilder.varargs();

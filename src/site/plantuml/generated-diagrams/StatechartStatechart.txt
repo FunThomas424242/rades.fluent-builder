@@ -1,10 +1,10 @@
 @startuml
 state "Zustand 2" as Zustand2
-state "Zustand 2" as Zustand2
-Zustand2 --> Zustand2 : addState
-state "Zustand 2" as Zustand2
 state "Zustand 3" as Zustand3
 Zustand2 --> Zustand3 : withStartState
+state "Zustand 2" as Zustand2
+state "Zustand 2" as Zustand2
+Zustand2 --> Zustand2 : addState
 state "Zustand 1" as Zustand1
 state "Zustand 2" as Zustand2
 Zustand1 --> Zustand2 : withQualifiedClassName
@@ -12,10 +12,13 @@ state "Zustand 3" as Zustand3
 state "Zustand 3" as Zustand3
 Zustand3 --> Zustand3 : addEmission
 state "Zustand 3" as Zustand3
-Zustand3 --> [*] : build
-state "Zustand 3" as Zustand3
-Zustand3 --> [*] : build
-state "Zustand 3" as Zustand3
 state "Zustand 3" as Zustand3
 Zustand3 --> Zustand3 : addTransition
+state "Zustand 3" as Zustand3
+Zustand3 --> [*] : build
+state "Zustand 3" as Zustand3
+state "Zustand 3" as Zustand3
+Zustand3 --> Zustand3 : addEmission
+state "Zustand 3" as Zustand3
+Zustand3 --> [*] : build
 @enduml

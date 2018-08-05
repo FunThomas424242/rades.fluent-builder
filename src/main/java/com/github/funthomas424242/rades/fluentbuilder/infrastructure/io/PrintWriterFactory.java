@@ -63,7 +63,7 @@ public class PrintWriterFactory {
     public PrintWriter createPrintWriter() {
         if(!adocFilePath.getParent().toFile().mkdirs()){
           LOG.warn("Directory Struktur konnte nicht erstellt werden.");
-        };
+        }
         final File adocFile = adocFilePath.toFile();
         if (adocFile.exists()) {
             adocFile.delete();

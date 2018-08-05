@@ -32,27 +32,27 @@ public interface AbstractStatechartFluentBuilder {
     }
 
     interface Zustand2 {
-        Zustand2 addState(final String stateName);
+      Zustand2 addState(final String stateName);
 
-        Zustand3 withStartState(final String startStatename);
-    }
-
-
-    interface Zustand3 {
-
-        Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs);
-
-        Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType);
-        Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
-
-        <A> A build(Class<A> accessorClass);
-
-        Statechart build();
-
-    }
+      Zustand3 withStartState(final String startStateName);
+  }
 
 
-    interface AllStates extends Zustand1, Zustand2, Zustand3 {
-    }
+  interface Zustand3 {
+
+    Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs);
+
+    Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType);
+    Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
+
+    <A> A build(final Class<A> accessorClass);
+
+    Statechart build();
+
+  }
+
+
+  interface AllStates extends Zustand1, Zustand2, Zustand3 {
+  }
 
 }

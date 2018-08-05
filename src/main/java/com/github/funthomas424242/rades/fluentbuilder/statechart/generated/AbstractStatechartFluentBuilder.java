@@ -27,22 +27,21 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 
 public interface AbstractStatechartFluentBuilder {
 
-    interface Zustand1 {
-        Zustand2 withQualifiedClassName(final String chartId);
-    }
-
   interface Zustand2 {
     Zustand2 addState(final String stateName);
 
     Zustand3 withStartState(final String startStateName);
   }
 
+  interface Zustand1 {
+    Zustand2 withQualifiedClassName(final String chartId);
+  }
 
   interface Zustand3 {
+    Statechart build();
+
     Zustand3 addTransition(final String srcStateName, final String targetStateName,
         final String transitionName, final ParameterSignatur... parameterSignaturs);
-
-
 
     Zustand3 addEmission(final String srcStateName, final String emissionName,
         final ParameterSignatur returnType);
@@ -51,8 +50,6 @@ public interface AbstractStatechartFluentBuilder {
         final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
 
     <A> A build(final Class<A> accessorClass);
-
-    Statechart build();
   }
 
   interface AllStates extends Zustand2, Zustand1, Zustand3 {

@@ -54,10 +54,21 @@ public class StatechartIntegrationTest {
             .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturType.of(String.class))
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition",
-                ParameterSignaturType.of(String.class), ParameterSignaturType.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
+                ParameterSignaturType.of("srcState",String.class),
+                ParameterSignaturType.of("targetState",String.class),
+                ParameterSignaturType.of("transitionName",String.class),
+                ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
 
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
-                ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
+                ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class),
+                ParameterSignaturType.of("returnType", ParameterSignatur.class))
+            .addTransition("Zustand 3", "Zustand 3", "addEmission",
+                ParameterSignaturType.of(String.class),
+                ParameterSignaturType.of("emissionName", String.class),
+                ParameterSignaturType.of("returnType", ParameterSignatur.class),
+                ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
+
+
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
             .addEmission("Zustand 3", "build", ParameterSignaturTypeVariable.of("A"),
                 ParameterSignaturParameterizedType.of("accessorClass", Class.class, ParameterSignaturTypeVariable.of("A")))

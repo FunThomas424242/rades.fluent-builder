@@ -23,6 +23,8 @@ package com.github.funthomas424242.rades.fluentbuilder.infrastructure.io;
  */
 
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.processing.Filer;
 import java.io.File;
@@ -34,7 +36,9 @@ import java.nio.file.Paths;
 
 public class PrintWriterFactory {
 
-    final Path adocFilePath;
+    public final Logger LOG = LoggerFactory.getLogger(PrintWriter.class);
+
+    protected final Path adocFilePath;
 
     public PrintWriterFactory(final Path adocFilePath) {
         this.adocFilePath = adocFilePath;
@@ -58,8 +62,7 @@ public class PrintWriterFactory {
 
     public PrintWriter createPrintWriter() {
         if(!adocFilePath.getParent().toFile().mkdirs()){
-            // TODO Logging einführen
-            //LOG.info("Directories konnten nicht angelegt werden");
+          LOG.warn("Directory Struktur konnte nicht erstellt werden.");
         };
         final File adocFile = adocFilePath.toFile();
         if (adocFile.exists()) {
@@ -67,8 +70,7 @@ public class PrintWriterFactory {
         }
         try {
             if(!adocFilePath.toFile().createNewFile()){
-                // TODO Logging einführen
-                //LOG.info("Datei konnte nicht angelegt werden");
+                LOG.warn("Datei "+adocFilePath.toFile().getAbsolutePath()+" konnte nicht angelegt werden.");
             };
             final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile), true);
             return writer;

@@ -71,7 +71,7 @@ public class PrintWriterFactory {
         try {
             if(!adocFilePath.toFile().createNewFile()){
                 LOG.warn("Datei "+adocFilePath.toFile().getAbsolutePath()+" konnte nicht angelegt werden.");
-            };
+            }
             final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile), true);
             return writer;
         } catch (Throwable ex) {

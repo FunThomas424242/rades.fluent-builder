@@ -64,12 +64,10 @@ public class ParameterSignaturs {
     }
 
     public static ParameterSignaturs of(final Class... parameterTyp) {
-        final ParameterSignatursAccessor ParameterSignatursAccessor =
+        final ParameterSignatursAccessor parameterSignatursAccessor =
             new ParameterSignatursBuilder().build(ParameterSignatursAccessor.class);
-        Arrays.stream(parameterTyp)
-            .map(clazz -> new ParameterSignaturTypeBuilder().withTyp(TypeName.get(clazz)).build())
-            .forEach(signatur -> ParameterSignatursAccessor.addParameterSignatur(signatur));
-        return ParameterSignatursAccessor.toParameterSignaturs();
+        parameterSignatursAccessor.addTypes(parameterTyp);
+        return parameterSignatursAccessor.toParameterSignaturs();
     }
 
 }

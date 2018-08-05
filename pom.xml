@@ -82,13 +82,12 @@
       <version>26.0-jre</version>
       <scope>compile</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-    <!--<dependency>-->
-    <!--<groupId>org.slf4j</groupId>-->
-    <!--<artifactId>slf4j-api</artifactId>-->
-    <!--<version>1.7.25</version>-->
-    <!--<scope>compile</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+      <scope>compile</scope>
+    </dependency>
     <!-- APIs von denen die Generate abhängen -->
     <dependency>
       <groupId>javax.validation</groupId>

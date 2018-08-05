@@ -94,7 +94,7 @@ public class AbstractFluentBuilderGenerator {
         try {
             generate(PrintWriterFactory.createPrintWriter(filer, this.statechart.getId()));
         } catch (IOException e) {
-           LOG.error("Bei der Generierung ist ein Fehler aufgetreten.",e);
+            LOG.error("Bei der Generierung ist ein Fehler aufgetreten.", e);
         }
     }
 
@@ -114,19 +114,20 @@ public class AbstractFluentBuilderGenerator {
         final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
             .addModifiers(Modifier.PUBLIC);
 
-        final AnnotationSpec annonSpec=AnnotationSpec
+        final AnnotationSpec annonSpec = AnnotationSpec
             .builder(Generated.class)
-            .addMember("value","$S",this.getClass().getName())
-            .addMember("date","$S",LocalDateTime.now().toString())
-            .addMember("comments","$S", "TODO: "+packageName+"."+outerInterfaceName)
+            .addMember("value", "$S", this.getClass().getName())
+            .addMember("date", "$S", LocalDateTime.now().toString())
+            .addMember("comments", "$S", "TODO: " + packageName + "." + outerInterfaceName)
             .build();
         outerInterfaceBuilder.addAnnotation(annonSpec);
 
         interfaceDefinitions.forEach(outerInterfaceBuilder::addType);
         final TypeSpec outerInterface = outerInterfaceBuilder.build();
 
-        JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
-
+        final JavaFile javaFile = JavaFile.builder(packageName, outerInterface)
+            .skipJavaLangImports(true)
+            .build();
         try {
             javaFile.writeTo(writer);
             writer.flush();

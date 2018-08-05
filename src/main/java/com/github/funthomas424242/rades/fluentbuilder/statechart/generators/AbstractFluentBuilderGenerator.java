@@ -190,7 +190,7 @@ public class AbstractFluentBuilderGenerator {
 
     protected void addParameters(final Set<TypeVariableName> typeVariableNames, final ParameterSignaturs parameterSignaturs, final MethodSpec.Builder methodBuilder) {
         final Counter count = new Counter();
-        new ParameterSignatursAccessor(parameterSignaturs).getParameterList().stream().forEach(
+        new ParameterSignatursAccessor(parameterSignaturs).getParameterList().forEach(
             signatur -> {
                 if (signatur.isVarargTyp()) {
                     methodBuilder.varargs();

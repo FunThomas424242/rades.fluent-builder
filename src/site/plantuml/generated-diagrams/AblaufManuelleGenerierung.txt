@@ -1,0 +1,36 @@
+@startuml
+
+interface AbstractQueueFluentBuilder <<generierte Spec des Fluent API>>
+note right: generiert
+class QueueFluentBuilder <<Implementierung des Fluent API>>
+note bottom: #red Manuell erstellen
+class QueueIntegrationTest
+note right: Manuell erstellen
+interface AbstractStatechartFluentBuilder <<generierte Spec des Fluent API>>
+note right: generiert
+class StatechartFluentBuilder <<Implementierung des Fluent API>>
+note right: vorhanden
+class AbstractFluentBuilderGenerator
+note left: vorhanden
+class StatechartIntegrationTest
+note right: vorhanden
+
+
+QueueIntegrationTest --> StatechartFluentBuilder : use
+note on link #yellow: II.1. spezifiziert (II)
+QueueIntegrationTest --> AbstractFluentBuilderGenerator : use
+note on link #yellow: II.2. generiert (II)
+AbstractQueueFluentBuilder <--  AbstractFluentBuilderGenerator
+note on link #yellow: II.3. schreibt (II)
+AbstractQueueFluentBuilder <|-- QueueFluentBuilder
+
+StatechartIntegrationTest --> StatechartFluentBuilder : use
+note on link #yellow: I.1. spezifiziert (I)
+AbstractFluentBuilderGenerator <-- StatechartIntegrationTest : use
+note on link #yellow: I.2. generiert (I)
+AbstractFluentBuilderGenerator -> AbstractStatechartFluentBuilder
+note on link #yellow: I.3. schreibt (I)
+AbstractStatechartFluentBuilder <|-- StatechartFluentBuilder
+
+
+@enduml

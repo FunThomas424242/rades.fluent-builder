@@ -26,33 +26,31 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.Statecha
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 
 public interface AbstractStatechartFluentBuilder {
+  interface Zustand2 {
+    Zustand3 withStartState(final String startStateName);
 
-    interface Zustand1 {
-        Zustand2 withQualifiedClassName(final String chartId);
-    }
+    Zustand2 addState(final String stateName);
+  }
 
-    interface Zustand2 {
-        Zustand2 addState(final String stateName);
+  interface Zustand1 {
+    Zustand2 withQualifiedClassName(final String chartId);
+  }
 
-        Zustand3 withStartState(final String startStatename);
-    }
+  interface Zustand3 {
+    Zustand3 addEmission(final String srcStateName, final String emissionName,
+        final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
 
+    Statechart build();
 
-    interface Zustand3 {
+    <A> A build(final Class<A> accessorClass);
 
-        Zustand3 addTransition(final String srcStateName, final String targetStateName, final String transitionName, final ParameterSignatur... parameterSignaturs);
+    Zustand3 addTransition(final String srcStateName, final String targetStateName,
+        final String transitionName, final ParameterSignatur... parameterSignaturs);
 
-        Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType);
-        Zustand3 addEmission(final String srcStateName, final String emissionName, final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
+    Zustand3 addEmission(final String srcStateName, final String emissionName,
+        final ParameterSignatur returnType);
+  }
 
-        <A> A build(Class<A> accessorClass);
-
-        Statechart build();
-
-    }
-
-
-    interface AllStates extends Zustand1, Zustand2, Zustand3 {
-    }
-
+  interface AllStates extends Zustand2, Zustand1, Zustand3 {
+  }
 }

@@ -1,4 +1,4 @@
-package com.github.funthomas424242.rades.fluentbuilder.lib.streaming;
+package com.github.funthomas424242.rades.fluentbuilder.infrastructure.text;
 
 /*-
  * #%L
@@ -22,8 +22,25 @@ package com.github.funthomas424242.rades.fluentbuilder.lib.streaming;
  * #L%
  */
 
-public class Counter {
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-    public int value=0;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class TextConverterTest {
+
+    @Test
+    @DisplayName("Konstruktion gültiger Instanzen möglich")
+    public void canCreateValidObjectInstanz() {
+        final TextConverter converter = new TextConverter(" ");
+        assertNotNull(converter);
+    }
+
+    @Test
+    @DisplayName("Keine Konstruktion ungültiger Instanzen möglich")
+    public void cantCreateInvalidObjectInstanz() {
+        assertThrows(IllegalArgumentException.class, () -> new TextConverter(null));
+    }
 
 }

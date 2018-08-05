@@ -22,13 +22,13 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturType;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeVariable;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -46,22 +46,28 @@ public class QueueIntegrationTest {
             .addState("Empty")
             .addState("Not Empty")
             .withStartState("Empty")
-            .addTransition("Empty", "Not Empty", "enqueue")
+            .addTransition("Empty", "Not Empty", "enqueue", ParameterSignaturTypeVariable.of("E"))
+            .addEmission("Empty", "enqueue", ParameterSignaturTypeVariable.of("E"),ParameterSignaturTypeVariable.of("E"))
             .addEmission("Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
 
-            .addTransition("Not Empty", "Not Empty", "enqueue",ParameterSignaturTypeVariable.of("item","E"))
+            .addTransition("Not Empty", "Not Empty", "enqueue", ParameterSignaturTypeVariable.of("item", "E"))
             .addEmission("Not Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
             .addTransition("Not Empty", "Not Empty", "dequeue")
+            .addEmission("Not Empty", "compare",
+                ParameterSignaturType.of(boolean.class),
+                ParameterSignaturTypeVariable.of("item1", "E"),
+                ParameterSignaturTypeVariable.of("item2", "E")
+            )
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
             //.addTransition("Not Empty", "Empty", "dequeue")
 
-            .addEmission("Not Empty","top",ParameterSignaturTypeVariable.of("E"))
+            .addEmission("Not Empty", "top", ParameterSignaturTypeVariable.of("E"))
 
             .build(StatechartAccessor.class);
 
-        final PrintWriter writer = statechart.createPrintWriter("src/site/plantuml/generated-diagrams/", "QueueStatechart");
-        statechart.saveAsAdoc(writer);
+        final PrintWriterFactory writerFactory = new PrintWriterFactory("src/site/plantuml/generated-diagrams/", "QueueStatechart", statechart.getPLANTUML_ENDUNG());
+        statechart.saveAsAdoc(writerFactory);
 
         assertEquals(2, statechart.states().count());
         assertSame(statechart.getState("Empty"), statechart.getStartState());

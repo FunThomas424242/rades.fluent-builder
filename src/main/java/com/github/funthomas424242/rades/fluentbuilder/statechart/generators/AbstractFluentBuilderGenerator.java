@@ -22,29 +22,30 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.generators;
  * #L%
  */
 
-import com.github.funthomas424242.rades.fluentbuilder.lib.streaming.Counter;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.CreationException;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.streaming.Counter;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.text.TextConverter;
+import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StateAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.StatechartAccessor;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.TransitionAccessor;
-import com.github.funthomas424242.rades.fluentbuilder.statechart.domain.State;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur.Parameterart;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturTypeBuilder;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturs;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatursAccessor;
-import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -56,69 +57,51 @@ import java.util.Set;
 
 public class AbstractFluentBuilderGenerator {
 
+    protected final Logger LOG = LoggerFactory.getLogger(AbstractFluentBuilderGenerator.class);
+
     protected final StatechartAccessor statechart;
 
     public AbstractFluentBuilderGenerator(final StatechartAccessor statechart) {
         this.statechart = statechart;
     }
 
-    public String computeJavaIdentifier(final String fullQualifiedClassName) {
+    protected String computeJavaIdentifier(final String fullQualifiedClassName) {
         final int lastDot = fullQualifiedClassName.lastIndexOf('.');
         return fullQualifiedClassName.substring(lastDot + 1);
     }
 
-    public String computeJavaIdentifier() {
+    protected String computeJavaIdentifier() {
         return computeJavaIdentifier(statechart.getId());
     }
 
-    public String computePackageName(final String fullQualifiedClassName) {
+    protected String computePackageName(final String fullQualifiedClassName) {
         final int lastDot = fullQualifiedClassName.lastIndexOf('.');
         return fullQualifiedClassName.substring(0, lastDot);
     }
 
-    public String computePackageName() {
+    protected String computePackageName() {
         return computePackageName(statechart.getId());
     }
 
-    public static String packageAsPathString(final String packageName) {
+    protected static String packageAsPathString(final String packageName) {
         return packageName.replace('.', File.separatorChar);
-    }
-
-    public PrintWriter createPrintWriter(final String folderPath) {
-        final Path filePath = Paths.get(folderPath, this.packageAsPathString(this.computePackageName())
-            , this.computeJavaIdentifier() + ".java");
-        filePath.getParent().toFile().mkdirs();
-        try {
-            filePath.toFile().createNewFile();
-            final PrintWriter writer = new PrintWriter(new FileOutputStream(filePath.toFile()));
-            return writer;
-        } catch (Throwable ex) {
-            throw new CreationException(ex);
-        }
     }
 
     public void generate(final Filer filer) {
         try {
-            generate(new PrintWriter(filer.createSourceFile(this.statechart.getId()).openWriter()));
+            generate(PrintWriterFactory.createPrintWriter(filer, this.statechart.getId()));
         } catch (IOException e) {
-            e.printStackTrace();
+           LOG.error("Bei der Generierung ist ein Fehler aufgetreten.",e);
         }
     }
 
     public void generate(final String folderPath) {
-        this.generate(this.createPrintWriter(folderPath));
+        final Path filePath = Paths.get(folderPath, packageAsPathString(this.computePackageName())
+            , this.computeJavaIdentifier() + ".java");
+        this.generate(new PrintWriterFactory(filePath).createPrintWriter());
     }
 
-    public String convertStringToClassifier(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name darf nicht null sein");
-        }
-        final String classifierName = name.replace(' ', '_');
-        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, classifierName);
-    }
-
-
-    public void generate(final PrintWriter writer) {
+    protected void generate(final PrintWriter writer) {
 
         final String packageName = computePackageName();
         final String outerInterfaceName = computeJavaIdentifier();
@@ -127,7 +110,7 @@ public class AbstractFluentBuilderGenerator {
 
         final TypeSpec.Builder outerInterfaceBuilder = TypeSpec.interfaceBuilder(outerInterfaceName)
             .addModifiers(Modifier.PUBLIC);
-        interfaceDefinitions.forEach(typeSpec -> outerInterfaceBuilder.addType(typeSpec));
+        interfaceDefinitions.forEach(outerInterfaceBuilder::addType);
         final TypeSpec outerInterface = outerInterfaceBuilder.build();
 
         JavaFile javaFile = JavaFile.builder(packageName, outerInterface).build();
@@ -143,10 +126,10 @@ public class AbstractFluentBuilderGenerator {
     protected List<TypeSpec> createStateInterfaces(final String packageName, final String outerInterfaceName) {
         final List<TypeSpec> interfaceDefinitions = new ArrayList<>();
 
-        this.statechart.states().map(state -> new StateAccessor(state)).forEach(state -> {
+        this.statechart.states().map(StateAccessor::new).forEach(state -> {
             // add transitions as methods
             final TypeSpec.Builder stateInterfaceBuilder = computeInterfaceTypeSpec(state.getStateName());
-            state.transitions().map(transition -> new TransitionAccessor(transition)).forEach(transition -> {
+            state.transitions().map(TransitionAccessor::new).forEach(transition -> {
                 final String methodName = transition.getTransitionName();
                 final State targetState = transition.getTargetState();
                 final Set<TypeVariableName> typeVariableNames = new HashSet<>();
@@ -157,7 +140,7 @@ public class AbstractFluentBuilderGenerator {
                     method = getMethodSpec(typeVariableNames, methodName, returnTyp, transition.getParameterSignatur());
                 } else {
                     // Transition
-                    final String targetStateName = convertStringToClassifier(new StateAccessor(transition.getTargetState()).getStateName());
+                    final String targetStateName = new TextConverter(new StateAccessor(transition.getTargetState()).getStateName()).convertToClassifierName();
                     final ClassName returnClassName = ClassName.get(packageName, outerInterfaceName, targetStateName);
                     final ParameterSignatur returnTyp = new ParameterSignaturTypeBuilder().withTyp(returnClassName).build();
                     method = getMethodSpec(typeVariableNames, methodName, returnTyp, transition.getParameterSignatur());
@@ -221,7 +204,7 @@ public class AbstractFluentBuilderGenerator {
     }
 
     protected TypeSpec.Builder computeInterfaceTypeSpec(final String stateName) {
-        return TypeSpec.interfaceBuilder(convertStringToClassifier(stateName))
+        return TypeSpec.interfaceBuilder(new TextConverter(stateName).convertToClassifierName())
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
     }
 

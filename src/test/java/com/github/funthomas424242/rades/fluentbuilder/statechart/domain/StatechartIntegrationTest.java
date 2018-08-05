@@ -22,6 +22,7 @@ package com.github.funthomas424242.rades.fluentbuilder.statechart.domain;
  * #L%
  */
 
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignatur;
 import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.ParameterSignaturParameterizedType;
@@ -31,7 +32,6 @@ import com.github.funthomas424242.rades.fluentbuilder.statechart.modelling.Param
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,35 +41,48 @@ public class StatechartIntegrationTest {
     @Test
     public void createStatechartStatechart() throws IOException {
 
-        final String id = "com.github.funthomas424242.rades.fluentbuilder.test.AbstractStatechartFluentBuilder";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
             .addState("Zustand 1")
             .addState("Zustand 2")
             .addState("Zustand 3")
             .withStartState("Zustand 1")
-            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName", ParameterSignaturType.of(String.class))
+            .addTransition("Zustand 1", "Zustand 2", "withQualifiedClassName",
+                ParameterSignaturType.of("chartId", String.class))
 
-            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturType.of(String.class))
-            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturType.of(String.class))
+            .addTransition("Zustand 2", "Zustand 2", "addState", ParameterSignaturType.of("stateName",String.class))
+            .addTransition("Zustand 2", "Zustand 3", "withStartState", ParameterSignaturType.of("startStateName",String.class))
 
             .addTransition("Zustand 3", "Zustand 3", "addTransition",
-                ParameterSignaturType.of(String.class), ParameterSignaturType.of(String.class), ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
+                ParameterSignaturType.of("srcStateName",String.class),
+                ParameterSignaturType.of("targetStateName",String.class),
+                ParameterSignaturType.of("transitionName",String.class),
+                ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
 
             .addTransition("Zustand 3", "Zustand 3", "addEmission",
-                ParameterSignaturType.of(String.class), ParameterSignaturType.of("emissionName", String.class), ParameterSignaturType.of(Class.class))
+                ParameterSignaturType.of("srcStateName",String.class),
+                ParameterSignaturType.of("emissionName", String.class),
+                ParameterSignaturType.of("returnType", ParameterSignatur.class))
+            .addTransition("Zustand 3", "Zustand 3", "addEmission",
+                ParameterSignaturType.of("srcStateName",String.class),
+                ParameterSignaturType.of("emissionName", String.class),
+                ParameterSignaturType.of("returnType", ParameterSignatur.class),
+                ParameterSignaturVararg.of("parameterSignaturs", ParameterSignatur[].class))
+
+
             .addEmission("Zustand 3", "build", ParameterSignaturType.of(Statechart.class))
-            .addEmission("Zustand 3", "build",ParameterSignaturTypeVariable.of("A"),
-                ParameterSignaturParameterizedType.of("accessorClass",Class.class,ParameterSignaturTypeVariable.of( "A")))
+            .addEmission("Zustand 3", "build", ParameterSignaturTypeVariable.of("A"),
+                ParameterSignaturParameterizedType.of("accessorClass", Class.class, ParameterSignaturTypeVariable.of("A")))
             .build(StatechartAccessor.class);
 
         assertEquals(3, statechart.states().count());
 
-        final PrintWriter writer = statechart.createPrintWriter("src/site/plantuml/generated-diagrams/", "StatechartStatechart");
-        statechart.saveAsAdoc(writer);
+        final PrintWriterFactory writerFactory = new PrintWriterFactory("src/site/plantuml/generated-diagrams/", "StatechartStatechart", statechart.getPLANTUML_ENDUNG());
+        statechart.saveAsAdoc(writerFactory);
 
         final AbstractFluentBuilderGenerator generator = new AbstractFluentBuilderGenerator(statechart);
-        generator.generate("target/generated-test-sources/test-annotations/");
+        generator.generate("src/main/java/");
     }
 
 }

@@ -26,16 +26,14 @@ import com.github.funthomas424242.rades.annotations.accessors.RadesAddAccessor;
 import com.github.funthomas424242.rades.annotations.accessors.RadesNoAccessor;
 import com.github.funthomas424242.rades.annotations.builder.RadesAddBuilder;
 import com.github.funthomas424242.rades.annotations.builder.RadesNoBuilder;
-import com.google.common.base.CaseFormat;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.io.PrintWriterFactory;
+import com.github.funthomas424242.rades.fluentbuilder.infrastructure.text.TextConverter;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.stream.Stream;
+
 
 @RadesAddBuilder
 @RadesAddAccessor
@@ -54,6 +52,9 @@ public class Statechart {
 
     protected State startState;
 
+    protected Statechart() {
+    }
+
     public Stream<State> states() {
         return this.states.values().stream();
     }
@@ -66,69 +67,28 @@ public class Statechart {
         return states.get(stateName);
     }
 
-    public PrintWriter createPrintWriter(final Path adocFilePath) {
-        adocFilePath.getParent().toFile().mkdirs();
-        final File adocFile =  adocFilePath.toFile();
-        if(adocFile.exists()){
-            adocFile.delete();
-        }
-        try {
-            adocFilePath.toFile().createNewFile();
-            final PrintWriter writer = new PrintWriter(new FileOutputStream(adocFile),true);
-            return writer;
-        } catch (Throwable ex) {
-            throw new CreationException(ex);
-        }
-    }
+    public void saveAsAdoc(final PrintWriterFactory fileWriter) {
 
-    // TODO Accessor wird nicht korrekt erzeugt
-    public PrintWriter createPrintWriter(final String folderPath, final String diagramName) {
-        final Path filePath = Paths.get(folderPath, diagramName + PLANTUML_ENDUNG);
-        return createPrintWriter(filePath);
-    }
-
-    /**
-     *
-     * @param folderPath
-     * @param diagramName ohne Extension (wird automatisch um .adoc erweitert)
-     */
-    public void saveAsAdoc(final String folderPath, final String  diagramName){
-        saveAsAdoc(createPrintWriter(folderPath,diagramName));
-    }
-
-    public void saveAsAdoc(final Path adocFilePath){
-        saveAsAdoc(createPrintWriter(adocFilePath));
-    }
-
-    public void saveAsAdoc(final PrintWriter adocFileWriter){
+        final PrintWriter adocFileWriter = fileWriter.createPrintWriter();
 
         adocFileWriter.println("@startuml");
-        states.values().stream().forEachOrdered(state -> {
+        states.values().stream().forEachOrdered(state ->
             state.transitions.stream().forEachOrdered(
                 transition -> {
-                    final String startStateName = transition.startState == null ? "[*]" : convertStringToClassifier(transition.startState.stateName);
-                    final String targetStateName = transition.targetState == null ? "[*]" : convertStringToClassifier(transition.targetState.stateName);
+                    final String startStateName = transition.startState == null ? "[*]" : new TextConverter(transition.startState.stateName).convertToClassifierName();
+                    final String targetStateName = transition.targetState == null ? "[*]" : new TextConverter(transition.targetState.stateName).convertToClassifierName();
 
-                    if(transition.startState != null){
-                        adocFileWriter.println("state \""+transition.startState.stateName+"\" as "+startStateName);
+                    if (transition.startState != null) {
+                        adocFileWriter.println("state \"" + transition.startState.stateName + "\" as " + startStateName);
                     }
-                    if(transition.targetState != null){
-                        adocFileWriter.println("state \""+transition.targetState.stateName+"\" as "+targetStateName);
+                    if (transition.targetState != null) {
+                        adocFileWriter.println("state \"" + transition.targetState.stateName + "\" as " + targetStateName);
                     }
-                    adocFileWriter.println(startStateName +" --> " + targetStateName+ " : "+transition.transitionName);
-                }
-            );
-        });
+                    adocFileWriter.println(startStateName + " --> " + targetStateName + " : " + transition.transitionName);
+                })
+        );
         adocFileWriter.println("@enduml");
     }
 
 
-    // TODO auslagern (duplicate aus Generators)
-    public String convertStringToClassifier(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name darf nicht null sein");
-        }
-        final String classifierName = name.replace(' ', '_');
-        return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, classifierName);
-    }
 }

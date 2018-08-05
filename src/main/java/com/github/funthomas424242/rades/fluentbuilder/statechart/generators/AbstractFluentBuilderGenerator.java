@@ -106,6 +106,7 @@ public class AbstractFluentBuilderGenerator {
         try {
             generate(new PrintWriter(filer.createSourceFile(this.statechart.getId()).openWriter()));
         } catch (IOException e) {
+            // TODO Logging einführen
             e.printStackTrace();
         }
     }

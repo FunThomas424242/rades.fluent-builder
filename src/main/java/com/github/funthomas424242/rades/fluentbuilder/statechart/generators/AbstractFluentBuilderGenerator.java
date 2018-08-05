@@ -40,6 +40,8 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
@@ -54,6 +56,8 @@ import java.util.List;
 import java.util.Set;
 
 public class AbstractFluentBuilderGenerator {
+
+    protected final Logger LOG = LoggerFactory.getLogger(AbstractFluentBuilderGenerator.class);
 
     protected final StatechartAccessor statechart;
 
@@ -87,8 +91,7 @@ public class AbstractFluentBuilderGenerator {
         try {
             generate(PrintWriterFactory.createPrintWriter(filer, this.statechart.getId()));
         } catch (IOException e) {
-            // TODO Logging einführen
-            e.printStackTrace();
+           LOG.error("Bei der Generierung ist ein Fehler aufgetreten.",e);
         }
     }
 

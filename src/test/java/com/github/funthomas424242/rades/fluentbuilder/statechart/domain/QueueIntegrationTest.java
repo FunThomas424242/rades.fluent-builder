@@ -52,6 +52,11 @@ public class QueueIntegrationTest {
             .addTransition("Not Empty", "Not Empty", "enqueue", ParameterSignaturTypeVariable.of("item", "E"))
             .addEmission("Not Empty", "isEmpty", ParameterSignaturType.of(boolean.class))
             .addTransition("Not Empty", "Not Empty", "dequeue")
+            .addEmission("Not Empty", "compare",
+                ParameterSignaturType.of(boolean.class),
+                ParameterSignaturTypeVariable.of("item1", "E"),
+                ParameterSignaturTypeVariable.of("item2", "E")
+            )
 
             // Nichtdeterminismus nicht möglich mit FluentBuilder, da nur 1 Returntyp supported
             //.addTransition("Not Empty", "Empty", "dequeue")

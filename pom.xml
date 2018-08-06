@@ -136,10 +136,10 @@
     </dependency>
 
     <!--<dependency>-->
-      <!--<groupId>com.google.testing.compile</groupId>-->
-      <!--<artifactId>compile-testing</artifactId>-->
-      <!--<version>0.15</version>-->
-      <!--<scope>test</scope>-->
+    <!--<groupId>com.google.testing.compile</groupId>-->
+    <!--<artifactId>compile-testing</artifactId>-->
+    <!--<version>0.15</version>-->
+    <!--<scope>test</scope>-->
     <!--</dependency>-->
   </dependencies>
 
@@ -147,23 +147,68 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.asciidoctor</groupId>
-          <artifactId>asciidoctor-maven-plugin</artifactId>
-          <version>1.5.6</version>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
           <configuration>
-            <requires>
-              <require>asciidoctor-diagram</require>
-            </requires>
-            <backend>html5</backend>
-            <sourceHighlighter>coderay</sourceHighlighter>
-            <attributes>
-              <icons>font</icons>-->
-              <coderay-css>style</coderay-css>
-              <toc>left</toc>
-              <toclevels>2</toclevels>
-            </attributes>
+            <outputDirectory>${basedir}/docs</outputDirectory>
+            <locales>de</locales>
+            <relativizeDecorationLinks>false</relativizeDecorationLinks>
+            <asciidoc>
+              <requires>
+                <require>asciidoctor-diagram</require>
+              </requires>
+              <backend>html5</backend>
+              <sourceHighlighter>coderay</sourceHighlighter>
+              <attributes>
+                <icons>font</icons>-->
+                <coderay-css>style</coderay-css>
+                <toc>left</toc>
+                <toclevels>2</toclevels>
+              </attributes>
+            </asciidoc>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.asciidoctor</groupId>
+              <artifactId>asciidoctor-maven-plugin</artifactId>
+              <version>1.5.6</version>
+            </dependency>
+            <dependency>
+              <groupId>org.asciidoctor</groupId>
+              <artifactId>asciidoctorj-diagram</artifactId>
+              <version>1.5.9</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
+            <dependency>
+              <groupId>net.sourceforge.plantuml</groupId>
+              <artifactId>plantuml</artifactId>
+              <version>8059</version>
+            </dependency>
+            <dependency>
+              <groupId>guru.nidi</groupId>
+              <artifactId>graphviz-java</artifactId>
+              <version>0.5.4</version>
+            </dependency>
+          </dependencies>
         </plugin>
+        <!--<plugin>-->
+          <!--<groupId>org.asciidoctor</groupId>-->
+          <!--<artifactId>asciidoctor-maven-plugin</artifactId>-->
+          <!--<version>1.5.6</version>-->
+          <!--<configuration>-->
+            <!--<requires>-->
+              <!--<require>asciidoctor-diagram</require>-->
+            <!--</requires>-->
+            <!--<backend>html5</backend>-->
+            <!--<sourceHighlighter>coderay</sourceHighlighter>-->
+            <!--<attributes>-->
+              <!--<icons>font</icons>&ndash;&gt;-->
+              <!--<coderay-css>style</coderay-css>-->
+              <!--<toc>left</toc>-->
+              <!--<toclevels>2</toclevels>-->
+            <!--</attributes>-->
+          <!--</configuration>-->
+        <!--</plugin>-->
       </plugins>
     </pluginManagement>
     <plugins>
@@ -355,35 +400,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.7.1</version>
-        <configuration>
-          <outputDirectory>${basedir}/docs</outputDirectory>
-          <locales>de</locales>
-          <relativizeDecorationLinks>false</relativizeDecorationLinks>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctor-maven-plugin</artifactId>
-            <version>1.5.6</version>
-          </dependency>
-          <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctorj-diagram</artifactId>
-            <version>1.5.9</version>
-          </dependency>
-          <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
-          <dependency>
-            <groupId>net.sourceforge.plantuml</groupId>
-            <artifactId>plantuml</artifactId>
-            <version>8059</version>
-          </dependency>
-          <dependency>
-            <groupId>guru.nidi</groupId>
-            <artifactId>graphviz-java</artifactId>
-            <version>0.5.4</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <!-- NOTE: We don't need a groupId specification because the group is

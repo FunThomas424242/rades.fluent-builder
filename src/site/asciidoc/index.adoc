@@ -1,12 +1,46 @@
-# Rades Fluent Builder Projekt
+= RADES Fluent Builder: Projektdokumentation
+FunThomas424242 (Thomas Schubert)
+:doctype: book
 :author: FunThomas424242 (Thomas Schubert)
-//:toc:
 :icons: font
+:encoding: utf-8
 :lang: de
-:encoding: iso-8859-1
+:toc: left
+:numbered:
 
-Dieses Projekt stellt Annotationen zur Generierung von Fluent Builder Klassen bereit.
+== Ziele und Roadmap des Projektes
+Ziel des Projektes ist es Annotationen zur Generierung von Fluent Builder Interfaces bereit zu stellen.
 Sobald das ausgelieferte Projektarchiv (JAR) im Klassenpfad Ihrer Anwendung eingebunden ist,
-können Sie die Annotationen benutzen.
+können Sie diese Annotationen benutzen.
 
-link:benutzer.html[Benutzerhandbuch] link:entwickler.html[Entwicklerhandbuch]
+Das Projekt wird in 3 Phasen realisiert: Im Meilenstein 1.0.0 werden noch keine Annotationen angeboten. Hier werden nur Klassen bereitgestellt, welche über ein Fluent-API die Erzeugung von Fluentbuildern auf der Grundlage von Statecharts (Zustandsautomaten) ermöglichen. Des weiteren ermöglichen diese Klassen auch das Erzeugen entsprechender Statechartdiagramme aus den modellierten Fluent-APIs.
+
+Erst in Phase 2 werden mit Meilenstein 2.0.0 Annotationen bereitgestellt mit denen dann die automatische Generierung obiger Fluent APIs möglich wird. Die Annotationen werden dabei die Klassen aus Phase 1 nutzen um die Fluentbuilder APIs zu modellieren.
+
+In Phase 3 sollen zusätzlich zu den generierten Fluent-API Interfaces Testsuiten für diese erstellt werden können. Die Erstellung dieser Testsuiten soll soweit wie möglich automatisch erfolgen. Hier wird herauszufinden sein inwieweit dies möglich ist. Im primitivsten Fall soll ein Fluent-API bereit gestellt werden, über welches entsprechende Testsuiten erstellt werden können. 
+
+== Fragen zu den Projektzielen
+
+[horizontal]
+
+*Frage*:: Warum sollen automatische Testsuiten zu den generierten APIs angeboten werden? Beim Generat will man doch nicht den Generator testen - das soll gefälligst in dem Projekt passieren, welches den Generator bereitstellt.
+
+*Antwort*:: Ja, das ist richtig der Generator selbst wird in diesem Projetk geprüft. Dennoch kann es hilfreich sein zum Generat gleich Testfälle mit zu generieren. Angenommen Sie schaffen es tatsächlich sehr viel Kode in Ihrem Projekt generieren zu lassen, dann müssen Sie auf jeden Fall für den verbleibenden manuellen Kode Unit Tests schreiben. Ohne Unit Tests zu den Generaten wird Ihre Kodeabdeckung sehr gering sein und niemand wird genau wissen ob es nun an den nicht gecoverten Generaten liegt oder tatsächlich daran, dass zu wenig Unit Tests geschrieben wurden. Wenn die Generate aber zu 100% gecovert sind, ist klar das zu wenig Unit Tests geschrieben wurden. Das ist ein Hauptgrund. Der zweite Hauptgrund ist, das Testfälle in Programmen im Prinzip die Anforderungen wiederspiegeln und sich daher die Anforderungen aus guten Testfällen lesen lassen. Damit wird dann hoffentlich das Verhalten des generierten Fluent-APIs bereits beim Lesen der Testfälle klar - falls es nicht ohnehin durch Benennung etc. klar wird.
+
+== Anwendungsfälle
+
+* Sie brauchen schnell ein einfaches Zustandsübergangsdiagram ohne verschachtelte Zustande und nur mit deterministischen Übergängen? Dann hilft der StatechartFluentBuilder! Hiermit ist ein solches Diagram schnell in Java beschrieben und erstellt.
+* Sie haben eine Klasse entworfen mit diversen Methoden wobei der Aufruf der Methoden in einer bestimmten Reihenfolge zu erfolgen hat? Nun könnten Sie sich hinsetzen und von Hand eine Fluent API entwerfen und Ihre Klasse entsprechend umbauen. Oder aber sie nehmen den StatechartFluentBuilder und modellieren das Fluent-API der Klasse, lassen sich ein entsprechendes Interface dazu generieren und weisen Ihre Klasse an dieses Interface zu implementieren. 
+* Sie sollen eine Domainsprache realisieren z.B. zur Beschreibung von Softwaretests oder zur Erstellung von SVG Graphiken oder anderer Dinge. Dann nehmen Sie einfach den StatechartFluentBuilder und modellieren Sie diese Sprache, generieren Sie das beschreibende Interface und ein dokumentierendes Diagram in plantuml und implementieren Sie das beschreibende Interface. 
+
+== Beispiele für obige Anwendungsfälle
+
+* Warteschlange (Diagramerstellung)
+* Stack (Reihenfolge von Methodenaufrufen)
+* ArchUnit Fluentinterface (Testsprache)
+
+(ab Phase 2 geht all dies per Annotationen)
+
+== Weitere Dokumentation 
+
+Hier finden Sie auch das link:benutzer.html[Benutzerhandbuch] und die link:entwickler.html[Entwicklerdokumentation] für dieses Projekt.

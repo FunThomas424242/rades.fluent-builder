@@ -41,7 +41,7 @@ public class StatechartIntegrationTest {
     @Test
     public void createStatechartStatechart() throws IOException {
 
-        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.generated.AbstractStatechartFluentBuilder";
+        final String id = "com.github.funthomas424242.rades.fluentbuilder.statechart.domain.generated.AbstractStatechartFluentBuilder";
         final StatechartAccessor statechart = StatechartFluentBuilder.newStatechart()
             .withQualifiedClassName(id)
             .addState("Zustand 1")

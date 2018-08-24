@@ -344,6 +344,35 @@
           </dependency>
         </dependencies>
       </plugin>
+      <!-- https://mvnrepository.com/artifact/org.pitest/pitest-maven -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.4.2</version>
+        <configuration>
+          <targetClasses>
+            <param>com.github.funthomas424242.rades.fluentbuilder.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.github.funthomas424242.rades.fluentbuilder.*</param>
+          </targetTests>
+          <mutators>
+            <mutator>CONSTRUCTOR_CALLS</mutator>
+            <mutator>VOID_METHOD_CALLS</mutator>
+            <mutator>RETURN_VALS</mutator>
+            <mutator>NON_VOID_METHOD_CALLS</mutator>
+          </mutators>
+        </configuration>
+        <executions>
+          <execution>
+            <id>pit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>mutationCoverage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>

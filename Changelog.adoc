@@ -18,8 +18,10 @@ Die Versionierung erfolgt nach http://semver.org/lang/de/[Semantic Versioning].
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/17[issue #17] Parameterbeschreibungen modellierbar (nur Typen).
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/20[issue #20] Unterstützung von Generics in Methoden
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/24[issue #24] JUnit Test schreiben um Coverage zu erhöhen
+- https://github.com/FunThomas424242/rades.fluent-builder/issues/25[issue #25] Dokumentation bereitgestellt
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/26[issue #26] Generierung von plantuml Diagrammen aus Statechartinstanzen realisiert.
 - https://github.com/FunThomas424242/rades.fluent-builder/issues/30[issue #30] Generate mit @Generated Annotation versehen.
+- https://github.com/FunThomas424242/rades.fluent-builder/issues/34[issue #34] JUnit4 Support entfernt und Versionen erhöht.
 
 
 

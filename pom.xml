@@ -10,7 +10,7 @@
 
   <packaging>jar</packaging>
 
-  <name>rades.fluent-builder</name>
+  <name>RADES Fluent Builder Projekt</name>
   <description>Annotationen zur Generierung fvon Fluentinterfaces auf Basis einer Statechart (JSON) Definition
   </description>
   <inceptionYear>2018</inceptionYear>
@@ -106,7 +106,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.3.0-M1</version>
+      <version>5.3.0-RC1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -117,8 +117,8 @@
     </dependency>
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit</artifactId>
-      <version>0.8.3</version>
+      <artifactId>archunit-junit5-api</artifactId>
+      <version>0.9.1</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.guava/guava-testlib -->
@@ -136,10 +136,10 @@
     </dependency>
 
     <!--<dependency>-->
-      <!--<groupId>com.google.testing.compile</groupId>-->
-      <!--<artifactId>compile-testing</artifactId>-->
-      <!--<version>0.15</version>-->
-      <!--<scope>test</scope>-->
+    <!--<groupId>com.google.testing.compile</groupId>-->
+    <!--<artifactId>compile-testing</artifactId>-->
+    <!--<version>0.15</version>-->
+    <!--<scope>test</scope>-->
     <!--</dependency>-->
   </dependencies>
 
@@ -147,23 +147,68 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.asciidoctor</groupId>
-          <artifactId>asciidoctor-maven-plugin</artifactId>
-          <version>1.5.6</version>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
           <configuration>
-            <requires>
-              <require>asciidoctor-diagram</require>
-            </requires>
-            <backend>html5</backend>
-            <sourceHighlighter>coderay</sourceHighlighter>
-            <attributes>
-              <icons>font</icons>-->
-              <coderay-css>style</coderay-css>
-              <toc>left</toc>
-              <toclevels>2</toclevels>
-            </attributes>
+            <outputDirectory>${basedir}/docs</outputDirectory>
+            <locales>de</locales>
+            <relativizeDecorationLinks>false</relativizeDecorationLinks>
+            <asciidoc>
+              <requires>
+                <require>asciidoctor-diagram</require>
+              </requires>
+              <backend>html5</backend>
+              <sourceHighlighter>coderay</sourceHighlighter>
+              <attributes>
+                <icons>font</icons>-->
+                <coderay-css>style</coderay-css>
+                <toc>left</toc>
+                <toclevels>2</toclevels>
+              </attributes>
+            </asciidoc>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.asciidoctor</groupId>
+              <artifactId>asciidoctor-maven-plugin</artifactId>
+              <version>1.5.6</version>
+            </dependency>
+            <dependency>
+              <groupId>org.asciidoctor</groupId>
+              <artifactId>asciidoctorj-diagram</artifactId>
+              <version>1.5.9</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
+            <dependency>
+              <groupId>net.sourceforge.plantuml</groupId>
+              <artifactId>plantuml</artifactId>
+              <version>8059</version>
+            </dependency>
+            <dependency>
+              <groupId>guru.nidi</groupId>
+              <artifactId>graphviz-java</artifactId>
+              <version>0.5.4</version>
+            </dependency>
+          </dependencies>
         </plugin>
+        <!--<plugin>-->
+        <!--<groupId>org.asciidoctor</groupId>-->
+        <!--<artifactId>asciidoctor-maven-plugin</artifactId>-->
+        <!--<version>1.5.6</version>-->
+        <!--<configuration>-->
+        <!--<requires>-->
+        <!--<require>asciidoctor-diagram</require>-->
+        <!--</requires>-->
+        <!--<backend>html5</backend>-->
+        <!--<sourceHighlighter>coderay</sourceHighlighter>-->
+        <!--<attributes>-->
+        <!--<icons>font</icons>&ndash;&gt;-->
+        <!--<coderay-css>style</coderay-css>-->
+        <!--<toc>left</toc>-->
+        <!--<toclevels>2</toclevels>-->
+        <!--</attributes>-->
+        <!--</configuration>-->
+        <!--</plugin>-->
       </plugins>
     </pluginManagement>
     <plugins>
@@ -280,22 +325,22 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
+        <version>2.22.0</version>
         <dependencies>
           <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.3.0-M1</version>
-          </dependency>
-          <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.3.0-M1</version>
+            <version>1.3.0-RC1</version>
           </dependency>
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.3.0-M1</version>
+            <version>5.3.0-RC1</version>
+          </dependency>
+          <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-engine</artifactId>
+            <version>0.9.1</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -355,35 +400,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.7.1</version>
-        <configuration>
-          <outputDirectory>${basedir}/docs</outputDirectory>
-          <locales>de</locales>
-          <relativizeDecorationLinks>false</relativizeDecorationLinks>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctor-maven-plugin</artifactId>
-            <version>1.5.6</version>
-          </dependency>
-          <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctorj-diagram</artifactId>
-            <version>1.5.9</version>
-          </dependency>
-          <!-- https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml -->
-          <dependency>
-            <groupId>net.sourceforge.plantuml</groupId>
-            <artifactId>plantuml</artifactId>
-            <version>8059</version>
-          </dependency>
-          <dependency>
-            <groupId>guru.nidi</groupId>
-            <artifactId>graphviz-java</artifactId>
-            <version>0.5.4</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <!-- NOTE: We don't need a groupId specification because the group is

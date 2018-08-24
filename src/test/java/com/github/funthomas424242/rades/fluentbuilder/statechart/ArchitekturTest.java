@@ -28,7 +28,6 @@ import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.lang.ArchRule;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -77,6 +76,15 @@ public class ArchitekturTest {
 
         slices().matching("com.github.funthomas424242.rades.fluentbuilder.statechart.(*)..")
             .should().beFreeOfCycles()
+            .check(klassen);
+    }
+
+
+    @Test
+    public void noJunit4() {
+
+        noClasses().that().resideInAPackage("com.github.funthomas424242.rades.fluentbuilder..")
+            .should().accessClassesThat().haveFullyQualifiedName("org.junit.Test")
             .check(klassen);
     }
 

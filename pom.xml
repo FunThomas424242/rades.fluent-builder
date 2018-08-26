@@ -349,13 +349,35 @@
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
         <version>1.4.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>0.7</version>
+          </dependency>
+        </dependencies>
         <configuration>
+          <testPlugin>junit5</testPlugin>
+          <exportLineCoverage>true</exportLineCoverage>
+          <outputFormats>
+            <outputFormat>HTML</outputFormat>
+            <outputFormat>XML</outputFormat>
+          </outputFormats>
+          <avoidCallsTo>
+            <avoidCallsTo>java.util.logging</avoidCallsTo>
+            <avoidCallsTo>org.apache.log4j</avoidCallsTo>
+            <avoidCallsTo>org.slf4j</avoidCallsTo>
+            <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+          </avoidCallsTo>
           <targetClasses>
             <param>com.github.funthomas424242.rades.fluentbuilder.*</param>
           </targetClasses>
           <targetTests>
             <param>com.github.funthomas424242.rades.fluentbuilder.*</param>
           </targetTests>
+          <excludedTestClasses>
+            <excludedTestClass>com.github.funthomas424242.**.*IntegrationTest</excludedTestClass>
+          </excludedTestClasses>
           <mutators>
             <mutator>CONSTRUCTOR_CALLS</mutator>
             <mutator>VOID_METHOD_CALLS</mutator>

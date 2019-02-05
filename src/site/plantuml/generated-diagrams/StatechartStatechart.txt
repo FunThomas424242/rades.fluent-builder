@@ -12,12 +12,13 @@ state "Zustand 3" as Zustand3
 state "Zustand 3" as Zustand3
 Zustand3 --> Zustand3 : addEmission
 state "Zustand 3" as Zustand3
-Zustand3 --> [*] : build
-state "Zustand 3" as Zustand3
 state "Zustand 3" as Zustand3
 Zustand3 --> Zustand3 : addEmission
 state "Zustand 3" as Zustand3
 Zustand3 --> [*] : build
 state "Zustand 3" as Zustand3
 Zustand3 --> [*] : build
+state "Zustand 3" as Zustand3
+state "Zustand 3" as Zustand3
+Zustand3 --> Zustand3 : addTransition
 @enduml

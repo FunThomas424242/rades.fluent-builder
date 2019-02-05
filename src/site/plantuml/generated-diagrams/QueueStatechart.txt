@@ -10,12 +10,12 @@ state "Not Empty" as NotEmpty
 state "Not Empty" as NotEmpty
 NotEmpty --> NotEmpty : dequeue
 state "Not Empty" as NotEmpty
-state "Not Empty" as NotEmpty
-NotEmpty --> NotEmpty : enqueue
+NotEmpty --> [*] : isEmpty
 state "Not Empty" as NotEmpty
 NotEmpty --> [*] : compare
 state "Not Empty" as NotEmpty
-NotEmpty --> [*] : isEmpty
-state "Not Empty" as NotEmpty
 NotEmpty --> [*] : top
+state "Not Empty" as NotEmpty
+state "Not Empty" as NotEmpty
+NotEmpty --> NotEmpty : enqueue
 @enduml

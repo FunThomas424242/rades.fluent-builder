@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "com.github.funthomas424242.rades.fluentbuilder.statechart.generators.AbstractFluentBuilderGenerator",
-    date = "2019-02-05T22:29:02.374",
+    date = "2019-02-05T22:59:39.256",
     comments = "TODO: com.github.funthomas424242.rades.fluentbuilder.statechart.domain.generated.AbstractStatechartFluentBuilder"
 )
 public interface AbstractStatechartFluentBuilder {
@@ -24,10 +24,15 @@ public interface AbstractStatechartFluentBuilder {
     Zustand3 addEmission(final String srcStateName, final String emissionName,
         final ParameterSignatur returnType);
 
-    Zustand3 addTransition(final String srcStateName, final String targetStateName,
-        final String transitionName, final ParameterSignatur... parameterSignaturs);
+    Zustand3 addEmission(final String srcStateName, final String emissionName,
+        final ParameterSignatur returnType, final ParameterSignatur... parameterSignaturs);
+
+    Statechart build();
 
     <A> A build(final Class<A> accessorClass);
+
+    Zustand3 addTransition(final String srcStateName, final String targetStateName,
+        final String transitionName, final ParameterSignatur... parameterSignaturs);
   }
 
   interface AllStates extends Zustand2, Zustand1, Zustand3 {
